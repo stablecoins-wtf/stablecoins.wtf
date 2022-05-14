@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "name": "_ROOT",
+      "path": "../"
+    },
+    {
+      "name": "Frontend",
+      "path": "../packages/frontend"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules/": true,
+      "**/package-lock.json": true,
+      "**/yarn.lock": true,
+      "**/yarn-error.log": true,
+      "**/.yarn": true,
+    },
+    "editor.formatOnSave": false,
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@stablecoins/monorepo",
+  "license": "MIT",
+  "version": "1.0.0",
+  "private": "true",
+  "scripts": {
+    "dev": "yarn workspace @stablecoins/frontend next",
+    "build": "yarn workspace @stablecoins/frontend next build",
+    "start": "yarn workspace @stablecoins/frontend next start"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^7.1.0"
+  },
+  "dependencies": {}
+}
