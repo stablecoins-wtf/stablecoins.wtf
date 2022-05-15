@@ -1,6 +1,7 @@
 
 module.exports = {
   content: [`./pages/**/*.{js,ts,jsx,tsx}`, `./components/**/*.{js,ts,jsx,tsx}`],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
@@ -19,16 +20,16 @@ module.exports = {
           discord: '#EB459E',
         },
       },
-      fontFamily: { 
+      fontFamily: {
         display: ['Arial', 'serif'],
         mono: ['Inconsolata', 'Menlo', 'monospace'],
       },
     },
   },
   plugins: [
+    require('@tailwindcss/typography'),
     // require('@tailwindcss/aspect-ratio'),
     // require('@tailwindcss/forms'),
-    // require('@tailwindcss/typography'),
     // require('@tailwindcss/line-clamp'),
   ],
 }

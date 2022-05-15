@@ -1,4 +1,7 @@
+import { cache } from '@emotion/css'
+import { CacheProvider } from '@emotion/react'
 import { DefaultSeo } from 'next-seo'
+import { ThemeProvider } from 'next-themes'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import Router from 'next/router'
@@ -47,11 +50,15 @@ const App = ({ Component, pageProps }: AppProps) => (
       <meta name="theme-color" content="#000000" />
     </Head>
 
-    <GlobalStyles />
+    <CacheProvider value={cache}>
+      <GlobalStyles />
 
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+      <ThemeProvider defaultTheme="dark" attribute="class">
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
+    </CacheProvider>
   </>
 )
 
