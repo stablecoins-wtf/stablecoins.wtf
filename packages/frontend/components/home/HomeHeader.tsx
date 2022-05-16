@@ -9,7 +9,7 @@ export interface HomeHeaderProps {
   activateStartPage: () => void
   activateAboutPage: () => void
 }
-export const HomeHeader: FC<HomeHeaderProps> = ({activateStartPage, activateAboutPage}) => {
+export const HomeHeader: FC<HomeHeaderProps> = ({activateStartPage, activateAboutPage, ...props}) => {
   const actions = [
     {
       title: 'Start',
@@ -33,9 +33,8 @@ export const HomeHeader: FC<HomeHeaderProps> = ({activateStartPage, activateAbou
   )
 
   return <>
-    <BloombergBox tw="h-[3rem] leading-[3rem] tracking-wide" hideTopBar={true}>
-      <div tw="absolute inset-0 flex justify-between px-2  whitespace-pre-wrap select-none">
-        {/* <Marquee gradient={false} speed={50} pauseOnHover={true} tw="whitespace-pre-wrap"> */}
+    <BloombergBox hideTopBar={true} tw="h-[3rem] leading-[2.95rem] tracking-wide overflow-hidden" {...props}>
+      <div tw="absolute inset-0 flex justify-between px-2 whitespace-pre-wrap select-none">
 
         {/* Logo */}
         <div tw="flex items-center font-bold">
@@ -58,7 +57,6 @@ export const HomeHeader: FC<HomeHeaderProps> = ({activateStartPage, activateAbou
           ))}
         </div>
           
-        {/* </Marquee> */}
       </div>
     </BloombergBox>
   </>

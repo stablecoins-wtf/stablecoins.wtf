@@ -8,8 +8,6 @@ export interface HomeCoinDetailsProps {
   coin: Coin
 }
 export const HomeCoinDetails: FC<HomeCoinDetailsProps> = ({coin}) => {
-  console.log('Details opened for:', {coin})
-
   return <>
     <BloombergBox title={coin.name}>
       {coin.description &&
@@ -17,7 +15,7 @@ export const HomeCoinDetails: FC<HomeCoinDetailsProps> = ({coin}) => {
           <RichText content={coin.description} />
         </div>
       }
-      <pre tw="text-xs leading-[1.3] text-bbg-gray1 overflow-scroll">
+      <pre tw="text-xs leading-[1.3] text-bbg-gray1">
         {JSON.stringify(coin, null, 2)}
       </pre>
     </BloombergBox>

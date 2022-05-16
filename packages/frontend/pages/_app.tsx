@@ -32,7 +32,7 @@ const App = ({ Component, pageProps }: AppProps) => (
         site_name: 'stablecoins.wtf',
       }}
       twitter={{
-        handle: '@stablecoins_wtf',
+        handle: '@stablecoinswtf',
       }}
     />
 

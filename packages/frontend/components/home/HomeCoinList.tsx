@@ -23,39 +23,35 @@ export interface HomeCoinListProps {
   activateCoinPage: (_: Coin) => void
   activeCoin?: Coin,
 }
-export const HomeCoinList: FC<HomeCoinListProps> = ({coins, activateCoinPage, activeCoin}) => {  
+export const HomeCoinList: FC<HomeCoinListProps> = ({coins, activateCoinPage, activeCoin, ...props}) => {  
   return <>
-    <BloombergBox tw="flex-1" title="Top Stablecoins by Market Cap">
-      <div tw="px-2">
-        <div tw="flex flex-col">
-          <div tw="-mx-4 overflow-x-auto">
-            <div tw="inline-block min-w-full py-2 align-middle">
-              <div tw="overflow-hidden">
-                <table tw="min-w-full divide-y divide-bbg-gray3 border-b border-bbg-gray3">
+    <BloombergBox tw="pb-0" title="Top Stablecoins by Market Cap" {...props}>
+      <div tw="flex flex-col px-2">
+        <div tw="-mx-4 overflow-x-auto">
+          <div tw="relative inline-block min-w-full align-middle">
+            <table tw="min-w-full divide-y divide-bbg-gray3 border-b border-bbg-gray3 -mb-px">
 
-                  {/* Table Head */}
-                  <thead tw="bg-bbg-gray3 border-t border-[#383838]">
-                    <tr tw="divide-x divide-black">
-                      <BloombergTH scope="col" tw="sm:pl-2">Symbol</BloombergTH>
-                      <BloombergTH scope="col" isNumber={true}>Price</BloombergTH>
-                      <BloombergTH scope="col" isNumber={true}>24h Change</BloombergTH>
-                      <BloombergTH scope="col" isNumber={true}>7d Change</BloombergTH>
-                      <BloombergTH scope="col" tw="sm:pr-2" isNumber={true}>Market Cap</BloombergTH>
-                    </tr>
-                  </thead>
+              {/* Table Head */}
+              <thead tw="bg-bbg-gray3 border-t border-[#383838]">
+                <tr tw="divide-x divide-black">
+                  <BloombergTH scope="col" tw="sm:pl-2">Symbol</BloombergTH>
+                  <BloombergTH scope="col" isNumber={true}>Price</BloombergTH>
+                  <BloombergTH scope="col" isNumber={true}>24h %</BloombergTH>
+                  <BloombergTH scope="col" isNumber={true}>7d %</BloombergTH>
+                  <BloombergTH scope="col" tw="sm:pr-2" isNumber={true}>Market Cap</BloombergTH>
+                </tr>
+              </thead>
 
-                  {/* Table Rows */}
-                  <tbody tw="divide-y divide-bbg-gray3">
-                    {coins.map(coin => <HomeCoinListRow coin={coin} coins={coins} activateCoinPage={activateCoinPage} activeCoin={activeCoin} />)}
-                  </tbody>
+              {/* Table Rows */}
+              <tbody tw="divide-y divide-bbg-gray3">
+                {coins.map(coin =>
+                  <HomeCoinListRow key={coin.id} coin={coin} coins={coins} activateCoinPage={activateCoinPage} activeCoin={activeCoin} />)}
+              </tbody>
 
-                </table>
-              </div>
-            </div>
+            </table>
           </div>
         </div>
       </div>
-
     </BloombergBox>
   </>
 }
@@ -75,20 +71,20 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, activateCoinPage, act
   return <>
     <tr key={coin.id} onClick={() => { activateCoinPage(coin) }} css={[
       tw`bg-black divide-x divide-bbg-gray3 cursor-pointer`,
-      activeCoin?.id === coin.id ? tw`bg-bbg-orange text-black` : tw`hover:(bg-bbg-gray2)`,
+      activeCoin?.id === coin.id ? tw`bg-white text-black` : tw`hover:(bg-bbg-gray3)`,
     ]}>  
       <BloombergTD css={[
-        tw`sm:pl-2! uppercase text-bbg-orange`,
+        tw`sm:pl-2! uppercase font-semibold text-bbg-orange`,
         activeCoin?.id === coin.id && tw`text-black`,
       ]}>{coin.symbol}</BloombergTD>
       <BloombergTD isNumber={true} highlight={priceHighlight}>
         <NumberFormat value={price} displayType={'text'} prefix={'$'} fixedDecimalScale={true} decimalScale={3}/>
       </BloombergTD>
       <BloombergTD isNumber={true} highlight={change24hHighlight}>
-        <NumberFormat value={change24h} displayType={'text'} prefix={change24h > 0 ? '+' : ''} suffix={'%'} fixedDecimalScale={true} decimalScale={3}/>
+        <NumberFormat value={change24h} displayType={'text'} prefix={change24h > 0 ? '+' : ''} suffix={' %'} fixedDecimalScale={true} decimalScale={3}/>
       </BloombergTD>
       <BloombergTD isNumber={true} highlight={change7dHighlight}>
-        <NumberFormat value={change7d} displayType={'text'} prefix={change7d > 0 ? '+' : ''} suffix={'%'} fixedDecimalScale={true} decimalScale={3}/>
+        <NumberFormat value={change7d} displayType={'text'} prefix={change7d > 0 ? '+' : ''} suffix={' %'} fixedDecimalScale={true} decimalScale={3}/>
       </BloombergTD>
       <BloombergTD isNumber={true}>
         <NumberFormat value={cap} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
