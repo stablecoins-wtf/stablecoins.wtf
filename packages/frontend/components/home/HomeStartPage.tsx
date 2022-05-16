@@ -7,7 +7,17 @@ export const HomeStartPage: FC<HomeStartPageProps> = () => {
 
   return <>
     <BloombergBox title="Select coin…">
-      <p>Sed posuere consectetur est at lobortis. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+      <div tw="prose prose-invert max-w-full">
+        <h3>To-Dos:</h3>
+        <ul>
+          <li>⋇ [high] Add to Table: Type, Collateralization Ratio, Governance, Warnings</li>
+          <li>⋇ [high] Glossary and Educational Content on StartPage</li>
+          <li>⋇ [high] CoinDetailPages (with Graphs, KPIs, Newsticker)</li>
+          <li>⋇ Add tooltips to Table</li>
+          <li>⋇ Make Table sortable</li>
+          <li>⋇ Maybe define Framework for a custom "Stablecoin Score"</li>
+        </ul>
+      </div>
     </BloombergBox>
   </>
 }

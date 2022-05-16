@@ -7,7 +7,20 @@ export const HomeAboutPage: FC<HomeAboutPageProps> = () => {
 
   return <>
     <BloombergBox title="About stablecoins.wtf">
-      <p>Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+      <div tw="prose prose-invert  max-w-full">
+        <p>This is an independent open-source project to educate degens about stablecoins.</p>
+        <h3>Authors</h3>
+        <ul>
+          <li>⋇ zoma.eth (<a href="https://twitter.com/dennis_zoma" target="_blank">@dennis_zoma</a>)</li>
+          <li>⋇ notmike.eth (<a href="https://twitter.com/Mike2011_" target="_blank">@Mike2011_</a>)</li>
+        </ul>
+        <h3>Links</h3>
+        <ul>
+          <li>⋇ Official Website: <a href="https://stablecoins.wtf">https://stablecoins.wtf</a></li>
+          <li>⋇ Twitter: <a href="https://twitter.com/stablecoinswtf">https://twitter.com/stablecoinswtf</a></li>
+          <li>⋇ Github: <a href="https://github.com/wottpal/stablecoins.wtf">https://github.com/wottpal/stablecoins.wtf</a></li>
+        </ul>
+      </div>
     </BloombergBox>
   </>
 }

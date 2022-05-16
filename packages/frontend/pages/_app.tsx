@@ -24,7 +24,7 @@ const App = ({ Component, pageProps }: AppProps) => (
       dangerouslySetAllPagesToNoFollow={!env.isProduction}
       dangerouslySetAllPagesToNoIndex={!env.isProduction}
       defaultTitle='stablecoins.wtf'
-      description='For all stablecoin degens'
+      description='Educating degens about stablecoins'
       openGraph={{
         type: 'website',
         locale: 'en',
@@ -52,7 +52,7 @@ const App = ({ Component, pageProps }: AppProps) => (
     </Head>
 
     {/* Animated Favicon */}
-    <Favicon animated={true} iconSize={64} animationDelay={300}
+    <Favicon animated={true} iconSize={64} animationDelay={250}
       url={['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13'].map(idx => `/favicons/animated/coin-${idx}.ico`)} />
 
     <CacheProvider value={cache}>
