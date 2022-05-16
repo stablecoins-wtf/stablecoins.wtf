@@ -43,7 +43,7 @@ export default function HomePage({ coinsData }: HomepageProps) {
 
       <div tw="flex flex-col space-y-1">
         <HomeHeader activateStartPage={activateStartPage} activateAboutPage={activateAboutPage} />
-        <HomeCoinList coins={coins} activateCoinPage={activateCoinPage}/>
+        <HomeCoinList coins={coins} activateCoinPage={activateCoinPage} activeCoin={activeCoin}/>
       </div>
       
       {!!activeCoin

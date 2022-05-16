@@ -6,7 +6,7 @@ import { FC } from 'react'
 import tw, { styled } from 'twin.macro'
 
 const BloombergBoxWrapper = styled.div(() => [
-  tw`relative border border-bbg-gray3 p-2 overflow-hidden`,
+  tw`relative border border-bbg-gray3 p-2 overflow-hidden flex-shrink-0 flex-grow-0`,
 ])
 
 export interface BloombergBoxProps {

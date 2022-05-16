@@ -27,9 +27,9 @@ export class Coin {
 }
 
 export interface CoinmarketcapMetadata {
-
+  [_: string]: any,
 }
 
 export interface CoinmarketcapLatestQuotes {
-
+  [_: string]: any,
 }
