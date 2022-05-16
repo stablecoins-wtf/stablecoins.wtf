@@ -25,11 +25,11 @@ export interface HomeCoinListProps {
 }
 export const HomeCoinList: FC<HomeCoinListProps> = ({coins, activateCoinPage, activeCoin, ...props}) => {  
   return <>
-    <BloombergBox tw="pb-0" title="Top Stablecoins by Market Cap" {...props}>
+    <BloombergBox title="Top Stablecoins by Market Cap" {...props}>
       <div tw="flex flex-col px-2">
         <div tw="-mx-4 overflow-x-auto">
           <div tw="relative inline-block min-w-full align-middle">
-            <table tw="min-w-full divide-y divide-bbg-gray3 border-b border-bbg-gray3 -mb-px">
+            <table tw="min-w-full divide-y divide-bbg-gray3 border-b border-bbg-gray3">
 
               {/* Table Head */}
               <thead tw="bg-bbg-gray3 border-t border-[#383838]">
