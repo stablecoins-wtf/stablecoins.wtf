@@ -5,20 +5,27 @@ import { FC, Fragment } from 'react'
 import 'twin.macro'
 import { BloombergBox } from './BloombergBox'
 
-const links = [
-  {
-    title: 'About',
-    href: '#about',
-  },
-  {
-    title: 'Twitter',
-    href: env.twitterLink,
-    isExternal: true,
-  },
-]
+export interface HomeHeaderProps {
+  activateStartPage: () => void
+  activateAboutPage: () => void
+}
+export const HomeHeader: FC<HomeHeaderProps> = ({activateStartPage, activateAboutPage}) => {
+  const actions = [
+    {
+      title: 'Start',
+      onClick: activateStartPage,
+    },
+    {
+      title: 'About',
+      onClick: activateAboutPage,
+    },
+    {
+      title: 'Twitter',
+      href: env.twitterLink,
+      isExternal: true,
+    },
+  ]
 
-
-export const HomeHeader: FC = () => {
   const CoinLogo = () => (
     <div tw="flex items-center justify-center mr-2">
       <Image src={stablecoinGif} alt="Animated Logo of stablecoins.wtf" height={18} width={18}/>
@@ -26,7 +33,7 @@ export const HomeHeader: FC = () => {
   )
 
   return <>
-    <BloombergBox tw="h-[3rem] leading-[3rem] tracking-wide">
+    <BloombergBox tw="h-[3rem] leading-[3rem] tracking-wide" hideTopBar={true}>
       <div tw="absolute inset-0 flex justify-between px-2  whitespace-pre-wrap select-none">
         {/* <Marquee gradient={false} speed={50} pauseOnHover={true} tw="whitespace-pre-wrap"> */}
 
@@ -37,13 +44,16 @@ export const HomeHeader: FC = () => {
 
         {/* Links */}
         <div tw="flex">
-          {links.map((link, idx) => (
+          {actions.map((action, idx) => (
             <Fragment key={idx}>
-              <a target={link.isExternal ? '_blank' : ''} href={link.href}
-                tw="flex items-center hover:(underline)">
-                <span>{link.title}</span>
-              </a>
-              {(idx !== links.length - 1) && <span tw="text-bbg-gray2">{' ⋇ '}</span>}
+              {!!action.onClick
+                ? <button onClick={action.onClick} tw="hover:(underline)">
+                  {action.title}
+                </button>
+                : <a target={action.isExternal ? '_blank' : ''} href={action.href} tw="hover:(underline)">
+                  {action.title}
+                </a>}
+              {(idx !== actions.length - 1) && <span tw="text-bbg-gray2">{' ⋇ '}</span>}
             </Fragment>
           ))}
         </div>

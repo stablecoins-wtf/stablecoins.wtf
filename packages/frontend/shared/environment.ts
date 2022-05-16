@@ -8,5 +8,7 @@ export const env = {
 
   graphcms: {
     contentEndpoint: process.env.GRAPHCMS_CONTENT_ENDPOINT!,
-  }
+  },
+
+  coinmarketcapApiKey: process.env.COINMARKETCAP_API_KEY!,
 }

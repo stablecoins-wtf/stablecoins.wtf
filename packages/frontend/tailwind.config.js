@@ -12,8 +12,8 @@ module.exports = {
           green1: '#00f360',
           green2: '#00ab44',
           gray1: '#979b9a',
-          gray2: '#555555',
-          gray3: '#1c1c1c',
+          gray2: '#646464',
+          gray3: '#282828',
         },
         social: {
           twitter: '#1DA1F2',

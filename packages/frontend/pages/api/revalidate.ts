@@ -6,7 +6,6 @@ import { NextApiRequest, NextApiResponse } from 'next'
  * https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration#using-on-demand-revalidation
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  console.log('headers', req.headers)
   if (req.headers['revalidatetoken'] !== env.revalidateToken) {
     return res.status(401).json({ message: 'Invalid token' })
   }
