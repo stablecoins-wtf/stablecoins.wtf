@@ -65,14 +65,12 @@ export interface HomeCoinListRowProps extends HomeCoinListProps {
 }
 const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, activateCoinPage, activeCoin}) => {
   const price = coin.cmcLatestQuotes?.quote?.USD?.price
-  const priceDeviationIsHigh = Math.abs(1 - price) > 0.05
-  const priceDeviationIsVeryHigh = Math.abs(1 - price) > 0.1
-  const priceHighlight = priceDeviationIsHigh ? (priceDeviationIsVeryHigh ? 'red' : 'orange') : undefined
+  const priceHighlight = (Math.abs(1 - price) > 0.05) ? ((Math.abs(1 - price) > 0.1) ? 'red' : 'orange') : undefined
   const cap = coin.cmcLatestQuotes?.quote?.USD?.market_cap
   const change24h = coin.cmcLatestQuotes?.quote?.USD?.percent_change_24h
-  const change24hHighlight = Math.abs(change24h) > 1.0 ? 'orange' : undefined
+  const change24hHighlight = (Math.abs(change24h) > 1.5) ? ((Math.abs(change24h) > 5.0) ? 'red' : 'orange') : undefined
   const change7d = coin.cmcLatestQuotes?.quote?.USD?.percent_change_7d
-  const change7dHighlight = Math.abs(change7d) > 1.0 ? 'orange' : undefined
+  const change7dHighlight = (Math.abs(change7d) > 1.5) ? ((Math.abs(change7d) > 5.0) ? 'red' : 'orange') : undefined
 
   return <>
     <tr key={coin.id} onClick={() => { activateCoinPage(coin) }} css={[
