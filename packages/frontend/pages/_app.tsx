@@ -18,8 +18,8 @@ Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
 
-const App = ({ Component, pageProps }: AppProps) => (
-  <>
+export default function App({ Component, pageProps }: AppProps) {
+  return <>
     <DefaultSeo
       dangerouslySetAllPagesToNoFollow={!env.isProduction}
       dangerouslySetAllPagesToNoIndex={!env.isProduction}
@@ -65,6 +65,4 @@ const App = ({ Component, pageProps }: AppProps) => (
       </ThemeProvider>
     </CacheProvider>
   </>
-)
-
-export default App
+}

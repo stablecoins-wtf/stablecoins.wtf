@@ -13,9 +13,11 @@ export const HomeStartPage: FC<HomeStartPageProps> = () => {
           <li>⋇ [high] Add to Table: Type, Collateralization Ratio, Governance, Warnings</li>
           <li>⋇ [high] Glossary and Educational Content on StartPage</li>
           <li>⋇ [high] CoinDetailPages (with Graphs, KPIs, Newsticker)</li>
-          <li>⋇ Add tooltips to Table</li>
+          <li>⋇ [high] Make content linkable</li>
+          <li>⋇ Add Newsticker per Coin </li>
+          <li>⋇ Add tooltips to Table </li>
           <li>⋇ Make Table sortable</li>
-          <li>⋇ Maybe define Framework for a custom "Stablecoin Score"</li>
+          <li>⋇ Maybe define Framework for a custom "Stablecoin Security/Trust Score"</li>
         </ul>
       </div>
     </BloombergBox>

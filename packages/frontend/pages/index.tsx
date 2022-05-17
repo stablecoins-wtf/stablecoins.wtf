@@ -20,28 +20,33 @@ export default function HomePage({ coinsData }: HomepageProps) {
 
   // Initialize Coins
   useEffect(() => {
+    console.log('coinsData:', coinsData)
     setCoins((coinsData || [])
       .map(Coin.fromObject)
       .filter(Boolean) as Coin[])
   }, [])
 
   // Navigation
+  const scrollToContentSection = () => {
+    const coinDetailsWrapper = detailsPageRef?.current?.children?.[0]
+    const doScroll = (coinDetailsWrapper?.getBoundingClientRect()?.y || 0) > 5
+    if (doScroll) coinDetailsWrapper?.scrollIntoView?.({behavior: 'smooth'})    
+  }
   const activateStartPage = () => {
     setActiveCoin(undefined)
     setIsAboutPage(false)
+    scrollToContentSection()
   }
   const activateAboutPage = () => {
     setActiveCoin(undefined)
     setIsAboutPage(true)
+    scrollToContentSection()
   }
   const activateCoinPage = (coin: Coin) => {
     console.log('Opening details for coin:', coin)
     setActiveCoin(coin)
     setIsAboutPage(false)
-    // Scroll HomeCoinDetails into view 
-    const coinDetailsWrapper = detailsPageRef?.current?.children?.[0]
-    const doScroll = (coinDetailsWrapper?.getBoundingClientRect()?.y || 0) > 5
-    if (doScroll) coinDetailsWrapper?.scrollIntoView?.({behavior: 'smooth'})
+    scrollToContentSection()
   }
   
   return <>

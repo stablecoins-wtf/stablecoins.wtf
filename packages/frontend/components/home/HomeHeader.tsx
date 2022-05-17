@@ -28,13 +28,13 @@ export const HomeHeader: FC<HomeHeaderProps> = ({activateStartPage, activateAbou
 
   const CoinLogo = () => (
     <div tw="flex items-center justify-center mr-2">
-      <Image src={stablecoinGif} alt="Animated Logo of stablecoins.wtf" height={18} width={18}/>
+      <Image src={stablecoinGif} alt="Animated Logo of stablecoins.wtf" height={20} width={20}/>
     </div>
   )
 
   return <>
-    <BloombergBox hideTopBar={true} tw="h-[3rem] leading-[2.95rem] tracking-wide overflow-hidden" {...props}>
-      <div tw="absolute inset-0 flex justify-between px-2 whitespace-pre-wrap select-none">
+    <BloombergBox hideTopBar={true} tw="h-[3rem] leading-[3rem] tracking-wide overflow-hidden" {...props}>
+      <div tw="absolute inset-0 flex items-center justify-between px-2 whitespace-pre-wrap select-none">
 
         {/* Logo */}
         <div tw="flex items-center font-bold">
@@ -42,7 +42,7 @@ export const HomeHeader: FC<HomeHeaderProps> = ({activateStartPage, activateAbou
         </div>
 
         {/* Links */}
-        <div tw="flex">
+        <div tw="flex items-center text-sm">
           {actions.map((action, idx) => (
             <Fragment key={idx}>
               {!!action.onClick
