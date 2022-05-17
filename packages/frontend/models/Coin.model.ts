@@ -10,7 +10,6 @@ export class Coin {
 
     public cmcMetadata: CoinmarketcapMetadata,
     public cmcLatestQuotes: CoinmarketcapLatestQuotes,
-    public cpNews: CoinpanicNews[],
   ) { }
 
   static fromObject(data: any): Coin | null {
@@ -24,7 +23,6 @@ export class Coin {
       data?.['description']?.raw as RichTextContent,
       data?.['cmcMetadata'] as CoinmarketcapMetadata || {},
       data?.['cmcLatestQuotes'] as CoinmarketcapLatestQuotes || {},
-      data?.['cpNews'] as CoinpanicNews[] || [],
     )
   }
 }
@@ -37,7 +35,7 @@ export interface CoinmarketcapLatestQuotes {
   [_: string]: any,
 }
 
-export interface CoinpanicNews {
+export interface CryptopanicNews {
   id: string
   url: string
   title: string

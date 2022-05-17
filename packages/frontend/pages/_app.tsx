@@ -7,6 +7,7 @@ import Head from 'next/head'
 import Router from 'next/router'
 import NProgress from 'nprogress'
 import Favicon from 'react-favicon'
+import { QueryClient, QueryClientProvider } from 'react-query'
 import { env } from 'shared/environment'
 import { Layout } from '../components/layout/Layout'
 import GlobalStyles from '../styles/GlobalStyles'
@@ -17,6 +18,8 @@ Router.events.on('routeChangeStart', () => NProgress.start())
 Router.events.on('routeChangeComplete', () => NProgress.done())
 Router.events.on('routeChangeError', () => NProgress.done())
 
+// Create a client for React Query 
+const queryClient = new QueryClient()
 
 export default function App({ Component, pageProps }: AppProps) {
   return <>
@@ -58,11 +61,13 @@ export default function App({ Component, pageProps }: AppProps) {
     <CacheProvider value={cache}>
       <GlobalStyles />
 
-      <ThemeProvider defaultTheme="dark" attribute="class">
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </ThemeProvider>
+      <QueryClientProvider client={queryClient}>
+        <ThemeProvider defaultTheme="dark" attribute="class">
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+      </QueryClientProvider>
     </CacheProvider>
   </>
 }
