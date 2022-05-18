@@ -17,7 +17,7 @@ export const HomeLayout: FC<HomeLayoutProps> = ({ coins, children }) => {
 
       <div tw="flex flex-col space-y-1 lg:(max-h-full overflow-hidden)">
         <HomeHeader tw="flex-shrink-0" activateStartPage={() => {}} activateAboutPage={() => {}} />
-        <HomeCoinList tw="flex-grow" coins={coins} activateCoinPage={() => {}} activeCoin={activeCoin}/>
+        <HomeCoinList tw="flex-grow" coins={coins} />
       </div>
 
       <div tw="contents" ref={detailsPageRef}>
