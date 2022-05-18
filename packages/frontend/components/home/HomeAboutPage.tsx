@@ -8,7 +8,7 @@ export const HomeAboutPage: FC<HomeAboutPageProps> = () => {
   return <>
     <BloombergBox title="About stablecoins.wtf">
       <div tw="prose prose-invert  max-w-full">
-        <p>This is an independent open-source project to educate degens about stablecoins.</p>
+        <p>The purpose is here to educate degens about stablecoins.</p>
         <h3>Authors</h3>
         <ul>
           <li>⋇ zoma.eth (<a href="https://twitter.com/dennis_zoma" target="_blank">@dennis_zoma</a>)</li>

@@ -7,19 +7,13 @@ export const HomeStartPage: FC<HomeStartPageProps> = () => {
 
   return <>
     <BloombergBox title="Select coin…">
-      <div tw="prose prose-invert max-w-full">
-        <h3>To-Dos:</h3>
-        <ul>
-          <li>⋇ [high] Add to Table: Type, Collateralization Ratio, Governance, Warnings</li>
-          <li>⋇ [high] Glossary and Educational Content on StartPage</li>
-          <li>⋇ [high] CoinDetailPages (with Graphs, KPIs, Newsticker)</li>
-          <li>⋇ [high] Make content linkable</li>
-          <li>⋇ Add Newsticker per Coin </li>
-          <li>⋇ Add tooltips to Table </li>
-          <li>⋇ Make Table sortable</li>
-          <li>⋇ Maybe define Framework for a custom "Stablecoin Security/Trust Score"</li>
-        </ul>
-      </div>
+      {/* <div tw="prose prose-invert max-w-full"></div> */}
+      <div tw="flex items-center justify-center mt-5">
+        <div>
+        This a work-in-progress hackathon project by <a tw="font-bold" href="https://twitter.com/dennis_zoma" target="_blank">@dennis_zoma</a> & <a tw="font-bold" href="https://twitter.com/mike1third" target="_blank">@mike1third</a> to educate degens about stablecoins.
+          <br/><br/>Follow the project on <a tw="font-bold" href="https://twitter.com/stablecoinswtf" target="_blank">@stablecoinswtf</a> to be notified when we launch.
+        </div>
+      </div>      
     </BloombergBox>
   </>
 }

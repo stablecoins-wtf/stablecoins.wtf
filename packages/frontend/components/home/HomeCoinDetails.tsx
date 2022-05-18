@@ -1,4 +1,3 @@
-import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Coin, CryptopanicNews } from '@models/Coin.model'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -23,14 +22,27 @@ export const HomeCoinDetails: FC<HomeCoinDetailsProps> = ({coin}) => {
 export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({coin}) => {
   return <>
     <BloombergBox tw="flex-1" title={coin.name}>
-      {coin.description &&
+      {/* {coin.description &&
         <div tw="prose prose-invert">
           <RichText content={coin.description} />
         </div>
-      }
-      <pre tw="text-xs leading-[1.3] text-bbg-gray1 max-w-full overflow-scroll">
-        {JSON.stringify(coin, null, 2)}
-      </pre>
+      } */}
+      <div tw="flex items-center justify-center mt-5">
+        <div>
+        This a work-in-progress hackathon project by <a tw="font-bold" href="https://twitter.com/dennis_zoma" target="_blank">@dennis_zoma</a> & <a tw="font-bold" href="https://twitter.com/mike1third" target="_blank">@mike1third</a> to educate degens about stablecoins.
+          <br/><br/>Follow the project on <a tw="font-bold" href="https://twitter.com/stablecoinswtf" target="_blank">@stablecoinswtf</a> to be notified when we launch.
+        </div>
+      </div>
+
+      <hr tw="opacity-25 my-10" />
+      <details>
+        <summary>JSON data available ({coin.symbol})</summary>
+        <pre tw="text-xs leading-[1.3] text-bbg-gray1 max-w-full overflow-scroll">
+          {JSON.stringify(coin, null, 2)}
+        </pre>
+      </details>
+
+
     </BloombergBox>
   </>
 }

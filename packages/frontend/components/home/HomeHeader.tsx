@@ -20,10 +20,10 @@ export const HomeHeader: FC<HomeHeaderProps> = ({activateStartPage, activateAbou
       title: 'Start',
       href: '/',
     },
-    {
-      title: 'About',
-      href: '/about',
-    },
+    // {
+    //   title: 'About',
+    //   href: '/about',
+    // },
     {
       title: 'Twitter',
       href: env.twitterLink,
@@ -51,7 +51,7 @@ export const HomeHeader: FC<HomeHeaderProps> = ({activateStartPage, activateAbou
         {/* Links */}
         <div tw="flex items-center text-sm">
           {actions.map((action, idx) => (
-            <Fragment key={idx}>
+            <Fragment key={idx}>  
               <Link href={action.href} passHref>
                 <a target={action.isExternal ? '_blank' : ''}  css={[
                   tw`hover:(underline)`,
