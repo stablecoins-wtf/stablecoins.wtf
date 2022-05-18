@@ -8,9 +8,10 @@
     }
   },
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "start": "next start"
+    "dev": "yarn clean && next",
+    "build": "yarn clean && next build",
+    "start": "next start",
+    "clean": "rm -rf .cache"
   },
   "dependencies": {
     "@apollo/client": "^3.6.2",
@@ -22,6 +23,7 @@
     "@headlessui/react": "^1.6.1",
     "axios": "^0.27.2",
     "dayjs": "^1.11.2",
+    "fs-extra": "^10.1.0",
     "graphql": "^16.5.0",
     "graphql-request": "^4.2.0",
     "markdown-it": "^13.0.1",
@@ -49,6 +51,7 @@
     "@next/eslint-plugin-next": "^12.1.6",
     "@tailwindcss/typography": "^0.5.2",
     "@types/animejs": "^3.1.4",
+    "@types/fs-extra": "^9.0.13",
     "@types/markdown-it": "^12.2.3",
     "@types/node": "^16.11.35",
     "@types/nprogress": "^0.2.0",

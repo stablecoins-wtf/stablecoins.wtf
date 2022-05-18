@@ -2,6 +2,7 @@ import { gql } from '@apollo/client'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { GetStaticProps } from 'next'
+import { cache } from './cache'
 import { env } from './environment'
 import { graphCmsClient } from './graphCmsClient'
 
@@ -11,15 +12,31 @@ import { graphCmsClient } from './graphCmsClient'
  * – GraphCMS (static data from headless cms)
  * – Coinmarketcap (meta- and latest market-data for coins)
  */
+export interface CoinsDataProps {
+  coinsData: any[]
+}
 export const getAllCoinsAndMetadata: GetStaticProps = async () => {
-  let coinsData = await queryGraphCms()
-  coinsData = await updateCoinmarketcapMetadata(coinsData)
-  coinsData = await updateCoinmarketcapQuotes(coinsData)
+  const coinsData = await fetchOrGetCoinsData()
 
   return {
-    props: { coinsData },
-    revalidate: 60 * 10,
+    props: { coinsData } as CoinsDataProps,
+    revalidate: 60 * Math.min(CMC_METADATA_MAX_AGE_MINUTES, CMC_LATEST_QUOTES_MAX_AGE_MINUTES),
   }
+}
+
+/**
+ * Ether fetches coinsData or returns it from the local-file `.cache`
+ */
+export const fetchOrGetCoinsData = async (forceFetch?: boolean) => {
+  let coinsData = await cache.get('coins')
+  if (coinsData && !forceFetch) return coinsData
+  
+  coinsData = await queryGraphCms()
+  coinsData = await updateCoinmarketcapMetadata(coinsData)
+  coinsData = await updateCoinmarketcapQuotes(coinsData)
+  await cache.set('coins', coinsData)
+
+  return coinsData
 }
 
 /**
@@ -66,7 +83,7 @@ const updateCoinmarketcapMetadata = async (coinsData: any[]) => {
   
   const updatedAt = dayjs().toISOString()
   for (const [symbol, cmcMetadataData] of Object.entries(data?.data || {})) {
-    console.log('Storing updated data for symbol: ', symbol)
+    // console.log('Updating cached cmcMetadata for symbol: ', symbol)
     // Merge into coinsData
     const cmcMetadata = {
       ...((cmcMetadataData as any)?.[0] || {}),
@@ -76,7 +93,7 @@ const updateCoinmarketcapMetadata = async (coinsData: any[]) => {
       if (c.symbol !== symbol) return c
       return { ...c, cmcMetadata }
     })
-    // Mutate and re-publish in GraphCMS
+    // Asynchronously mutate and re-publish in GraphCMS
     const query = gql`
       mutation UpdateAndPublishCoin($symbol: String!, $cmcMetadata: Json!) {
         updateCoin(
@@ -86,7 +103,7 @@ const updateCoinmarketcapMetadata = async (coinsData: any[]) => {
         publishCoin(where: { symbol: $symbol }, to: PUBLISHED) { id }
       }
     `
-    await graphCmsClient.request(query, { symbol, cmcMetadata })
+    graphCmsClient.request(query, { symbol, cmcMetadata })
   }
 
   return coinsData
@@ -115,7 +132,7 @@ const updateCoinmarketcapQuotes = async (coinsData: any[]) => {
 
   const updatedAt = dayjs().toISOString()
   for (const [symbol, cmcLatestQuotesData] of Object.entries(data?.data || {})) {
-    console.log('Storing updated data for symbol: ', symbol)
+    // console.log('Updating cached cmcLatestQuotes for symbol: ', symbol)
     // Merge into coinsData
     const cmcLatestQuotes = {
       ...((cmcLatestQuotesData as any)?.[0] || {}),
@@ -125,7 +142,7 @@ const updateCoinmarketcapQuotes = async (coinsData: any[]) => {
       if (c.symbol !== symbol) return c
       return { ...c, cmcLatestQuotes }
     })
-    // Mutate and re-publish in GraphCMS
+    // Asynchronously mutate and re-publish in GraphCMS
     const query = gql`
       mutation UpdateAndPublishCoin($symbol: String!, $cmcLatestQuotes: Json!) {
         updateCoin(
@@ -135,8 +152,9 @@ const updateCoinmarketcapQuotes = async (coinsData: any[]) => {
         publishCoin(where: { symbol: $symbol }, to: PUBLISHED) { id }
       }
     `
-    await graphCmsClient.request(query, { symbol, cmcLatestQuotes })
+    graphCmsClient.request(query, { symbol, cmcLatestQuotes })
   }
 
+  console.log('RETURN')
   return coinsData
 }

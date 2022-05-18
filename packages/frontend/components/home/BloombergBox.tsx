@@ -6,7 +6,7 @@ import { FC } from 'react'
 import tw, { styled } from 'twin.macro'
 
 const BloombergBoxWrapper = styled.div(() => [
-  tw`relative border border-bbg-gray3 p-2 flex-grow-0 overflow-scroll`,
+  tw`flex-grow-0 relative border border-bbg-gray3 p-2 overflow-scroll`,
 ])
 
 export interface BloombergBoxProps {
@@ -16,7 +16,7 @@ export interface BloombergBoxProps {
 export const BloombergBox: FC<BloombergBoxProps> = ({children, hideTopBar, title, ...props}) => {
   return <>
     <BloombergBoxWrapper {...props}>
-      <div tw="flex flex-col">
+      <div tw="flex flex-col flex-grow">
         {!hideTopBar && (
           <div tw="sticky -top-2 z-50 bg-black bg-opacity-50 backdrop-blur flex justify-between text-bbg-gray2 text-sm p-2 -mt-2 -ml-2 -mr-2 ">
             <h3>{title}</h3>
@@ -30,7 +30,7 @@ export const BloombergBox: FC<BloombergBoxProps> = ({children, hideTopBar, title
             </div>
           </div>
         )}
-        <main>{children}</main>
+        {children}
       </div>
     </BloombergBoxWrapper>
   </>

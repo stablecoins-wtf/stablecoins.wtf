@@ -1,5 +1,7 @@
 import { Coin } from '@models/Coin.model'
-import { FC } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { FC, useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
@@ -20,10 +22,16 @@ const BloombergTD = styled.td(({isNumber, highlight}: any) => [
 
 export interface HomeCoinListProps {
   coins: Coin[]
-  activateCoinPage: (_: Coin) => void
-  activeCoin?: Coin,
 }
-export const HomeCoinList: FC<HomeCoinListProps> = ({coins, activateCoinPage, activeCoin, ...props}) => {  
+export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {  
+  const router = useRouter()
+  const { slug } = router.query
+  const [activeCoin, setActiveCoin] = useState<Coin | undefined>()
+
+  useEffect(() => {
+    setActiveCoin(coins.find(c => c.slug === slug))
+  }, [slug])
+
   return <>
     <BloombergBox title="Top Stablecoins by Market Cap" {...props}>
       <div tw="flex flex-col px-2">
@@ -45,7 +53,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, activateCoinPage, ac
               {/* Table Rows */}
               <tbody tw="divide-y divide-bbg-gray3">
                 {coins.map(coin =>
-                  <HomeCoinListRow key={coin.id} coin={coin} coins={coins} activateCoinPage={activateCoinPage} activeCoin={activeCoin} />)}
+                  <HomeCoinListRow key={coin.id} coin={coin} coins={coins} activeCoin={activeCoin} />)}
               </tbody>
 
             </table>
@@ -56,10 +64,12 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, activateCoinPage, ac
   </>
 }
 
+
 export interface HomeCoinListRowProps extends HomeCoinListProps {
   coin: Coin
+  activeCoin?: Coin
 }
-const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, activateCoinPage, activeCoin}) => {
+const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, activeCoin}) => {
   const price = coin.cmcLatestQuotes?.quote?.USD?.price
   const priceHighlight = (Math.abs(1 - price) > 0.05) ? ((Math.abs(1 - price) > 0.1) ? 'red' : 'orange') : undefined
   const cap = coin.cmcLatestQuotes?.quote?.USD?.market_cap
@@ -69,26 +79,28 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, activateCoinPage, act
   const change7dHighlight = (Math.abs(change7d) > 1.5) ? ((Math.abs(change7d) > 5.0) ? 'red' : 'orange') : undefined
 
   return <>
-    <tr key={coin.id} onClick={() => { activateCoinPage(coin) }} css={[
-      tw`bg-black divide-x divide-bbg-gray3 cursor-pointer`,
-      activeCoin?.id === coin.id ? tw`bg-white text-black` : tw`hover:(bg-bbg-gray3)`,
-    ]}>  
-      <BloombergTD css={[
-        tw`sm:pl-2! uppercase font-semibold text-bbg-orange`,
-        activeCoin?.id === coin.id && tw`text-black`,
-      ]}>{coin.symbol}</BloombergTD>
-      <BloombergTD isNumber={true} highlight={priceHighlight}>
-        <NumberFormat value={price} displayType={'text'} prefix={'$'} fixedDecimalScale={true} decimalScale={3}/>
-      </BloombergTD>
-      <BloombergTD isNumber={true} highlight={change24hHighlight}>
-        <NumberFormat value={change24h} displayType={'text'} prefix={change24h > 0 ? '+' : ''} suffix={' %'} fixedDecimalScale={true} decimalScale={3}/>
-      </BloombergTD>
-      <BloombergTD isNumber={true} highlight={change7dHighlight}>
-        <NumberFormat value={change7d} displayType={'text'} prefix={change7d > 0 ? '+' : ''} suffix={' %'} fixedDecimalScale={true} decimalScale={3}/>
-      </BloombergTD>
-      <BloombergTD isNumber={true}>
-        <NumberFormat value={cap} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
-      </BloombergTD>
-    </tr>
+    <Link href={`/coins/${coin.slug}`} passHref>
+      <tr key={coin.id} css={[
+        tw`bg-black divide-x divide-bbg-gray3 cursor-pointer`,
+        activeCoin?.id === coin.id ? tw`bg-white text-black` : tw`hover:(bg-bbg-gray3)`,
+      ]}>  
+        <BloombergTD css={[
+          tw`sm:pl-2! uppercase font-semibold text-bbg-orange`,
+          activeCoin?.id === coin.id && tw`text-black`,
+        ]}>{coin.symbol}</BloombergTD>
+        <BloombergTD isNumber={true} highlight={priceHighlight}>
+          <NumberFormat value={price} displayType={'text'} prefix={'$'} fixedDecimalScale={true} decimalScale={3}/>
+        </BloombergTD>
+        <BloombergTD isNumber={true} highlight={change24hHighlight}>
+          <NumberFormat value={change24h} displayType={'text'} prefix={change24h > 0 ? '+' : ''} suffix={' %'} fixedDecimalScale={true} decimalScale={3}/>
+        </BloombergTD>
+        <BloombergTD isNumber={true} highlight={change7dHighlight}>
+          <NumberFormat value={change7d} displayType={'text'} prefix={change7d > 0 ? '+' : ''} suffix={' %'} fixedDecimalScale={true} decimalScale={3}/>
+        </BloombergTD>
+        <BloombergTD isNumber={true}>
+          <NumberFormat value={cap} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
+        </BloombergTD>
+      </tr>
+    </Link>
   </>
 })

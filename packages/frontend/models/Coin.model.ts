@@ -21,6 +21,7 @@ export class Coin {
       data?.['symbol'] as string,
       data?.['slug'] as string,
       data?.['description']?.raw as RichTextContent,
+      
       data?.['cmcMetadata'] as CoinmarketcapMetadata || {},
       data?.['cmcLatestQuotes'] as CoinmarketcapLatestQuotes || {},
     )

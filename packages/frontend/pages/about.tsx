@@ -1,5 +1,5 @@
+import { HomeAboutPage } from '@components/home/HomeAboutPage'
 import { HomeLayout } from '@components/home/HomeLayout'
-import { HomeStartPage } from '@components/home/HomeStartPage'
 import { useCoinsData } from '@hooks/useCoinsData'
 import { CoinsDataProps, getAllCoinsAndMetadata } from '@shared/getAllCoinsAndMetadata'
 import { GetStaticProps } from 'next'
@@ -11,7 +11,7 @@ export default function HomePage({ coinsData }: CoinsDataProps) {
   
   return <>
     <HomeLayout coins={coins}>
-      <HomeStartPage />
+      <HomeAboutPage />
     </HomeLayout>
   </>
 }

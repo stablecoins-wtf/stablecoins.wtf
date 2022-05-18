@@ -32,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# custom build cache
+.cache
