@@ -152,7 +152,7 @@ const updateCoinmarketcapQuotes = async (coinsData: any[]) => {
         publishCoin(where: { symbol: $symbol }, to: PUBLISHED) { id }
       }
     `
-    graphCmsClient.request(query, { symbol, cmcLatestQuotes })
+    await graphCmsClient.request(query, { symbol, cmcLatestQuotes })
   }
 
   return coinsData
