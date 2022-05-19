@@ -35,4 +35,3 @@ yarn-error.log*
 
 # custom build cache
 .cache
-/cache.**.json
