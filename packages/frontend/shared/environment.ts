@@ -14,4 +14,6 @@ export const env = {
   coinmarketcapApiKey: process.env.COINMARKETCAP_API_KEY!,
 
   cryptopanicApiKey: process.env.CRYPTOPANIC_API_KEY!,
+
+  buildCacheMaxAge: parseInt(process.env.BUILD_CACHE_MAX_AGE || '300'),
 }

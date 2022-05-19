@@ -2,7 +2,7 @@ import { gql } from '@apollo/client'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { GetStaticProps } from 'next'
-import { cache } from './cache'
+import { cache } from './buildCache'
 import { env } from './environment'
 import { graphCmsClient } from './graphCmsClient'
 
