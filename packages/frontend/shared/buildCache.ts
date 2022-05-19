@@ -24,17 +24,14 @@ export const cache = {
       if (!data || !date) throw new Error('No valid data found')
       const isOutdated = dayjs().diff(date, 'second') > env.buildCacheMaxAge
       if (isOutdated) throw new Error('Data outdated')
-      console.log('CACHE HIT')
       return data
+
     } catch (e) {
-      console.log('CACHE MISS')
       return null
     }
   },
   set: async (id: string, data: any) => {
     if (!cacheIsEnabled) return null
-    console.log('CACHE WRITE')
-
     return await fse.outputFile(
       path.join(getCachePath(id)),
       JSON.stringify({

@@ -20,7 +20,7 @@ export const getAllCoinsAndMetadata: GetStaticProps = async () => {
 
   return {
     props: { coinsData } as CoinsDataProps,
-    revalidate: 60 * Math.min(CMC_METADATA_MAX_AGE_MINUTES, CMC_LATEST_QUOTES_MAX_AGE_MINUTES),
+    revalidate: 60 * 10, // 10 minutes
   }
 }
 
@@ -155,6 +155,5 @@ const updateCoinmarketcapQuotes = async (coinsData: any[]) => {
     graphCmsClient.request(query, { symbol, cmcLatestQuotes })
   }
 
-  console.log('RETURN')
   return coinsData
 }
