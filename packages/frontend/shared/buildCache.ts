@@ -1,10 +1,10 @@
 import dayjs from 'dayjs'
-import fse from 'fs-extra'
+import { promises as fs } from 'fs'
 import path from 'path'
 import { env } from './environment'
 
 const getCachePath = (id: string) => {
-  return path.join(process.cwd(), `.cache/${id}.json`)
+  return path.join(process.cwd(), `cache.${id}.json`)
 }
 
 /**
@@ -16,7 +16,7 @@ export const cache = {
     if (env.buildCacheMaxAge === 0) return null
 
     try {
-      const buffer = await fse.readFile(getCachePath(id))
+      const buffer = await fs.readFile(getCachePath(id))
       const { data, date } = JSON.parse(buffer as unknown as string)
       if (!data || !date) throw new Error('No valid data found')
       const isOutdated = dayjs().diff(date, 'second') > env.buildCacheMaxAge
@@ -27,7 +27,7 @@ export const cache = {
     }
   },
   set: async (id: string, data: any) => {
-    return await fse.outputFile(
+    return await fs.writeFile(
       path.join(getCachePath(id)),
       JSON.stringify({
         date: dayjs().toISOString(),

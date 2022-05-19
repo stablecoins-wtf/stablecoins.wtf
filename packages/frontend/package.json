@@ -11,7 +11,7 @@
     "dev": "yarn clean && next",
     "build": "yarn clean && next build",
     "start": "next start",
-    "clean": "rm -rf .cache"
+    "clean": "rm cache.coins.json"
   },
   "dependencies": {
     "@apollo/client": "^3.6.2",
