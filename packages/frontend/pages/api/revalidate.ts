@@ -9,6 +9,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.headers['revalidatetoken'] !== env.revalidateToken) {
     return res.status(401).json({ message: 'Invalid token' })
   }
+  
+  const data = req?.body?.data || {}
+  console.log(JSON.stringify(data, null, 2))
 
   try {
     await res.unstable_revalidate('/')
