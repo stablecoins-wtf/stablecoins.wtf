@@ -33,6 +33,7 @@ const queryGraphCms = async () => {
   const query = gql`
     query Coins {
       resources {
+        id
         title
         slug
         content { raw }

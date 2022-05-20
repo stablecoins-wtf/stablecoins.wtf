@@ -26,7 +26,7 @@ export interface HomeCoinListProps {
 export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {  
   const router = useRouter()
   const { slug } = router.query
-  const [activeCoin, setActiveCoin] = useState<Coin | undefined>()
+  const [activeCoin, setActiveCoin] = useState<Coin>()
 
   useEffect(() => {
     setActiveCoin(coins.find(c => c.slug === slug))
