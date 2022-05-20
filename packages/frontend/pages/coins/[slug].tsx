@@ -1,22 +1,22 @@
 import { HomeCoinDetails } from '@components/home/HomeCoinDetails'
 import { HomeLayout } from '@components/home/HomeLayout'
-import { useCoinsData } from '@hooks/useCoinsData'
-import { CoinsDataProps, fetchOrGetCoinsData, getAllCoinsAndMetadata } from '@shared/getAllCoinsAndMetadata'
+import { fetchOrGetCoinsData } from '@shared/getAllCoinsAndMetadata'
+import { getSharedStaticProps, SharedStaticProps, useSharedStaticProps } from '@shared/getSharedStaticProps'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { useRouter } from 'next/router'
 import PageNotFound404 from 'pages/404'
 import React from 'react'
 import 'twin.macro'
 
-export default function HomePage({ coinsData }: CoinsDataProps) {
+export default function HomePage({ coinsData, resourcesData }: SharedStaticProps) {
   const router = useRouter()
-  const { coins } = useCoinsData(coinsData)
+  const {coins, resources} = useSharedStaticProps({coinsData, resourcesData})
   const { slug } = router.query
   const coin = coins.find(c => c.slug === slug)
-  if (!coin) return <PageNotFound404 coinsData={coinsData} />
+  if (!coin) return <PageNotFound404 coinsData={coinsData} resourcesData={resourcesData} />
 
   return <>
-    <HomeLayout coins={coins}>
+    <HomeLayout coins={coins} resources={resources}>
       <HomeCoinDetails coin={coin} />
     </HomeLayout>
   </>
@@ -36,4 +36,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = getAllCoinsAndMetadata
+export const getStaticProps: GetStaticProps = getSharedStaticProps

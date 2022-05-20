@@ -7,6 +7,17 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: 'default-src \'self\'; script-src \'none\'; sandbox;',
   },
+  webpack: (config) => {
+    config.resolve = {
+      ...config.resolve,
+      fallback: {
+        'fs': false,
+        'path': false,
+        'os': false,
+      }
+    }
+    return config
+  },
 }
 
 module.exports = nextConfig

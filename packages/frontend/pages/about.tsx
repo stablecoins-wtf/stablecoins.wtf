@@ -1,19 +1,18 @@
 import { HomeAboutPage } from '@components/home/HomeAboutPage'
 import { HomeLayout } from '@components/home/HomeLayout'
-import { useCoinsData } from '@hooks/useCoinsData'
-import { CoinsDataProps, getAllCoinsAndMetadata } from '@shared/getAllCoinsAndMetadata'
+import { getSharedStaticProps, SharedStaticProps, useSharedStaticProps } from '@shared/getSharedStaticProps'
 import { GetStaticProps } from 'next'
 import React from 'react'
 import 'twin.macro'
 
-export default function HomePage({ coinsData }: CoinsDataProps) {
-  const {coins} = useCoinsData(coinsData)
+export default function HomePage({ ...props }: SharedStaticProps) {
+  const sharedStaticProps = useSharedStaticProps(props)
   
   return <>
-    <HomeLayout coins={coins}>
+    <HomeLayout {...sharedStaticProps}>
       <HomeAboutPage />
     </HomeLayout>
   </>
 }
 
-export const getStaticProps: GetStaticProps = getAllCoinsAndMetadata
+export const getStaticProps: GetStaticProps = getSharedStaticProps

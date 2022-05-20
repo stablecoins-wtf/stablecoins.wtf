@@ -1,11 +1,9 @@
 import { gql } from '@apollo/client'
 import axios from 'axios'
 import dayjs from 'dayjs'
-import { GetStaticProps } from 'next'
 import { cache } from './buildCache'
 import { env } from './environment'
 import { graphCmsClient } from './graphCmsClient'
-
 
 /**
  * Query, merge, and cache data from the following sources:
@@ -13,15 +11,11 @@ import { graphCmsClient } from './graphCmsClient'
  * – Coinmarketcap (meta- and latest market-data for coins)
  */
 export interface CoinsDataProps {
-  coinsData: any[]
+  coinsData: any[];
 }
-export const getAllCoinsAndMetadata: GetStaticProps = async () => {
+export const getAllCoinsAndMetadata = async (): Promise<CoinsDataProps> => {
   const coinsData = await fetchOrGetCoinsData()
-
-  return {
-    props: { coinsData } as CoinsDataProps,
-    revalidate: 60 * 10, // 10 minutes
-  }
+  return { coinsData }
 }
 
 /**
@@ -30,7 +24,7 @@ export const getAllCoinsAndMetadata: GetStaticProps = async () => {
 export const fetchOrGetCoinsData = async (forceFetch?: boolean) => {
   let coinsData = await cache.get('coins')
   if (coinsData && !forceFetch) return coinsData
-  
+
   coinsData = await queryGraphCms()
   coinsData = await updateCoinmarketcapMetadata(coinsData)
   coinsData = await updateCoinmarketcapQuotes(coinsData)
@@ -40,7 +34,7 @@ export const fetchOrGetCoinsData = async (forceFetch?: boolean) => {
 }
 
 /**
- * Fetches all static and cached coin-data from the GraphCMS database. 
+ * Fetches all static and cached coin-data from the GraphCMS database.
  */
 const queryGraphCms = async () => {
   const query = gql`
@@ -50,7 +44,9 @@ const queryGraphCms = async () => {
         name
         symbol
         slug
-        description { raw }
+        description {
+          raw
+        }
         cmcMetadata
         cmcLatestQuotes
       }
@@ -69,25 +65,29 @@ const updateCoinmarketcapMetadata = async (coinsData: any[]) => {
   // Determin symbols to fetch for (because attribute does not yet exist or is outdated)
   const coinsToUpdate = coinsData.filter((c: any) => {
     const updatedAt = c?.cmcMetadata?.updatedAt
-    const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CMC_METADATA_MAX_AGE_MINUTES
+    const isOutdated =
+      dayjs().diff(updatedAt, 'minute', true) > CMC_METADATA_MAX_AGE_MINUTES
     return !updatedAt || isOutdated
   })
   if (!coinsToUpdate?.length) return coinsData
-  
-  // Fetch new data 
+
+  // Fetch new data
   const symbols = coinsToUpdate.map((c: any) => c.symbol).join(',')
   console.log('Updating cmcMetadata for symbols: ', symbols)
   const params = new URLSearchParams({ symbol: symbols }).toString()
   const headers = { 'X-CMC_PRO_API_KEY': env.coinmarketcapApiKey }
-  const { data  } = await axios.get(`https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?${params}`, { headers })
-  
+  const { data } = await axios.get(
+    `https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?${params}`,
+    { headers }
+  )
+
   const updatedAt = dayjs().toISOString()
   for (const [symbol, cmcMetadataData] of Object.entries(data?.data || {})) {
     // console.log('Updating cached cmcMetadata for symbol: ', symbol)
     // Merge into coinsData
     const cmcMetadata = {
       ...((cmcMetadataData as any)?.[0] || {}),
-      updatedAt
+      updatedAt,
     }
     coinsData = coinsData.map((c: any) => {
       if (c.symbol !== symbol) return c
@@ -99,8 +99,12 @@ const updateCoinmarketcapMetadata = async (coinsData: any[]) => {
         updateCoin(
           where: { symbol: $symbol }
           data: { cmcMetadata: $cmcMetadata }
-        ) { id }
-        publishCoin(where: { symbol: $symbol }, to: PUBLISHED) { id }
+        ) {
+          id
+        }
+        publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
+          id
+        }
       }
     `
     graphCmsClient.request(query, { symbol, cmcMetadata })
@@ -118,25 +122,32 @@ const updateCoinmarketcapQuotes = async (coinsData: any[]) => {
   // Determin symbols to fetch for (because attribute does not yet exist or is outdated)
   const coinsToUpdate = coinsData.filter((c: any) => {
     const updatedAt = c?.cmcLatestQuotes?.updatedAt
-    const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CMC_LATEST_QUOTES_MAX_AGE_MINUTES
+    const isOutdated =
+      dayjs().diff(updatedAt, 'minute', true) >
+      CMC_LATEST_QUOTES_MAX_AGE_MINUTES
     return !updatedAt || isOutdated
   })
   if (!coinsToUpdate?.length) return coinsData
-  
-  // Fetch new data 
+
+  // Fetch new data
   const symbols = coinsToUpdate.map((c: any) => c.symbol).join(',')
   console.log('Updating cmcLatestQuotes for symbols: ', symbols)
   const params = new URLSearchParams({ symbol: symbols }).toString()
   const headers = { 'X-CMC_PRO_API_KEY': env.coinmarketcapApiKey }
-  const { data  } = await axios.get(`https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?${params}`, { headers })
+  const { data } = await axios.get(
+    `https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?${params}`,
+    { headers }
+  )
 
   const updatedAt = dayjs().toISOString()
-  for (const [symbol, cmcLatestQuotesData] of Object.entries(data?.data || {})) {
+  for (const [symbol, cmcLatestQuotesData] of Object.entries(
+    data?.data || {}
+  )) {
     // console.log('Updating cached cmcLatestQuotes for symbol: ', symbol)
     // Merge into coinsData
     const cmcLatestQuotes = {
       ...((cmcLatestQuotesData as any)?.[0] || {}),
-      updatedAt
+      updatedAt,
     }
     coinsData = coinsData.map((c: any) => {
       if (c.symbol !== symbol) return c
@@ -148,8 +159,12 @@ const updateCoinmarketcapQuotes = async (coinsData: any[]) => {
         updateCoin(
           where: { symbol: $symbol }
           data: { cmcLatestQuotes: $cmcLatestQuotes }
-        ) { id }
-        publishCoin(where: { symbol: $symbol }, to: PUBLISHED) { id }
+        ) {
+          id
+        }
+        publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
+          id
+        }
       }
     `
     await graphCmsClient.request(query, { symbol, cmcLatestQuotes })

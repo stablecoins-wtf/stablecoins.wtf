@@ -1,3 +1,4 @@
+import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Coin, CryptopanicNews } from '@models/Coin.model'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -22,11 +23,11 @@ export const HomeCoinDetails: FC<HomeCoinDetailsProps> = ({coin}) => {
 export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({coin}) => {
   return <>
     <BloombergBox tw="flex-1" title={coin.name}>
-      {/* {coin.description &&
-        <div tw="prose prose-invert">
+      {coin.description &&
+        <div className="prose prose-invert">
           <RichText content={coin.description} />
-        </div>
-      } */}
+        </div>}
+      
       <div tw="flex items-center justify-center mt-5">
         <div>
         This a work-in-progress hackathon project by <a tw="font-bold" href="https://twitter.com/dennis_zoma" target="_blank">@dennis_zoma</a> & <a tw="font-bold" href="https://twitter.com/mike1third" target="_blank">@mike1third</a> to educate degens about stablecoins.

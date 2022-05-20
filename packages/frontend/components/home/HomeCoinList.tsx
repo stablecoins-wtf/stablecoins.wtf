@@ -86,7 +86,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => 
         tw`bg-black divide-x divide-bbg-gray3 cursor-pointer`,
         activeCoin?.id === coin.id ? tw`bg-white text-black` : tw`hover:(bg-bbg-gray3)`,
       ]}>  
-        <BloombergTD tw="text-right text-bbg-gray2">{idx}</BloombergTD>
+        <BloombergTD tw="text-right text-bbg-gray2">{idx + 1}</BloombergTD>
         <BloombergTD css={[
           tw`uppercase font-semibold text-bbg-orange`,
           activeCoin?.id === coin.id && tw`text-black`,
