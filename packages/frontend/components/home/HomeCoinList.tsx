@@ -42,7 +42,8 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
               {/* Table Head */}
               <thead tw="bg-bbg-gray3 border-t border-[#383838]">
                 <tr tw="divide-x divide-black">
-                  <BloombergTH scope="col" tw="sm:pl-2">Symbol</BloombergTH>
+                  <BloombergTH scope="col" tw="sm:pl-2"></BloombergTH>
+                  <BloombergTH scope="col">Symbol</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>Price</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>24h %</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>7d %</BloombergTH>
@@ -52,8 +53,8 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
 
               {/* Table Rows */}
               <tbody tw="divide-y divide-bbg-gray3">
-                {coins.map(coin =>
-                  <HomeCoinListRow key={coin.id} coin={coin} coins={coins} activeCoin={activeCoin} />)}
+                {coins.map((coin, idx) =>
+                  <HomeCoinListRow key={coin.id} coin={coin} idx={idx} coins={coins} activeCoin={activeCoin} />)}
               </tbody>
 
             </table>
@@ -67,9 +68,10 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
 
 export interface HomeCoinListRowProps extends HomeCoinListProps {
   coin: Coin
+  idx: number
   activeCoin?: Coin
 }
-const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, activeCoin}) => {
+const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => {
   const price = coin.cmcLatestQuotes?.quote?.USD?.price
   const priceHighlight = (Math.abs(1 - price) > 0.05) ? ((Math.abs(1 - price) > 0.1) ? 'red' : 'orange') : undefined
   const cap = coin.cmcLatestQuotes?.quote?.USD?.market_cap
@@ -84,8 +86,9 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, activeCoin}) => {
         tw`bg-black divide-x divide-bbg-gray3 cursor-pointer`,
         activeCoin?.id === coin.id ? tw`bg-white text-black` : tw`hover:(bg-bbg-gray3)`,
       ]}>  
+        <BloombergTD tw="text-right text-bbg-gray2">{idx}</BloombergTD>
         <BloombergTD css={[
-          tw`sm:pl-2! uppercase font-semibold text-bbg-orange`,
+          tw`uppercase font-semibold text-bbg-orange`,
           activeCoin?.id === coin.id && tw`text-black`,
         ]}>{coin.symbol}</BloombergTD>
         <BloombergTD isNumber={true} highlight={priceHighlight}>
@@ -97,7 +100,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, activeCoin}) => {
         <BloombergTD isNumber={true} highlight={change7dHighlight}>
           <NumberFormat value={change7d} displayType={'text'} prefix={change7d > 0 ? '+' : ''} suffix={' %'} fixedDecimalScale={true} decimalScale={3}/>
         </BloombergTD>
-        <BloombergTD isNumber={true}>
+        <BloombergTD tw="sm:pr-2" isNumber={true}>
           <NumberFormat value={cap} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
         </BloombergTD>
       </tr>
