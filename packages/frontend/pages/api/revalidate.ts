@@ -19,15 +19,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const slug = payload?.slug
 
     // Revalidate resource-pages
-    if (model === 'Resource') {
-      res.unstable_revalidate('/resources/')
-      if (slug) res.unstable_revalidate(`/resources/${slug}`)
+    if (model === 'Resource' && slug) {
+      res.unstable_revalidate(`/resources/${slug}`)
     }
 
     // Revalidate coin-pages
-    if (model === 'Coin') {
-      res.unstable_revalidate('/coins/')
-      if (slug) res.unstable_revalidate(`/coins/${slug}`)
+    if (model === 'Coin' && slug) {
+      res.unstable_revalidate(`/coins/${slug}`)
     }
 
     return res.status(200).json({ revalidated: true })
