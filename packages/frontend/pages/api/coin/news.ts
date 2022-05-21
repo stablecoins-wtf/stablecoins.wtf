@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Fill up with non-'hot' news (if necessary)
-    await new Promise(r => setTimeout(r, 200))
+    await new Promise(r => setTimeout(r, 250))
     params = new URLSearchParams(baseParams).toString()
     response = await axios.get<{ results: CryptopanicNews[] }>(`${baseUrl}${params}`)
     news = [

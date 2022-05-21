@@ -30,7 +30,7 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({coin}) => {
       <hr tw="opacity-25 my-5" />
 
       {coin.description &&
-        <div className="prose prose-invert max-w-full">
+        <div className="prose prose-invert prose-p:text-justify max-w-full">
           <RichText content={coin.description} />
         </div>}
 

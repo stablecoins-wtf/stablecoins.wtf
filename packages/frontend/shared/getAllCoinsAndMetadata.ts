@@ -45,12 +45,15 @@ const queryGraphCms = async () => {
         name
         symbol
         slug
-        description {
-          raw
-        }
+        coingeckoId
+        description { raw }
+        mechanism
+        jurisdiction
+        issuer
+        governance
+
         cmcMetadata
         cmcLatestQuotes
-        capiPriceHistory
       }
     }
   `

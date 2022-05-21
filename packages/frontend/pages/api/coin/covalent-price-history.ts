@@ -15,7 +15,7 @@ export interface CovalentPriceHistory {
 }
 
 /**
- * Fetch price history from covalent & cache in GraphCMS
+ * Fetch price history from Covalent & cache in GraphCMS
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const symbol = req.body?.symbol as string
@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Fetch price history from covalent
+    // Fetch price history from Covalent
     const params = new URLSearchParams({
       from: dayjs().subtract(6, 'month').format('YYYY-MM-DD'),
       to: dayjs().format('YYYY-MM-DD'),

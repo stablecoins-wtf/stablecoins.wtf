@@ -6,12 +6,17 @@ export class Coin {
     public name: string,
     public symbol: string,
     public slug: string,
+    public coingeckoId: string,
     public description: RichTextContent | undefined,
-
+    public mechanism: string,
+    public jurisdiction: string,
+    public issuer: string,
+    public governance: string,
+    
     public cmcMetadata: CoinmarketcapMetadata,
     public cmcLatestQuotes: CoinmarketcapLatestQuotes,
 
-    public capiPriceHistory: CoinapiPriceHistory,
+    public cgTradingData: CoingeckoTradingData,
   ) { }
 
   static fromObject(data: any): Coin | null {
@@ -22,13 +27,22 @@ export class Coin {
       data?.['name'] as string,
       data?.['symbol'] as string,
       data?.['slug'] as string,
+      data?.['coingeckoId'] as string,
       data?.['description']?.raw as RichTextContent,
+      data?.['mechanism'] as string,
+      data?.['jurisdiction'] as string,
+      data?.['issuer'] as string,
+      data?.['governance'] as string,
       
       data?.['cmcMetadata'] as CoinmarketcapMetadata || {},
       data?.['cmcLatestQuotes'] as CoinmarketcapLatestQuotes || {},
-      
-      data?.['capiPriceHistory'] as CoinapiPriceHistory || {},
+
+      data?.['cgTradingData'] as CoingeckoTradingData || {},
     )
+  }
+
+  mechanismFormatted(): string {
+    return (this.mechanism || '').replaceAll('_', '-')
   }
 }
 
@@ -42,12 +56,20 @@ export interface CoinmarketcapLatestQuotes {
   [_: string]: any,
 }
 
-export interface CoinapiPriceHistory {
+export interface CoingeckoTradingData {
   updatedAt: string
-  prices: Array<{
-    date: string
-    price: number
-  }>
+  prices: Array<[
+    date: string,
+    value: number,
+  ]>
+  total_volumes: Array<[
+    date: string,
+    value: number,
+  ]>
+  market_caps: Array<[
+    date: string,
+    value: number,
+  ]>
 }
 
 export interface CryptopanicNews {

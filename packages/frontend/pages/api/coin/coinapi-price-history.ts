@@ -1,4 +1,3 @@
-import { CoinapiPriceHistory } from '@models/Coin.model'
 import { env } from '@shared/environment'
 import { graphCmsClient } from '@shared/graphCmsClient'
 import axios from 'axios'
@@ -6,20 +5,28 @@ import dayjs from 'dayjs'
 import { gql } from 'graphql-request'
 import { NextApiRequest, NextApiResponse } from 'next'
 
+export interface CoinapiPriceHistory {
+  updatedAt: string
+  prices: Array<{
+    date: string
+    price: number
+  }>
+}
+
 /**
- * Fetch price history from covalent & cache in GraphCMS
+ * Fetch price history from CoinAPI & cache in GraphCMS
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const symbol = req.body?.symbol as string
   if (!symbol) return res.status(401).end()
 
-  // NOTE: The following symbols are not present on Covalent
+  // NOTE: The following symbols are not present on CoinAPI
   if (['OUSD', 'USDP', 'FRAX'].includes(symbol.toUpperCase())) {
     return res.status(404).end()
   }
 
   try {
-    // Fetch price history from covalent
+    // Fetch price history from CoinAPI 
     const params = new URLSearchParams({
       period_id: '1DAY',
       time_start: dayjs().subtract(3, 'month').toISOString(),

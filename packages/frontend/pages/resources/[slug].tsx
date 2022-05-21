@@ -20,7 +20,7 @@ export default function HomePage({...props}: SharedStaticProps) {
     <HomeLayout coins={coins} resources={resources}>
       <BloombergBox tw="flex-1" title={resource.title}>
         {resource.content &&
-        <div className="prose prose-invert">
+        <div className="prose prose-invert max-w-full">
           <RichText content={resource.content} />
         </div>}
       </BloombergBox>

@@ -20,7 +20,7 @@ export const BloombergBox: FC<BloombergBoxProps> = ({children, hideTopBar, title
         {!hideTopBar && (
           <div tw="sticky -top-2 z-50 bg-black bg-opacity-50 backdrop-blur flex justify-between text-bbg-gray2 text-sm p-2 -mt-2 -ml-2 -mr-2 ">
             <h3>{title}</h3>
-            <div tw="flex items-center select-none space-x-4">
+            <div tw="flex-shrink-0 flex items-center select-none space-x-4">
               <div tw="flex items-center space-x-2">
                 <Image src={topbarMenuIcon} width={10} height={10} />
                 <span>Options</span>

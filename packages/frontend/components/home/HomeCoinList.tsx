@@ -44,9 +44,9 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
                 <tr tw="divide-x divide-black">
                   <BloombergTH scope="col" tw="sm:pl-2"></BloombergTH>
                   <BloombergTH scope="col">Symbol</BloombergTH>
+                  <BloombergTH scope="col">Mechanism</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>Price</BloombergTH>
-                  <BloombergTH scope="col" isNumber={true}>24h %</BloombergTH>
-                  <BloombergTH scope="col" isNumber={true}>7d %</BloombergTH>
+                  <BloombergTH scope="col" isNumber={true}>Volume 24h</BloombergTH>
                   <BloombergTH scope="col" tw="sm:pr-2" isNumber={true}>Market Cap</BloombergTH>
                 </tr>
               </thead>
@@ -75,10 +75,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => 
   const price = coin.cmcLatestQuotes?.quote?.USD?.price
   const priceHighlight = (Math.abs(1 - price) > 0.05) ? ((Math.abs(1 - price) > 0.1) ? 'red' : 'orange') : undefined
   const cap = coin.cmcLatestQuotes?.quote?.USD?.market_cap
-  const change24h = coin.cmcLatestQuotes?.quote?.USD?.percent_change_24h
-  const change24hHighlight = (Math.abs(change24h) > 1.5) ? ((Math.abs(change24h) > 5.0) ? 'red' : 'orange') : undefined
-  const change7d = coin.cmcLatestQuotes?.quote?.USD?.percent_change_7d
-  const change7dHighlight = (Math.abs(change7d) > 1.5) ? ((Math.abs(change7d) > 5.0) ? 'red' : 'orange') : undefined
+  const volume24h = coin.cmcLatestQuotes?.quote?.USD?.volume_24h
 
   return <>
     <Link href={`/coins/${coin.slug}`} passHref>
@@ -91,14 +88,15 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => 
           tw`uppercase font-semibold text-bbg-orange`,
           activeCoin?.id === coin.id && tw`text-black`,
         ]}>{coin.symbol}</BloombergTD>
+        <BloombergTD tw="text-bbg-gray1">
+          {/* <div tw="inline-block leading-[1.2] px-1 py-px pb-[2px] text-white bg-bbg-gray3">{coin.mechanismFormatted()}</div> */}
+          {coin.mechanismFormatted()}
+        </BloombergTD>
         <BloombergTD isNumber={true} highlight={priceHighlight}>
-          <NumberFormat value={price} displayType={'text'} prefix={'$'} fixedDecimalScale={true} decimalScale={3}/>
+          <NumberFormat value={price} displayType={'text'} prefix={'$'} fixedDecimalScale={true} decimalScale={3} />
         </BloombergTD>
-        <BloombergTD isNumber={true} highlight={change24hHighlight}>
-          <NumberFormat value={change24h} displayType={'text'} prefix={change24h > 0 ? '+' : ''} suffix={' %'} fixedDecimalScale={true} decimalScale={3}/>
-        </BloombergTD>
-        <BloombergTD isNumber={true} highlight={change7dHighlight}>
-          <NumberFormat value={change7d} displayType={'text'} prefix={change7d > 0 ? '+' : ''} suffix={' %'} fixedDecimalScale={true} decimalScale={3}/>
+        <BloombergTD isNumber={true} highlight={priceHighlight}>
+          <NumberFormat value={volume24h} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
         </BloombergTD>
         <BloombergTD tw="sm:pr-2" isNumber={true}>
           <NumberFormat value={cap} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
