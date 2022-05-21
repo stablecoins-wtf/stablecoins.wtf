@@ -50,7 +50,7 @@ const queryGraphCms = async () => {
         }
         cmcMetadata
         cmcLatestQuotes
-        cvPriceHistory
+        capiPriceHistory
       }
     }
   `

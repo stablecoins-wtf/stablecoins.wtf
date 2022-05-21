@@ -1,10 +1,18 @@
-import { CovalentPriceHistory } from '@models/Coin.model'
+
 import { env } from '@shared/environment'
 import { graphCmsClient } from '@shared/graphCmsClient'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import { gql } from 'graphql-request'
 import { NextApiRequest, NextApiResponse } from 'next'
+
+export interface CovalentPriceHistory {
+  updatedAt: string
+  prices: Array<{
+    date: string
+    price: number
+  }>
+}
 
 /**
  * Fetch price history from covalent & cache in GraphCMS
@@ -15,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   // NOTE: The following symbols are not present on Covalent
   if (['USDD', 'USDX', 'SUSD', 'CUSD', 'VAI', 'MUSD'].includes(symbol.toUpperCase())) {
-    res.status(404).end()
+    return res.status(404).end()
   }
 
   try {

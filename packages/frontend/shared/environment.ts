@@ -18,4 +18,6 @@ export const env = {
   cryptopanicApiKey: process.env.CRYPTOPANIC_API_KEY!,
 
   covalentApiKey: process.env.COVALENT_API_KEY!,
+
+  coinapiApiKey: process.env.COINAPI_API_KEY!,
 }
