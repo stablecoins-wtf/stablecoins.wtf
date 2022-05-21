@@ -56,20 +56,15 @@ export interface CoinmarketcapLatestQuotes {
   [_: string]: any,
 }
 
+export type CoingeckoTradingDataPoint = [
+  date: string,
+  value: number,
+]
 export interface CoingeckoTradingData {
   updatedAt: string
-  prices: Array<[
-    date: string,
-    value: number,
-  ]>
-  total_volumes: Array<[
-    date: string,
-    value: number,
-  ]>
-  market_caps: Array<[
-    date: string,
-    value: number,
-  ]>
+  prices: Array<CoingeckoTradingDataPoint>
+  total_volumes: Array<CoingeckoTradingDataPoint>
+  market_caps: Array<CoingeckoTradingDataPoint>
 }
 
 export interface CryptopanicNews {

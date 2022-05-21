@@ -1,4 +1,4 @@
-import { CoinPriceHistoryChart } from '@components/coin/CoinPriceHistoryChart'
+import { CoinCharts } from '@components/coin/CoinCharts'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Coin, CryptopanicNews } from '@models/Coin.model'
 import axios from 'axios'
@@ -25,7 +25,7 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({coin}) => {
   return <>
     <BloombergBox tw="flex-1 flex flex-col" title={coin.name}>
 
-      <CoinPriceHistoryChart coin={coin} />
+      <CoinCharts coin={coin} />
 
       <hr tw="opacity-25 my-5" />
 
