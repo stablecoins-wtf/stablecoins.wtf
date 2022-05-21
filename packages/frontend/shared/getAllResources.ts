@@ -21,6 +21,7 @@ export const fetchOrGetResources = async (forceFetch?: boolean) => {
   if (resourcesData && !forceFetch) return resourcesData
 
   resourcesData = await queryGraphCms()
+
   await cache.set('resources', resourcesData)
 
   return resourcesData
@@ -36,7 +37,9 @@ const queryGraphCms = async () => {
         id
         title
         slug
-        content { raw }
+        content {
+          raw
+        }
       }
     }
   `

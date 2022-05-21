@@ -10,6 +10,8 @@ export class Coin {
 
     public cmcMetadata: CoinmarketcapMetadata,
     public cmcLatestQuotes: CoinmarketcapLatestQuotes,
+
+    public cvPriceHistory: CovalentPriceHistory,
   ) { }
 
   static fromObject(data: any): Coin | null {
@@ -24,16 +26,28 @@ export class Coin {
       
       data?.['cmcMetadata'] as CoinmarketcapMetadata || {},
       data?.['cmcLatestQuotes'] as CoinmarketcapLatestQuotes || {},
+      
+      data?.['cvPriceHistory'] as CovalentPriceHistory || {},
     )
   }
 }
 
 export interface CoinmarketcapMetadata {
+  updatedAt: string
   [_: string]: any,
 }
 
 export interface CoinmarketcapLatestQuotes {
+  updatedAt: string
   [_: string]: any,
+}
+
+export interface CovalentPriceHistory {
+  updatedAt: string
+  prices: Array<{
+    date: string
+    price: number
+  }>
 }
 
 export interface CryptopanicNews {

@@ -19,8 +19,8 @@ export const HomeLayout: FC<HomeLayoutProps> = ({ coins, resources, children }) 
     <main tw="flex-grow grid gap-1 p-1 lg:(grid-cols-2 h-[100vh] max-h-[100vh])">
 
       <div tw="flex flex-col space-y-1 lg:(max-h-full overflow-hidden)">
-        <HomeHeader tw="flex-shrink-0" activateStartPage={() => {}} activateAboutPage={() => {}} />
-        <HomeResourcesList resources={resources} />
+        <HomeHeader tw="flex-shrink-0" />
+        <HomeResourcesList tw="flex-shrink-0" resources={resources} />
         <HomeCoinList tw="flex-grow" coins={coins} />
       </div>
 

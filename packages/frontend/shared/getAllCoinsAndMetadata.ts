@@ -28,6 +28,7 @@ export const fetchOrGetCoinsData = async (forceFetch?: boolean) => {
   coinsData = await queryGraphCms()
   coinsData = await updateCoinmarketcapMetadata(coinsData)
   coinsData = await updateCoinmarketcapQuotes(coinsData)
+  
   await cache.set('coins', coinsData)
 
   return coinsData
@@ -49,6 +50,7 @@ const queryGraphCms = async () => {
         }
         cmcMetadata
         cmcLatestQuotes
+        cvPriceHistory
       }
     }
   `

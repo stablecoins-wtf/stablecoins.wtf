@@ -19,6 +19,7 @@ module.exports = {
           gray1: '#979b9a',
           gray2: '#646464',
           gray3: '#282828',
+          cyan: '#00e5e4',
         },
         social: {
           twitter: '#1DA1F2',

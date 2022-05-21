@@ -37,6 +37,7 @@
     "react-icons": "^4.3.1",
     "react-number-format": "^4.9.3",
     "react-query": "^3.39.0",
+    "recharts": "^2.1.10",
     "sass": "^1.51.0",
     "use-async-effect": "^2.2.5",
     "usehooks-ts": "^2.5.2"

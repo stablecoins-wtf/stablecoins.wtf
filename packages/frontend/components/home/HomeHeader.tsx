@@ -8,11 +8,8 @@ import 'twin.macro'
 import tw from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
 
-export interface HomeHeaderProps {
-  activateStartPage: () => void
-  activateAboutPage: () => void
-}
-export const HomeHeader: FC<HomeHeaderProps> = ({activateStartPage, activateAboutPage, ...props}) => {
+export interface HomeHeaderProps { }
+export const HomeHeader: FC<HomeHeaderProps> = ({...props}) => {
   const router = useRouter()
 
   const actions = [

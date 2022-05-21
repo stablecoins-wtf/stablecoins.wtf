@@ -6,6 +6,8 @@ export const env = {
 
   revalidateToken: process.env.REVALIDATE_TOKEN!,
 
+  buildCacheMaxAge: parseInt(process.env.BUILD_CACHE_MAX_AGE || '300'),
+
   graphcms: {
     contentEndpoint: process.env.GRAPHCMS_CONTENT_ENDPOINT!,
     authToken: process.env.GRAPHCMS_AUTH_TOKEN!,
@@ -15,5 +17,5 @@ export const env = {
 
   cryptopanicApiKey: process.env.CRYPTOPANIC_API_KEY!,
 
-  buildCacheMaxAge: parseInt(process.env.BUILD_CACHE_MAX_AGE || '300'),
+  covalentApiKey: process.env.COVALENT_API_KEY!,
 }
