@@ -4,7 +4,7 @@ import { Coin, CryptopanicNews } from '@models/Coin.model'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import Link from 'next/link'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import 'twin.macro'
 import { BloombergBox } from './BloombergBox'
@@ -53,6 +53,10 @@ export const HomeCoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({coin}) => {
     { symbol: coin.symbol, limit: 5 }
   )
   const { data, isLoading, isError } = useQuery(['news', coin.id], query, { retry: false })
+  const [news, setNews] = useState<CryptopanicNews[]>([])
+  useEffect(() => {
+    setNews(data?.data?.news || [])
+  }, [data?.data])
 
   if (isError) return null
   return <>
@@ -63,12 +67,14 @@ export const HomeCoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({coin}) => {
             Loading...
           </div>
         ) : (
-          (data?.data?.news || []).map(n => (
+          news.map(n => (
             <Link key={n.id} href={n.url} target='_blank' passHref>
-              <a tw="flex justify-between px-1 bg-black cursor-pointer hover:bg-bbg-gray3 text-sm">  
-                <div tw="truncate pb-0.5 px-1 text-bbg-orange">
+              <a tw="flex px-1 bg-black cursor-pointer hover:bg-bbg-gray3 text-sm">  
+                <div tw="flex-grow truncate pb-0.5 px-1 text-bbg-orange">
                   {n.title}
                 </div>
+                {n.is_hot &&
+                  <div tw="flex items-center justify-center mx-1 my-px px-1 bg-bbg-red1 text-white text-xs font-bold tracking-wider">HOT</div>}
                 <div tw="whitespace-nowrap pb-0.5 px-1 text-bbg-gray1">
                   {dayjs(n.published_at).format('YYYY/MM/DD hh:mm')}
                 </div>

@@ -55,5 +55,6 @@ export interface CryptopanicNews {
   url: string
   title: string
   published_at: string
+  is_hot?: boolean
 }
 
