@@ -1,15 +1,12 @@
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
-import { useMergedCgTradingData } from '@shared/useMergedCgTradingData'
 import dayjs from 'dayjs'
 import { FC } from 'react'
 import { Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import 'twin.macro'
 import { theme } from 'twin.macro'
-import { AccumulatedCoinsChartsProps } from './AccumulatedCoinsCharts'
+import { AccumulatedCoinsChartProps } from './AccumulatedCoinsCharts'
 
-export const AccumulatedCoinsMarketCapChart: FC<AccumulatedCoinsChartsProps> = ({ coins }) => {
-  const { allDates, allSymbols, allColors, mergedData } = useMergedCgTradingData(coins, 'market_caps')
-
+export const AccumulatedCoinsMarketCapChart: FC<AccumulatedCoinsChartProps> = ({ coins, allDates, allSymbols, allColors, mergedData }) => {
   const CustomTooltip: FC = ({ payload }: any) => {
     const data = payload?.[0]?.payload
     if (!data) return null

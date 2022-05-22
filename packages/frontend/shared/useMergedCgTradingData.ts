@@ -11,65 +11,88 @@ export interface CoingeckoMergedTradingDataPoint {
 
 export type CoingeckoTradingDataKey = 'market_caps' | 'total_volumes' | 'velocity'
 
-// TODO 
-// Improve performance by calling `useMergedCgTradingData` only once in AccumulatedCoinsCharts
-// and export all sets (for market_caps, volume, velocity) at once
 export type CoingeckoMergedTradingDataSets = {
-  [set in CoingeckoTradingDataKey]: Array<CoingeckoMergedTradingDataPoint>
+  [set in CoingeckoTradingDataKey]: CoingeckoMergedTradingDataPoint[]
 }
   
-export const useMergedCgTradingData = (coins: Coin[], key: CoingeckoTradingDataKey, maxAgeDays: number = 30) => {
+export const useMergedCgTradingData = (coins: Coin[], maxAgeDays: number = 30) => {
   const [allDates, setAllDates] = useState<string[]>([])
   const [allSymbols, setAllSymbols] = useState<string[]>([])
   const [allColors, setAllColors] = useState<string[]>([])
-  const [mergedData, setMergedData] = useState<CoingeckoMergedTradingDataPoint[]>()
+  const [mergedData, setMergedData] = useState<CoingeckoMergedTradingDataSets>({
+    'market_caps': [],
+    'total_volumes': [],
+    'velocity': [],
+  })
 
   useEffect(() => {
-    const isVelocity = key === 'velocity'
     // Determine all unique dates (days) with data-points
     const allDates: string[] = Array.from(new Set(
       coins.reduce((acc, val): any => {
-        const lookupKey = isVelocity ? 'total_volumes' : key
-        const dataPoints = val?.cgTradingData?.[lookupKey] || []
+        const marketCapDataPoints = val?.cgTradingData?.['market_caps'] || []
+        const volumeDataPoints = val?.cgTradingData?.['total_volumes'] || []
         return [
           ...acc,
-          ...dataPoints
+          ...marketCapDataPoints
             .filter(x => !maxAgeDays || dayjs().diff(x[0], 'day') <= maxAgeDays)
-            .map(x => dayjs(x[0]).format('YYYY-MM-DD'))
+            .map(x => dayjs(x[0]).format('YYYY-MM-DD')),
+          ...volumeDataPoints
+            .filter(x => !maxAgeDays || dayjs().diff(x[0], 'day') <= maxAgeDays)
+            .map(x => dayjs(x[0]).format('YYYY-MM-DD')),
         ]
       }, [])
     )).sort()
+    
     // Merge data of given key
-    const mergedData = allDates
-      .map(date => {
-        const mergedDataPoint = coins.reduce((acc, val): any => {
-          const lookupKey = isVelocity ? 'total_volumes' : key
-          let firstValueForDate = (val?.cgTradingData?.[lookupKey] || [])
-            .find(x => datesAreSameDay(x[0], date))
-          let firstMarketCapValueForDate = (val?.cgTradingData?.['market_caps'] || [])
-            .find(x => datesAreSameDay(x[0], date))
-          
-          return {
-            ...acc,
-            ...(isVelocity
-              ? (firstValueForDate && firstMarketCapValueForDate) ? {
-                [val.symbol]: firstValueForDate[1] / firstMarketCapValueForDate[1]
-              } : {}
-              : firstValueForDate ? {
-                [val.symbol]: firstValueForDate[1]
-              } : {}),
-          }
-        }, {date})
-        return Object.values(mergedDataPoint).length > 2 ? mergedDataPoint : null
-      })
-      .filter(Boolean) as CoingeckoMergedTradingDataPoint[]
+    const mergedData: CoingeckoMergedTradingDataSets = {
+      'market_caps': [],
+      'total_volumes': [],
+      'velocity': [],
+    }
+    for (const date of allDates) {
+      let firstRunForDate = true
+      for (const coin of coins) {
+        let firstMarketCapValueForDate = (coin.cgTradingData?.['market_caps'] || [])
+          .find(x => datesAreSameDay(x[0], date))
+        let firstVolumeValueForDate = (coin.cgTradingData?.['total_volumes'] || [])
+          .find(x => datesAreSameDay(x[0], date))
+        if (firstMarketCapValueForDate) {
+          firstRunForDate
+            ? mergedData['market_caps'].push({ date, [coin.symbol]: firstMarketCapValueForDate[1] })
+            : mergedData['market_caps'][mergedData['market_caps'].length - 1] = {
+              ...mergedData['market_caps'][mergedData['market_caps'].length - 1],
+              [coin.symbol]: firstMarketCapValueForDate[1],
+            }
+        }
+        if (firstVolumeValueForDate) {
+          firstRunForDate
+            ? mergedData['total_volumes'].push({ date, [coin.symbol]: firstVolumeValueForDate[1] })
+            : mergedData['total_volumes'][mergedData['total_volumes'].length - 1] = {
+              ...mergedData['total_volumes'][mergedData['total_volumes'].length - 1],
+              [coin.symbol]: firstVolumeValueForDate[1],
+            }
+        }
+        if (firstMarketCapValueForDate && firstVolumeValueForDate) {
+          const velocity = firstVolumeValueForDate[1] / firstMarketCapValueForDate[1]
+          firstRunForDate
+            ? mergedData['velocity'].push({ date, [coin.symbol]: velocity })
+            : mergedData['velocity'][mergedData['velocity'].length - 1] = {
+              ...mergedData['velocity'][mergedData['velocity'].length - 1],
+              [coin.symbol]: velocity,
+            }
+        }
+        firstRunForDate=false
+      }
+    }
+
     // Extracts all symbols from mergedData (there could be coins that have no data at this point)
     const allSymbols = Array.from(new Set(
-      mergedData.reduce((acc, {date, ...rest}): any => {
+      mergedData['market_caps'].reduce((acc, {date, ...rest}): any => {
         const symbols = Object.keys(rest) || []
         return [ ...acc, ...symbols ]
       }, [])
     ))
+
     // Determine graph colors
     const allColors = allSymbols
       .map(s => coins.find(c => c.symbol === s)?.color || theme`colors.bbg.cyan`)

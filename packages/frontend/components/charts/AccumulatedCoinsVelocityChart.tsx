@@ -1,14 +1,11 @@
-import { useMergedCgTradingData } from '@shared/useMergedCgTradingData'
 import dayjs from 'dayjs'
 import { FC } from 'react'
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import 'twin.macro'
 import { theme } from 'twin.macro'
-import { AccumulatedCoinsChartsProps } from './AccumulatedCoinsCharts'
+import { AccumulatedCoinsChartProps } from './AccumulatedCoinsCharts'
 
-export const AccumulatedCoinsVelocityChart: FC<AccumulatedCoinsChartsProps> = ({ coins }) => {
-  const { allDates, allSymbols, allColors, mergedData } = useMergedCgTradingData(coins, 'velocity')
-
+export const AccumulatedCoinsVelocityChart: FC<AccumulatedCoinsChartProps> = ({ allSymbols, allColors, mergedData }) => {
   const CustomTooltip: FC = ({ payload }: any) => {
     const data = payload?.[0]?.payload
     if (!data) return null
