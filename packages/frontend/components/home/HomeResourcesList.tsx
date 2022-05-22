@@ -31,7 +31,7 @@ export const HomeResourcesList: FC<HomeResourcesListProps> = ({resources, ...pro
               <div tw="whitespace-nowrap pb-0.5 px-1">
                 {idx + 1}. {r.title}
               </div>
-              <div tw="truncate pb-0.5 pl-4 pr-1 text-bbg-gray2">
+              <div tw="hidden md:block truncate pb-0.5 pl-4 pr-1 text-bbg-gray2">
                 /{r.slug}
               </div>
             </a>

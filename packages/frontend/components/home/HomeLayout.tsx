@@ -17,7 +17,7 @@ export const HomeLayout: FC<HomeLayoutProps> = ({ coins, resources, children }) 
 
       <div tw="flex flex-col space-y-1 lg:(max-h-full overflow-hidden)">
         <HomeHeader tw="flex-shrink-0" />
-        <HomeCoinList tw="flex-grow" coins={coins} />
+        <HomeCoinList tw="flex-grow max-h-[40vh] lg:max-h-[none]" coins={coins} />
         <HomeResourcesList tw="flex-shrink-0" resources={resources} />
       </div>
 

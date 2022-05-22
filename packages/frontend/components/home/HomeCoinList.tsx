@@ -1,5 +1,6 @@
 import { Coin } from '@models/Coin.model'
 import { datesAreSameDay } from '@shared/datesAreSameDay'
+import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -69,13 +70,13 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
               {/* Table Head */}
               <thead tw="bg-bbg-gray3 border-t border-[#383838]">
                 <tr tw="divide-x divide-black">
-                  <BloombergTH scope="col" tw="sm:pl-2" isNumber={true}>#</BloombergTH>
+                  <BloombergTH scope="col" tw="hidden md:(table-cell pl-2)" isNumber={true}>#</BloombergTH>
                   <BloombergTH scope="col">Symbol</BloombergTH>
                   <BloombergTH scope="col">Mechanism</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>Price</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>Volume 24h</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>Market Cap</BloombergTH>
-                  <BloombergTH scope="col" tw="sm:pr-2" isNumber={true}>7d %</BloombergTH>
+                  <BloombergTH scope="col" tw="hidden md:(table-cell pl-2)" isNumber={true}>7d %</BloombergTH>
                 </tr>
               </thead>
 
@@ -123,7 +124,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => 
         tw`bg-black divide-x divide-bbg-gray3 cursor-pointer`,
         activeCoin?.id === coin.id ? tw`bg-white text-black` : tw`hover:(bg-bbg-gray3)`,
       ]}>  
-        <BloombergTD tw="text-right text-bbg-gray2">{idx + 1}</BloombergTD>
+        <BloombergTD tw="hidden md:(table-cell pl-2) text-right text-bbg-gray2">{idx + 1}</BloombergTD>
         <BloombergTD css={[
           tw`uppercase font-semibold text-bbg-orange`,
           activeCoin?.id === coin.id && tw`text-black`,
@@ -138,13 +139,14 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => 
           <NumberFormat value={price} displayType={'text'} prefix={'$'} fixedDecimalScale={true} decimalScale={3} />
         </BloombergTD>
         <BloombergTD isNumber={true} highlight={priceHighlight}>
-          {/* {largeNumberFormatter(volume24h)} */}
-          <NumberFormat value={volume24h} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
+          <span tw="md:hidden">${largeNumberFormatter(volume24h)}</span>
+          <NumberFormat tw="hidden md:inline" value={volume24h} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
         </BloombergTD>
         <BloombergTD isNumber={true} highlight={priceHighlight}>
-          <NumberFormat value={cap} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
+          <span tw="md:hidden">${largeNumberFormatter(cap)}</span>
+          <NumberFormat tw="hidden md:inline" value={cap} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
         </BloombergTD>
-        <BloombergTD tw="sm:pr-2" isNumber={true} highlight={priceHighlight}>
+        <BloombergTD tw="hidden md:(table-cell pr-2)" isNumber={true} highlight={priceHighlight}>
           <NumberFormat value={Math.abs(cap7dChange * 100)} displayType={'text'} prefix={cap7dChange >= 0 ? '+' : '-'} suffix={'%'} decimalScale={0} />
         </BloombergTD>
       </tr>

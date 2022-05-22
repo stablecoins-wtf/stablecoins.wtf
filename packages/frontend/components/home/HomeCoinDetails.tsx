@@ -168,7 +168,7 @@ export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({coin}) =>
     <KPIsWrapper>
       <KPI>
         <KPITitle>Mechanism</KPITitle>
-        <KPIContent>{coin.mechanism}</KPIContent>
+        <KPIContent>{coin.mechanismFormatted()}</KPIContent>
       </KPI>
       <KPI>
         <KPITitle>Governance</KPITitle>
@@ -201,7 +201,7 @@ export const CoinDetailsLinks: FC<HomeCoinDetailsProps> = ({coin}) => {
 
   return <>
     <ProseWrapper>
-      <h4 tw="mt-2">Links:</h4>
+      <h4 tw="mt-1.5">Links:</h4>
       <ul>
         {Object.entries(links).map(([title, url]) => url
           ? (
