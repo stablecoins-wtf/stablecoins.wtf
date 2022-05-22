@@ -9,31 +9,39 @@ import { FC } from 'react'
 import NumberFormat from 'react-number-format'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
-import { BloombergBox, BloombergBoxHR } from './BloombergBox'
+import { BloombergBox } from './BloombergBox'
 
 export interface HomeStartPageProps extends ParsedSharedStaticProps {}
 export const HomeStartPage: FC<HomeStartPageProps> = ({coins, ...props}) => {
 
   return <>
-    <BloombergBox title="Welcome to stablecoins.wtf, fellow degens!">
-      <BloombergBoxHR tw="mt-2.5"/>
-      {/* Intro Text */}
-      <ProseWrapper>
-        {/* <h4 tw="mt-0">WTF! – What can I do here?</h4> */}
-        <ul tw="text-sm text-bbg-gray1">
-          <li><strong>Select a coin</strong> in the table to get more details. 🪙</li>
-          <li><strong>Study our educational content</strong> about stablecoins (lower left). 📚</li>
-          <li><Link href="/about" passHref><a>Learn more</a></Link> about this project. ℹ️</li>
-        </ul>           
-      </ProseWrapper>
-      <BloombergBoxHR />
+    <div tw="flex flex-col overflow-hidden space-y-1">
+      {/* Intro Box */}
+      <BloombergBox title="WTF! Where to start?">
+        <ProseWrapper>
+          <div tw="text-sm text-bbg-gray1 flex-col space-y-1.5 my-2">
+            <div>
+              <span tw="text-bbg-gray2">{'⋇ '}</span><strong>Select a coin</strong> in the table to get more details. 🪙
+            </div>
+            <div>
+              <span tw="text-bbg-gray2">{'⋇ '}</span><strong>Study our educational content</strong> about stablecoins<span tw="hidden lg:inline"> (lower left)</span>. 📚
+            </div>
+            <div>
+              <span tw="text-bbg-gray2">{'⋇ '}</span><Link href="/about" passHref><a>Learn more</a></Link> about this project. ℹ️
+            </div>
+          </div>           
+        </ProseWrapper>
+      </BloombergBox>
 
-      {/* KPIs */}
-      <HomeStartPageKPIs coins={coins} {...props}/>
+      {/* Main Page */}
+      <BloombergBox tw="flex-1 flex flex-col" title="Total Stablecoin Market KPIs">
+        {/* KPIs */}
+        <HomeStartPageKPIs coins={coins} {...props}/>
       
-      {/* Accumulated Charts */}
-      <AccumulatedCoinsCharts coins={coins} />      
-    </BloombergBox>
+        {/* Accumulated Charts */}
+        <AccumulatedCoinsCharts coins={coins} />      
+      </BloombergBox>
+    </div>
   </>
 }
 
@@ -99,9 +107,7 @@ export const HomeStartPageKPIs: FC<HomeStartPageProps> = ({coins}) => {
   }, 0)
 
   return <>
-    <h4 tw="text-center mb-4">
-      Total Stablecoin Market KPIs
-    </h4>
+    <h4 tw="text-center mb-4">Total Stablecoin Market KPIs</h4>
     <KPIsWrapper>
       <KPI>
         <KPITitle>Market Cap</KPITitle>
