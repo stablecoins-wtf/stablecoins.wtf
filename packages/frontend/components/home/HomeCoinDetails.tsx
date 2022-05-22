@@ -12,7 +12,7 @@ import NumberFormat from 'react-number-format'
 import { useQuery } from 'react-query'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
-import { BloombergBox, BloombergBoxHR } from './BloombergBox'
+import { BloombergBox } from './BloombergBox'
 
 export interface HomeCoinDetailsProps {
   coin: Coin
@@ -40,15 +40,15 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({coin}) => {
 
       {coin.description &&
         <ProseWrapper>
-          <h4 tw="mt-1">Description:</h4>
           <RichText content={coin.description} />
         </ProseWrapper>}
 
-      <BloombergBoxHR tw="mt-2"/>
-      
+      <CoinDetailsLinks coin={coin} />
+            
     </BloombergBox>
   </>
 }
+
 
 export const CoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({coin}) => {
   const query = () => axios.post<{ news: CryptopanicNews[] }>(
@@ -90,6 +90,7 @@ export const CoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({coin}) => {
   </>
 }
 
+
 const KPIsWrapper = styled.div(() => [
   tw`flex flex-wrap -mx-0.5 -mt-0.5 mb-6`,
 ])
@@ -100,7 +101,7 @@ const KPITitle = styled.div(() => [
   tw`text-bbg-gray1 text-sm mb-1 whitespace-nowrap `,
 ])
 const KPIContent = styled.div(() => [
-  tw`font-semibold`,
+  tw`font-semibold whitespace-nowrap `,
 ])
 
 export const CoinDetailsKPIs: FC<HomeCoinDetailsProps> = ({coin}) => {
@@ -161,8 +162,8 @@ export const CoinDetailsKPIs: FC<HomeCoinDetailsProps> = ({coin}) => {
   </>
 }
 
-export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({coin}) => {
 
+export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({coin}) => {
   return <>
     <KPIsWrapper>
       <KPI>
@@ -182,5 +183,35 @@ export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({coin}) =>
         <KPIContent>{coin.jurisdiction}</KPIContent>
       </KPI>
     </KPIsWrapper>
+  </>
+}
+
+
+export const CoinDetailsLinks: FC<HomeCoinDetailsProps> = ({coin}) => {
+  const metaUrls = coin?.cmcMetadata?.urls || {}
+  let links = {
+    'Website': metaUrls.website?.[0],
+    'Twitter': metaUrls.twitter?.[0],
+    'Reddit': metaUrls.reddit?.[0],
+    'Documentation': metaUrls.technical_doc?.[0],
+    'Source Code': metaUrls.source_code?.[0],
+  }
+  const hasAnyLink = !!Object.values(links).filter(Boolean).length
+  if (!hasAnyLink) return null
+
+  return <>
+    <ProseWrapper>
+      <h4 tw="mt-2">Links:</h4>
+      <ul>
+        {Object.entries(links).map(([title, url]) => url
+          ? (
+            <li key={url}>
+              {title}: <Link href={url} target="_blank"><a>{url}</a></Link>
+            </li>
+          )
+          : null
+        )}
+      </ul>
+    </ProseWrapper>
   </>
 }
