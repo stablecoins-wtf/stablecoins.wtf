@@ -61,15 +61,15 @@ export const HomeCoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({coin}) => {
   if (isError) return null
   return <>
     <BloombergBox title='Newsticker'>
-      <div tw="flex flex-col -mx-2 -mb-2">
+      <div tw="flex flex-col -mx-3 -mb-1">
         {isLoading ? (
-          <div tw="px-2 pb-2 text-sm text-bbg-gray1 animate-pulse">
+          <div tw="px-3 pb-2 text-sm text-bbg-gray1 animate-pulse">
             Loading...
           </div>
         ) : (
           news.map(n => (
             <Link key={n.id} href={n.url} target='_blank' passHref>
-              <a tw="flex px-1 bg-black cursor-pointer hover:bg-bbg-gray3 text-sm">  
+              <a tw="flex px-2 bg-black cursor-pointer hover:bg-bbg-gray3 text-sm">  
                 <div tw="flex-grow truncate pb-0.5 px-1 text-bbg-orange">
                   {n.title}
                 </div>

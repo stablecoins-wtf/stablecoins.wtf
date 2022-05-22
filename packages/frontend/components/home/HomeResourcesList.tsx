@@ -21,11 +21,11 @@ export const HomeResourcesList: FC<HomeResourcesListProps> = ({resources, ...pro
 
   return <>
     <BloombergBox title="Learning Resources" {...props}>
-      <div tw="flex flex-col -mx-2">
+      <div tw="flex flex-col -mx-3 -mb-1">
         {(resources || []).map((r, idx) => (
           <Link key={r.id} href={`/resources/${r.slug}`} passHref>
             <a css={[
-              tw`flex justify-between px-1 bg-black cursor-pointer text-sm`,
+              tw`flex justify-between px-2 bg-black cursor-pointer text-sm`,
               activeResource?.id === r.id ? tw`bg-white text-black font-semibold` : tw`text-bbg-orange hover:bg-bbg-gray3`,
             ]}>
               <div tw="truncate pb-0.5 px-1">

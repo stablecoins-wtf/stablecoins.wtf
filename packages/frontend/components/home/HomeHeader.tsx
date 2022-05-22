@@ -17,10 +17,10 @@ export const HomeHeader: FC<HomeHeaderProps> = ({...props}) => {
       title: 'Start',
       href: '/',
     },
-    // {
-    //   title: 'About',
-    //   href: '/about',
-    // },
+    {
+      title: 'About',
+      href: '/about',
+    },
     {
       title: 'Twitter',
       href: env.twitterLink,

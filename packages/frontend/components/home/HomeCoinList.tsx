@@ -34,15 +34,15 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
 
   return <>
     <BloombergBox title="Top Stablecoins by Market Cap" {...props}>
-      <div tw="flex flex-col px-2">
-        <div tw="-mx-4 overflow-x-auto">
+      <div tw="flex flex-col">
+        <div tw="-mx-3 overflow-x-auto">
           <div tw="relative inline-block min-w-full align-middle">
             <table tw="min-w-full divide-y divide-bbg-gray3 border-b border-bbg-gray3">
 
               {/* Table Head */}
               <thead tw="bg-bbg-gray3 border-t border-[#383838]">
                 <tr tw="divide-x divide-black">
-                  <BloombergTH scope="col" tw="sm:pl-2"></BloombergTH>
+                  <BloombergTH scope="col" tw="sm:pl-2" isNumber={true}>#</BloombergTH>
                   <BloombergTH scope="col">Symbol</BloombergTH>
                   <BloombergTH scope="col">Mechanism</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>Price</BloombergTH>
