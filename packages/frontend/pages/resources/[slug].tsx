@@ -19,7 +19,7 @@ export default function HomePage({...props}: SharedStaticProps) {
 
   return <>
     <HomeLayout coins={coins} resources={resources}>
-      <BloombergBox tw="flex-1" title={resource.title}>
+      <BloombergBox tw="flex-1" title={resource.subtitle || resource.title}>
         {resource.content &&
           <ProseWrapper>
             <RichText content={resource.content} />

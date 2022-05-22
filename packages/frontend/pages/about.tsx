@@ -11,9 +11,9 @@ export default function HomePage({ ...props }: SharedStaticProps) {
   
   return <>
     <HomeLayout {...sharedStaticProps}>
-      <BloombergBox title="stablecoins.wtf">
+      <BloombergBox title="Educating degens about stablecoins">
         <ProseWrapper>
-          <h2>About</h2>
+          <h3>About stablecoins.wtf</h3>
           <p>
             The purpose of this page is to educate degens about stablecoins.
             We accumulate quantitative live-data of major stablecoins in a single dashboard.
@@ -24,20 +24,20 @@ export default function HomePage({ ...props }: SharedStaticProps) {
             This project originated as a hackathon submission for <a href="https://hackathon.money/" target="_blank">HackMoney</a> 2022.
           </p>
 
-          <h3>Authors:</h3>
+          <h4>Authors:</h4>
           <ul>
             <li>zoma.eth (<a href="https://twitter.com/dennis_zoma" target="_blank">@dennis_zoma</a>)</li>
             <li>Mike (<a href="https://twitter.com/mike1third" target="_blank">@mike1third</a>)</li>
           </ul>
 
-          <h3>Links:</h3>
+          <h4>Links:</h4>
           <ul>
             <li>Twitter: <a href="https://twitter.com/stablecoinswtf" target="_blank">https://twitter.com/stablecoinswtf</a></li>
             <li>Github: <a href="https://github.com/wottpal/stablecoins.wtf" target="_blank">https://github.com/wottpal/stablecoins.wtf</a></li>
           </ul>
           
           
-          <h3>Credits:</h3>
+          <h4>Credits:</h4>
           <ul>
             <li>The <a href="https://twitter.com/liamihorne/status/1525106982511845377" target="_blank">original idea</a> came from liam.eth 💡</li>
             <li>Thanks for the feedback and some great ideas, <a href="https://twitter.com/dmihal" target="_blank">@dmihal</a>. In the next weeks we aim to have all our data provided by public open-source CryptoStats adapters. 📊</li>

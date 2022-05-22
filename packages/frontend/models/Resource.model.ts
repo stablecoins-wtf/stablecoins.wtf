@@ -4,6 +4,7 @@ export class Resource {
   constructor(
     public id: string,
     public title: string,
+    public subtitle: string,
     public slug: string,
     public content: RichTextContent | undefined,
   ) { }
@@ -14,6 +15,7 @@ export class Resource {
     return new Resource(
       data?.['id'] as string,
       data?.['title'] as string,
+      data?.['subtitle'] as string,
       data?.['slug'] as string,
       data?.['content']?.raw as RichTextContent,
     )

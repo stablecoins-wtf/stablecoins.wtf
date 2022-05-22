@@ -36,6 +36,7 @@ const queryGraphCms = async () => {
       resources {
         id
         title
+        subtitle
         slug
         content {
           raw

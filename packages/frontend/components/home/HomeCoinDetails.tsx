@@ -52,7 +52,7 @@ export const HomeCoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({coin}) => {
 
   if (isError) return null
   return <>
-    <BloombergBox title='Newsticker'>
+    <BloombergBox title={`$${coin.symbol} Newsticker`}>
       <div tw="flex flex-col -mx-3 -mb-1">
         {isLoading ? (
           <div tw="px-3 pb-2 text-sm text-bbg-gray1 animate-pulse">

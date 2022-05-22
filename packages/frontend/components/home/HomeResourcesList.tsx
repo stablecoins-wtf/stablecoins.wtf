@@ -26,10 +26,13 @@ export const HomeResourcesList: FC<HomeResourcesListProps> = ({resources, ...pro
           <Link key={r.id} href={`/resources/${r.slug}`} passHref>
             <a css={[
               tw`flex justify-between px-2 bg-black cursor-pointer text-sm`,
-              activeResource?.id === r.id ? tw`bg-white text-black font-semibold` : tw`text-bbg-orange hover:bg-bbg-gray3`,
+              activeResource?.id === r.id ? tw`bg-white text-black font-semibold` : tw`text-bbg-orange font-semibold hover:bg-bbg-gray3`,
             ]}>
-              <div tw="truncate pb-0.5 px-1">
+              <div tw="whitespace-nowrap pb-0.5 px-1">
                 {idx + 1}. {r.title}
+              </div>
+              <div tw="truncate pb-0.5 pl-4 pr-1 text-bbg-gray2">
+                /{r.slug}
               </div>
             </a>
           </Link>
