@@ -2,13 +2,17 @@ import { CoinCharts } from '@components/charts/CoinCharts'
 import { ProseWrapper } from '@components/ProseWrapper'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Coin, CryptopanicNews } from '@models/Coin.model'
+import { datesAreSameDay } from '@shared/datesAreSameDay'
+import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
+import NumberFormat from 'react-number-format'
 import { useQuery } from 'react-query'
 import 'twin.macro'
-import { BloombergBox } from './BloombergBox'
+import tw, { styled } from 'twin.macro'
+import { BloombergBox, BloombergBoxHR } from './BloombergBox'
 
 export interface HomeCoinDetailsProps {
   coin: Coin
@@ -17,7 +21,7 @@ export const HomeCoinDetails: FC<HomeCoinDetailsProps> = ({coin}) => {
   return <>
     <div tw="flex flex-col overflow-hidden space-y-1">
       <HomeCoinDetailsMain coin={coin} />
-      <HomeCoinDetailsNewsticker coin={coin} />
+      <CoinDetailsNewsticker coin={coin} />
     </div>
   </>
 }
@@ -26,20 +30,27 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({coin}) => {
   return <>
     <BloombergBox tw="flex-1 flex flex-col" title={coin.name}>
 
+      <h3 tw="text-center mb-4">${coin.symbol} KPIs & Market Data</h3>
+      
+      <CoinDetailsKPIs coin={coin} />
+      
       <CoinCharts coin={coin} />
-
-      <hr tw="opacity-25 my-5" />
+      
+      <CoinDetailsStaticAttributes coin={coin} />
 
       {coin.description &&
         <ProseWrapper>
+          <h4 tw="mt-1">Description:</h4>
           <RichText content={coin.description} />
         </ProseWrapper>}
 
+      <BloombergBoxHR tw="mt-2"/>
+      
     </BloombergBox>
   </>
 }
 
-export const HomeCoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({coin}) => {
+export const CoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({coin}) => {
   const query = () => axios.post<{ news: CryptopanicNews[] }>(
     '/api/coin/news',
     { symbol: coin.symbol, limit: 5 }
@@ -76,5 +87,100 @@ export const HomeCoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({coin}) => {
         )}
       </div>
     </BloombergBox>
+  </>
+}
+
+const KPIsWrapper = styled.div(() => [
+  tw`flex flex-wrap -mx-0.5 -mt-0.5 mb-6`,
+])
+const KPI = styled.div(() => [
+  tw`flex-1 m-0.5 bg-bbg-gray3 border-t border-[#404040] p-1 px-2`,
+])
+const KPITitle = styled.div(() => [
+  tw`text-bbg-gray1 text-sm mb-1 whitespace-nowrap `,
+])
+const KPIContent = styled.div(() => [
+  tw`font-semibold`,
+])
+
+export const CoinDetailsKPIs: FC<HomeCoinDetailsProps> = ({coin}) => {
+  const caps = coin.cgTradingData?.market_caps || []
+  const cap = caps?.[caps.length - 1][1]
+  let cap7dAgo = 0
+  let cap30dAgo = 0
+  for (let i = caps.length - 1; i >= 0; i--) {
+    const is7dAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(7, 'day'))
+    const is30dAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(30, 'day'))
+    if (is7dAgo) cap7dAgo = caps[i]?.[1]
+    if (is30dAgo) {
+      cap30dAgo = caps[i]?.[1]
+      break
+    }
+  }
+  const cap7dChange = (cap - (cap7dAgo || 0)) / (cap7dAgo || 1)
+  const cap30dChange = (cap - (cap30dAgo || 0)) / (cap30dAgo || 1)
+  const volume24h = coin.cmcLatestQuotes?.quote?.USD?.volume_24h
+  let volume7d = 0
+  const volumes = coin.cgTradingData?.total_volumes || []
+  for (let i = volumes.length - 1; i >= 0; i--) {
+    if (dayjs().diff(volumes[i]?.[0], 'day') > 7) break
+    volume7d += volumes[i]?.[1]
+  }
+
+  return <>
+    <KPIsWrapper>
+      <KPI>
+        <KPITitle>Market Cap</KPITitle>
+        <KPIContent>${largeNumberFormatter(cap)}</KPIContent>
+      </KPI>
+      <KPI>
+        <KPITitle>Market Cap 7d %</KPITitle>
+        <KPIContent css={[
+          cap7dChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`
+        ]}>
+          <NumberFormat value={Math.abs(cap7dChange * 100)} displayType={'text'} prefix={cap7dChange >= 0 ? '+' : '-'} suffix={'%'} decimalScale={2} fixedDecimalScale={true} />
+        </KPIContent>
+      </KPI>
+      <KPI>
+        <KPITitle>Market Cap 30d %</KPITitle>
+        <KPIContent css={[
+          cap30dChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`
+        ]}>
+          <NumberFormat value={Math.abs(cap30dChange * 100)} displayType={'text'} prefix={cap30dChange >= 0 ? '+' : '-'} suffix={'%'} decimalScale={2} fixedDecimalScale={true} />
+        </KPIContent>
+      </KPI>
+      <KPI>
+        <KPITitle>Volume 24h</KPITitle>
+        <KPIContent>${largeNumberFormatter(volume24h)}</KPIContent>
+      </KPI>
+      <KPI>
+        <KPITitle>Volume 7d</KPITitle>
+        <KPIContent>${largeNumberFormatter(volume7d)}</KPIContent>
+      </KPI>
+    </KPIsWrapper>
+  </>
+}
+
+export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({coin}) => {
+
+  return <>
+    <KPIsWrapper>
+      <KPI>
+        <KPITitle>Mechanism</KPITitle>
+        <KPIContent>{coin.mechanism}</KPIContent>
+      </KPI>
+      <KPI>
+        <KPITitle>Governance</KPITitle>
+        <KPIContent>{coin.governance}</KPIContent>
+      </KPI>
+      <KPI>
+        <KPITitle>Issuer</KPITitle>
+        <KPIContent>{coin.issuer}</KPIContent>
+      </KPI>
+      <KPI>
+        <KPITitle>Jurisdiction</KPITitle>
+        <KPIContent>{coin.jurisdiction}</KPIContent>
+      </KPI>
+    </KPIsWrapper>
   </>
 }

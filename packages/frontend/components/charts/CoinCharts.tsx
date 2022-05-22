@@ -14,7 +14,7 @@ const TRADING_DATA_MAX_AGE_MINUTES = 60 * 24
 export interface CoinChartsProps {
   coin: Coin
 }
-export const CoinCharts: FC<CoinChartsProps> = ({coin}) => {
+export const CoinCharts: FC<CoinChartsProps> = ({coin, ...props}) => {
   const query = () => axios.post<{ cgTradingData: CoingeckoTradingData }>(
     '/api/coin/coingecko-trading-data',
     { symbol: coin.symbol, coingeckoId: coin.coingeckoId }
@@ -40,7 +40,7 @@ export const CoinCharts: FC<CoinChartsProps> = ({coin}) => {
   }, [data?.data, coin?.symbol])
 
   return <>
-    <div tw="grid grid-cols-2 gap-y-4 gap-x-2">
+    <div tw="grid grid-cols-2 gap-y-4 gap-x-2 mb-8" {...props}>
       <CoinPriceChart coin={coin} tradingData={tradingData} isLoading={isLoading} isError={isError} />
       <CoinVolumeChart coin={coin} tradingData={tradingData} isLoading={isLoading} isError={isError} />
       <CoinMarketCapChart coin={coin} tradingData={tradingData} isLoading={isLoading} isError={isError} />

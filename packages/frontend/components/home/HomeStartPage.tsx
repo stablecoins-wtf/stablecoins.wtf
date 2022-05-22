@@ -38,7 +38,7 @@ export const HomeStartPage: FC<HomeStartPageProps> = ({coins, ...props}) => {
 }
 
 const KPIsWrapper = styled.div(() => [
-  tw`flex flex-wrap -mx-2.5 -mt-0.5 mb-6`,
+  tw`flex flex-wrap -mx-0.5 -mt-0.5 mb-6`,
 ])
 const KPI = styled.div(() => [
   tw`flex-1 m-0.5 bg-bbg-gray3 border-t border-[#404040] p-1 px-2`,
@@ -55,20 +55,6 @@ export const HomeStartPageKPIs: FC<HomeStartPageProps> = ({coins}) => {
     const caps = val?.cgTradingData?.market_caps || []
     return acc + caps?.[caps.length - 1][1]
   }, 0)
-
-  // const totalCap24hAgo = coins.reduce((acc, val): any => {
-  //   const caps = val?.cgTradingData?.market_caps || []
-  //   let cap24hAgo = 0
-  //   for (let i = caps.length - 1; i >= 0; i--) {
-  //     const is24hAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(1, 'day'))
-  //     if (is24hAgo) {
-  //       cap24hAgo = caps[i]?.[1]
-  //       break
-  //     }
-  //   }
-  //   return acc + cap24hAgo
-  // }, 0)
-  // const cap24hChange = (totalCap - (totalCap24hAgo || 0)) / (totalCap24hAgo || 1)
 
   const totalCap7dAgo = coins.reduce((acc, val): any => {
     const caps = val?.cgTradingData?.market_caps || []
