@@ -26,7 +26,6 @@ export const CoinCharts: FC<CoinChartsProps> = ({coin}) => {
     // Check if price history was fetched
     const cgTradingData = data?.data?.cgTradingData
     if (cgTradingData) {
-      console.log('cgTradingData fetched')
       setTradingData(cgTradingData)
       return
     }
@@ -34,10 +33,8 @@ export const CoinCharts: FC<CoinChartsProps> = ({coin}) => {
     const updatedAt = coin?.cgTradingData?.updatedAt
     const isOutdated = dayjs().diff(updatedAt, 'minute', true) > TRADING_DATA_MAX_AGE_MINUTES
     if (!updatedAt || isOutdated) {
-      console.log('FETCHING cgTradingData')
       refetch()
     } else {
-      console.log('CACHE HIT cgTradingData')
       setTradingData(coin.cgTradingData)
     }
   }, [data?.data, coin?.symbol])

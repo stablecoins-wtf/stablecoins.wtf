@@ -7,8 +7,8 @@ import 'twin.macro'
 import { theme } from 'twin.macro'
 import { AccumulatedCoinsChartsProps } from './AccumulatedCoinsCharts'
 
-export const AccumulatedCoinsMarketCapChart: FC<AccumulatedCoinsChartsProps> = ({ coins }) => {
-  const { allDates, allSymbols, allColors, mergedData } = useMergedCgTradingData(coins, 'market_caps')
+export const AccumulatedCoinsVolumeChart: FC<AccumulatedCoinsChartsProps> = ({ coins }) => {
+  const { allDates, allSymbols, allColors, mergedData } = useMergedCgTradingData(coins, 'total_volumes')
 
   const CustomTooltip: FC = ({ payload }: any) => {
     const data = payload?.[0]?.payload
@@ -39,9 +39,9 @@ export const AccumulatedCoinsMarketCapChart: FC<AccumulatedCoinsChartsProps> = (
           <XAxis dataKey="date" stroke='white' tickFormatter={d => d && dayjs(d).format('MM/DD')} fontSize={14} tickMargin={5} />
           <YAxis stroke='white' tickFormatter={p => `$${largeNumberFormatter(p)}`} fontSize={14} tickMargin={5} />
           <Tooltip content={<CustomTooltip />} />
-          <Legend verticalAlign="top" height={36} payload={[{value: 'Stablecoin Market Caps'}]} />
+          <Legend verticalAlign="top" height={36} payload={[{value: 'Stablecoin Volumes'}]} />
           {allSymbols.map((symbol, idx) => (
-            <Area key={symbol} type="monotone" dataKey={symbol} name={`${symbol} Market Cap`} stackId="1" stroke={allColors[idx]} fill={allColors[idx]} />
+            <Area key={symbol} type="monotone" dataKey={symbol} name={`${symbol} Volume`} stackId="1" stroke={allColors[idx]} fill={allColors[idx]} />
           ))}
 
         </AreaChart>
