@@ -32,7 +32,7 @@ export const AccumulatedCoinsVolumeChart: FC<AccumulatedCoinsChartsProps> = ({ c
   }
 
   return <>
-    <div tw="relative">
+    <div tw="relative col-span-2">
       <ResponsiveContainer width="100%" aspect={2.5}>
         <AreaChart data={mergedData} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3" stroke={theme`colors.bbg.gray2`} />

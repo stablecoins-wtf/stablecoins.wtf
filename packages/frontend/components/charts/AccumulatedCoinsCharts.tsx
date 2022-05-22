@@ -10,7 +10,7 @@ export interface AccumulatedCoinsChartsProps {
 }
 export const AccumulatedCoinsCharts: FC<AccumulatedCoinsChartsProps> = ({coins}) => {
   return <>
-    <div tw="grid gap-y-4">
+    <div tw="grid grid-cols-2 gap-y-4">
       <AccumulatedCoinsMarketCapChart coins={coins} />
       <AccumulatedCoinsVolumeChart coins={coins} />
       <AccumulatedCoinsVelocityChart coins={coins} />
