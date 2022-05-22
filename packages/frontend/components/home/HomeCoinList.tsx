@@ -19,6 +19,12 @@ const BloombergTD = styled.td(({isNumber, highlight}: any) => [
   highlight === 'green' && tw`bg-bbg-green1 text-black`,
 ])
 
+const FilterButton = styled.button(({isActive}: any) => [
+  tw`my-1 pb-px pl-1 pr-1 border border-[#383838] text-xs font-semibold outline-none`,
+  isActive
+    ? tw`bg-bbg-gray1 border-bbg-gray2 text-black`
+    : tw`bg-bbg-gray3 border-[#383838] text-bbg-gray1`
+])
 
 export interface HomeCoinListProps {
   coins: Coin[]
@@ -27,14 +33,33 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
   const router = useRouter()
   const { slug } = router.query
   const [activeCoin, setActiveCoin] = useState<Coin>()
+  const [filteredMechanism, setFilteredMechanism] = useState<string>()
+  const allMechanisms = Array.from(new Set((coins || []).map(c => c.mechanism)))
 
   useEffect(() => {
     setActiveCoin(coins.find(c => c.slug === slug))
   }, [slug])
 
+  const getFilteredCoins = () => {
+    return coins.filter((c) => (
+      !filteredMechanism || filteredMechanism === c.mechanism
+    ))
+  }
+
   return <>
     <BloombergBox title="Top Stablecoins by Market Cap" {...props}>
       <div tw="flex flex-col">
+        {/* Filter Bar */}
+        <div tw="flex flex-wrap space-x-1 mb-2">
+          <FilterButton isActive={!filteredMechanism} onClick={() => setFilteredMechanism(undefined)}>All</FilterButton>
+          {allMechanisms.map(m => (
+            <FilterButton key={m} isActive={filteredMechanism === m} onClick={() => setFilteredMechanism(m)}>
+              {m.replaceAll('_', '-')}
+            </FilterButton>
+          ))}
+        </div>
+
+        {/* Coin Table */}
         <div tw="-mx-3 overflow-x-auto">
           <div tw="relative inline-block min-w-full align-middle">
             <table tw="min-w-full divide-y divide-bbg-gray3 border-b border-bbg-gray3">
@@ -53,7 +78,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
 
               {/* Table Rows */}
               <tbody tw="divide-y divide-bbg-gray3">
-                {coins.map((coin, idx) =>
+                {getFilteredCoins().map((coin, idx) =>
                   <HomeCoinListRow key={coin.id} coin={coin} idx={idx} coins={coins} activeCoin={activeCoin} />)}
               </tbody>
 
@@ -88,7 +113,10 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => 
           tw`uppercase font-semibold text-bbg-orange`,
           activeCoin?.id === coin.id && tw`text-black`,
         ]}>{coin.symbol}</BloombergTD>
-        <BloombergTD tw="text-bbg-gray1">
+        <BloombergTD css={[
+          activeCoin?.id === coin.id ? tw`text-bbg-gray3` : tw`text-bbg-gray1`,
+          
+        ]}>
           {/* <div tw="inline-block leading-[1.2] px-1 py-px pb-[2px] text-white bg-bbg-gray3">{coin.mechanismFormatted()}</div> */}
           {coin.mechanismFormatted()}
         </BloombergTD>
