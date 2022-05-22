@@ -56,19 +56,19 @@ export const HomeStartPageKPIs: FC<HomeStartPageProps> = ({coins}) => {
     return acc + caps?.[caps.length - 1][1]
   }, 0)
 
-  const totalCap24hAgo = coins.reduce((acc, val): any => {
-    const caps = val?.cgTradingData?.market_caps || []
-    let cap24hAgo = 0
-    for (let i = caps.length - 1; i >= 0; i--) {
-      const is24hAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(1, 'day'))
-      if (is24hAgo) {
-        cap24hAgo = caps[i]?.[1]
-        break
-      }
-    }
-    return acc + cap24hAgo
-  }, 0)
-  const cap24hChange = (totalCap - (totalCap24hAgo || 0)) / (totalCap24hAgo || 1)
+  // const totalCap24hAgo = coins.reduce((acc, val): any => {
+  //   const caps = val?.cgTradingData?.market_caps || []
+  //   let cap24hAgo = 0
+  //   for (let i = caps.length - 1; i >= 0; i--) {
+  //     const is24hAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(1, 'day'))
+  //     if (is24hAgo) {
+  //       cap24hAgo = caps[i]?.[1]
+  //       break
+  //     }
+  //   }
+  //   return acc + cap24hAgo
+  // }, 0)
+  // const cap24hChange = (totalCap - (totalCap24hAgo || 0)) / (totalCap24hAgo || 1)
 
   const totalCap7dAgo = coins.reduce((acc, val): any => {
     const caps = val?.cgTradingData?.market_caps || []
@@ -83,6 +83,20 @@ export const HomeStartPageKPIs: FC<HomeStartPageProps> = ({coins}) => {
     return acc + cap7dAgo
   }, 0)
   const cap7dChange = (totalCap - (totalCap7dAgo || 0)) / (totalCap7dAgo || 1)
+
+  const totalCap30dAgo = coins.reduce((acc, val): any => {
+    const caps = val?.cgTradingData?.market_caps || []
+    let cap30dAgo = 0
+    for (let i = caps.length - 1; i >= 0; i--) {
+      const is30dAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(30, 'day'))
+      if (is30dAgo) {
+        cap30dAgo = caps[i]?.[1]
+        break
+      }
+    }
+    return acc + cap30dAgo
+  }, 0)
+  const cap30dChange = (totalCap - (totalCap30dAgo || 0)) / (totalCap30dAgo || 1)
 
   const volume24h = coins.reduce((acc, val): any => {
     return acc + val?.cmcLatestQuotes?.quote?.USD?.volume_24h || 0
@@ -108,19 +122,19 @@ export const HomeStartPageKPIs: FC<HomeStartPageProps> = ({coins}) => {
         <KPIContent>${largeNumberFormatter(totalCap)}</KPIContent>
       </KPI>
       <KPI>
-        <KPITitle>Market Cap 24h %</KPITitle>
-        <KPIContent css={[
-          cap24hChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`
-        ]}>
-          <NumberFormat value={Math.abs(cap24hChange * 100)} displayType={'text'} prefix={cap24hChange >= 0 ? '+' : '-'} suffix={'%'} decimalScale={2} fixedDecimalScale={true} />
-        </KPIContent>
-      </KPI>
-      <KPI>
         <KPITitle>Market Cap 7d %</KPITitle>
         <KPIContent css={[
           cap7dChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`
         ]}>
           <NumberFormat value={Math.abs(cap7dChange * 100)} displayType={'text'} prefix={cap7dChange >= 0 ? '+' : '-'} suffix={'%'} decimalScale={2} fixedDecimalScale={true} />
+        </KPIContent>
+      </KPI>
+      <KPI>
+        <KPITitle>Market Cap 30d %</KPITitle>
+        <KPIContent css={[
+          cap30dChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`
+        ]}>
+          <NumberFormat value={Math.abs(cap30dChange * 100)} displayType={'text'} prefix={cap30dChange >= 0 ? '+' : '-'} suffix={'%'} decimalScale={2} fixedDecimalScale={true} />
         </KPIContent>
       </KPI>
       <KPI>
