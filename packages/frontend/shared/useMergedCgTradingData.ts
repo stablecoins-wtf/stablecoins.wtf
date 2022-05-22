@@ -9,9 +9,16 @@ export interface CoingeckoMergedTradingDataPoint {
   [coinSymbol: string]: any,
 }
 
-export type CoingeckoTradingDataKey = 'market_caps' | 'total_volumes' | 'prices' | 'velocity'
+export type CoingeckoTradingDataKey = 'market_caps' | 'total_volumes' | 'velocity'
+
+// TODO 
+// Improve performance by calling `useMergedCgTradingData` only once in AccumulatedCoinsCharts
+// and export all sets (for market_caps, volume, velocity) at once
+export type CoingeckoMergedTradingDataSets = {
+  [set in CoingeckoTradingDataKey]: Array<CoingeckoMergedTradingDataPoint>
+}
   
-export const useMergedCgTradingData = (coins: Coin[], key: CoingeckoTradingDataKey) => {
+export const useMergedCgTradingData = (coins: Coin[], key: CoingeckoTradingDataKey, maxAgeDays: number = 30) => {
   const [allDates, setAllDates] = useState<string[]>([])
   const [allSymbols, setAllSymbols] = useState<string[]>([])
   const [allColors, setAllColors] = useState<string[]>([])
@@ -26,7 +33,9 @@ export const useMergedCgTradingData = (coins: Coin[], key: CoingeckoTradingDataK
         const dataPoints = val?.cgTradingData?.[lookupKey] || []
         return [
           ...acc,
-          ...dataPoints.map(x => dayjs(x[0]).format('YYYY-MM-DD')),
+          ...dataPoints
+            .filter(x => !maxAgeDays || dayjs().diff(x[0], 'day') <= maxAgeDays)
+            .map(x => dayjs(x[0]).format('YYYY-MM-DD'))
         ]
       }, [])
     )).sort()

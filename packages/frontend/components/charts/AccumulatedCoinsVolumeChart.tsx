@@ -8,7 +8,7 @@ import { theme } from 'twin.macro'
 import { AccumulatedCoinsChartsProps } from './AccumulatedCoinsCharts'
 
 export const AccumulatedCoinsVolumeChart: FC<AccumulatedCoinsChartsProps> = ({ coins }) => {
-  const { allDates, allSymbols, allColors, mergedData } = useMergedCgTradingData(coins, 'total_volumes')
+  const { allSymbols, allColors, mergedData } = useMergedCgTradingData(coins, 'total_volumes')
 
   const CustomTooltip: FC = ({ payload }: any) => {
     const data = payload?.[0]?.payload
