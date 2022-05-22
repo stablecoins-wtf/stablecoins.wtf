@@ -1,5 +1,6 @@
 import { BloombergBox } from '@components/home/BloombergBox'
 import { HomeLayout } from '@components/home/HomeLayout'
+import { ProseWrapper } from '@components/ProseWrapper'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { fetchOrGetResources } from '@shared/getAllResources'
 import { getSharedStaticProps, SharedStaticProps, useSharedStaticProps } from '@shared/getSharedStaticProps'
@@ -20,9 +21,10 @@ export default function HomePage({...props}: SharedStaticProps) {
     <HomeLayout coins={coins} resources={resources}>
       <BloombergBox tw="flex-1" title={resource.title}>
         {resource.content &&
-        <div className="prose prose-invert max-w-full">
-          <RichText content={resource.content} />
-        </div>}
+          <ProseWrapper>
+            <RichText content={resource.content} />
+          </ProseWrapper>
+        }
       </BloombergBox>
     </HomeLayout>
   </>

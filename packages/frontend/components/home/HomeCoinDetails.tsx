@@ -1,4 +1,5 @@
 import { CoinCharts } from '@components/coin/CoinCharts'
+import { ProseWrapper } from '@components/ProseWrapper'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Coin, CryptopanicNews } from '@models/Coin.model'
 import axios from 'axios'
@@ -30,18 +31,9 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({coin}) => {
       <hr tw="opacity-25 my-5" />
 
       {coin.description &&
-        <div className="prose prose-invert prose-p:text-justify max-w-full">
+        <ProseWrapper>
           <RichText content={coin.description} />
-        </div>}
-
-      <hr tw="opacity-25 my-5" />
-
-      <details>
-        <summary>JSON data available ({coin.symbol})</summary>
-        <pre tw="text-xs leading-[1.3] text-bbg-gray1 max-w-full overflow-scroll">
-          {JSON.stringify(coin, null, 2)}
-        </pre>
-      </details>
+        </ProseWrapper>}
 
     </BloombergBox>
   </>

@@ -7,7 +7,6 @@ export const HomeStartPage: FC<HomeStartPageProps> = () => {
 
   return <>
     <BloombergBox title="Select coin…">
-      {/* <div tw="prose prose-invert max-w-full"></div> */}
       <div tw="flex items-center justify-center mt-5">
         <div>
         This a work-in-progress hackathon project by <a tw="font-bold" href="https://twitter.com/dennis_zoma" target="_blank">@dennis_zoma</a> & <a tw="font-bold" href="https://twitter.com/mike1third" target="_blank">@mike1third</a> to educate degens about stablecoins.

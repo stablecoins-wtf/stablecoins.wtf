@@ -1,5 +1,6 @@
 import { BloombergBox } from '@components/home/BloombergBox'
 import { HomeLayout } from '@components/home/HomeLayout'
+import { ProseWrapper } from '@components/ProseWrapper'
 import { getSharedStaticProps, SharedStaticProps, useSharedStaticProps } from '@shared/getSharedStaticProps'
 import { GetStaticProps } from 'next'
 import React from 'react'
@@ -11,7 +12,7 @@ export default function HomePage({ ...props }: SharedStaticProps) {
   return <>
     <HomeLayout {...sharedStaticProps}>
       <BloombergBox title="stablecoins.wtf">
-        <div className="prose prose-invert max-w-full prose-ul:list-['⋇'] prose-h2:mt-3">
+        <ProseWrapper>
           <h2>About</h2>
           <p>
             The purpose of this page is to educate degens about stablecoins.
@@ -45,7 +46,7 @@ export default function HomePage({ ...props }: SharedStaticProps) {
             <li>Hosted on <a href="https://vercel.com/" target="_blank">Vercel</a> with static data on <a href="https://graphcms.com/" target="_blank">GraphCMS</a>. 📂</li>
             <li>More awesome tech we used: <code>tailwindcss</code> with <code>twin.macro</code>, <code>recharts</code>, … 💫</li>
           </ul>
-        </div>
+        </ProseWrapper>
       </BloombergBox>
     </HomeLayout>
   </>
