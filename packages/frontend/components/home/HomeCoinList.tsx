@@ -1,4 +1,6 @@
 import { Coin } from '@models/Coin.model'
+import { datesAreSameDay } from '@shared/datesAreSameDay'
+import dayjs from 'dayjs'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
@@ -22,7 +24,7 @@ const BloombergTD = styled.td(({isNumber, highlight}: any) => [
 const FilterButton = styled.button(({isActive}: any) => [
   tw`my-1 pb-px pl-1 pr-1 border border-[#383838] text-xs font-semibold outline-none`,
   isActive
-    ? tw`bg-bbg-gray1 border-bbg-gray2 text-black`
+    ? tw`bg-gray-200 border-bbg-gray2 text-black`
     : tw`bg-bbg-gray3 border-[#383838] text-bbg-gray1`
 ])
 
@@ -72,7 +74,8 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
                   <BloombergTH scope="col">Mechanism</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>Price</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>Volume 24h</BloombergTH>
-                  <BloombergTH scope="col" tw="sm:pr-2" isNumber={true}>Market Cap</BloombergTH>
+                  <BloombergTH scope="col" isNumber={true}>Market Cap</BloombergTH>
+                  <BloombergTH scope="col" tw="sm:pr-2" isNumber={true}>7d %</BloombergTH>
                 </tr>
               </thead>
 
@@ -98,9 +101,21 @@ export interface HomeCoinListRowProps extends HomeCoinListProps {
 }
 const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => {
   const price = coin.cmcLatestQuotes?.quote?.USD?.price
-  const priceHighlight = (Math.abs(1 - price) > 0.05) ? ((Math.abs(1 - price) > 0.1) ? 'red' : 'orange') : undefined
-  const cap = coin.cmcLatestQuotes?.quote?.USD?.market_cap
+  const priceHighlight = (Math.abs(1 - price) > 0.025) ? ((Math.abs(1 - price) > 0.05) ? 'red' : 'orange') : undefined
   const volume24h = coin.cmcLatestQuotes?.quote?.USD?.volume_24h
+  const caps = coin.cgTradingData?.market_caps || []
+  const cap = caps?.[caps.length - 1]?.[1] || coin.cmcLatestQuotes?.quote?.USD?.market_cap
+
+  // Calculate 7-day Cap Change
+  let cap7dAgo = 0
+  for (let i = caps.length - 1; i >= 0; i--) {
+    const is7DaysAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(7, 'day'))
+    if (is7DaysAgo) {
+      cap7dAgo = caps[i]?.[1]
+      break
+    }
+  }
+  const cap7dChange = (cap - (cap7dAgo || 0)) / (cap7dAgo || 1)
 
   return <>
     <Link href={`/coins/${coin.slug}`} passHref>
@@ -123,10 +138,14 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => 
           <NumberFormat value={price} displayType={'text'} prefix={'$'} fixedDecimalScale={true} decimalScale={3} />
         </BloombergTD>
         <BloombergTD isNumber={true} highlight={priceHighlight}>
+          {/* {largeNumberFormatter(volume24h)} */}
           <NumberFormat value={volume24h} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
         </BloombergTD>
-        <BloombergTD tw="sm:pr-2" isNumber={true}>
+        <BloombergTD isNumber={true} highlight={priceHighlight}>
           <NumberFormat value={cap} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
+        </BloombergTD>
+        <BloombergTD tw="sm:pr-2" isNumber={true} highlight={priceHighlight}>
+          <NumberFormat value={Math.abs(cap7dChange * 100)} displayType={'text'} prefix={cap7dChange >= 0 ? '+' : '-'} suffix={'%'} decimalScale={0} />
         </BloombergTD>
       </tr>
     </Link>

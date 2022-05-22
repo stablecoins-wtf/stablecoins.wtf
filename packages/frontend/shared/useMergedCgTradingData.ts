@@ -2,6 +2,7 @@ import { Coin } from '@models/Coin.model'
 import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { theme } from 'twin.macro'
+import { datesAreSameDay } from './datesAreSameDay'
 
 export interface CoingeckoMergedTradingDataPoint {
   date: string,
@@ -9,7 +10,7 @@ export interface CoingeckoMergedTradingDataPoint {
 }
 
 export type CoingeckoTradingDataKey = 'market_caps' | 'total_volumes' | 'prices'
-
+  
 export const useMergedCgTradingData = (coins: Coin[], key: CoingeckoTradingDataKey) => {
   const [allDates, setAllDates] = useState<string[]>([])
   const [allSymbols, setAllSymbols] = useState<string[]>([])
@@ -24,11 +25,6 @@ export const useMergedCgTradingData = (coins: Coin[], key: CoingeckoTradingDataK
   //   setCoinsWithTradingData(coinsWithTradingData)
   // }, [coins])
 
-  // Returns true, if given dates are on the same day
-  const datesAreSameDay = (d1: any, d2: any): boolean => {
-    return dayjs(d1).format('YYYY-MM-DD') === dayjs(d2).format('YYYY-MM-DD')
-  }
-  
   useEffect(() => {
     // Determine all unique dates (days) with data-points
     const allDates: string[] = Array.from(new Set(

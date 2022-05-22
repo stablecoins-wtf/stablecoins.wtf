@@ -1,3 +1,4 @@
+const colors = require('tailwindcss/colors')
 
 module.exports = {
   content: [
@@ -8,6 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        gray: colors.zinc,
         bbg: {
           orange: '#ff9700',
           red1: '#ff0034',
