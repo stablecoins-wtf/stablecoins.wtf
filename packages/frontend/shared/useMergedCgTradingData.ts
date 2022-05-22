@@ -9,27 +9,21 @@ export interface CoingeckoMergedTradingDataPoint {
   [coinSymbol: string]: any,
 }
 
-export type CoingeckoTradingDataKey = 'market_caps' | 'total_volumes' | 'prices'
+export type CoingeckoTradingDataKey = 'market_caps' | 'total_volumes' | 'prices' | 'velocity'
   
 export const useMergedCgTradingData = (coins: Coin[], key: CoingeckoTradingDataKey) => {
   const [allDates, setAllDates] = useState<string[]>([])
   const [allSymbols, setAllSymbols] = useState<string[]>([])
   const [allColors, setAllColors] = useState<string[]>([])
   const [mergedData, setMergedData] = useState<CoingeckoMergedTradingDataPoint[]>()
-    
-  // const [coinsWithTradingData, setCoinsWithTradingData] = useState<Coin[]>([])
-  // useEffect(() => {
-  //   // Determining all coins that have cgTradingData attached
-  //   const coinsWithTradingData = (coins || [])
-  //     .filter(c => !!c.cgTradingData?.prices?.length)
-  //   setCoinsWithTradingData(coinsWithTradingData)
-  // }, [coins])
 
   useEffect(() => {
+    const isVelocity = key === 'velocity'
     // Determine all unique dates (days) with data-points
     const allDates: string[] = Array.from(new Set(
       coins.reduce((acc, val): any => {
-        const dataPoints = val?.cgTradingData?.[key] || []
+        const lookupKey = isVelocity ? 'total_volumes' : key
+        const dataPoints = val?.cgTradingData?.[lookupKey] || []
         return [
           ...acc,
           ...dataPoints.map(x => dayjs(x[0]).format('YYYY-MM-DD')),
@@ -40,13 +34,21 @@ export const useMergedCgTradingData = (coins: Coin[], key: CoingeckoTradingDataK
     const mergedData = allDates
       .map(date => {
         const mergedDataPoint = coins.reduce((acc, val): any => {
-          const firstValueForDate = (val?.cgTradingData?.[key] || [])
+          const lookupKey = isVelocity ? 'total_volumes' : key
+          let firstValueForDate = (val?.cgTradingData?.[lookupKey] || [])
             .find(x => datesAreSameDay(x[0], date))
+          let firstMarketCapValueForDate = (val?.cgTradingData?.['market_caps'] || [])
+            .find(x => datesAreSameDay(x[0], date))
+          
           return {
             ...acc,
-            ...(firstValueForDate ? {
-              [val.symbol]: firstValueForDate[1]
-            } : {})
+            ...(isVelocity
+              ? (firstValueForDate && firstMarketCapValueForDate) ? {
+                [val.symbol]: firstValueForDate[1] / firstMarketCapValueForDate[1]
+              } : {}
+              : firstValueForDate ? {
+                [val.symbol]: firstValueForDate[1]
+              } : {}),
           }
         }, {date})
         return Object.values(mergedDataPoint).length > 2 ? mergedDataPoint : null

@@ -15,10 +15,12 @@ export default function HomePage({ ...props }: SharedStaticProps) {
         <ProseWrapper>
           <h3>About stablecoins.wtf</h3>
           <p>
-            The purpose of this page is to educate degens about stablecoins.
+            The purpose of this website is to educate degens about stablecoins.
             We accumulate quantitative live-data of major stablecoins in a single dashboard.
             And we aim to make the data understandable by everyone by providing additional educational content.
-            {' '}<a href="https://twitter.com/stablecoinswtf" target="_blank">Follow this project on Twitter</a> for more information.
+          </p>
+          <p>
+            <a href="https://twitter.com/stablecoinswtf" target="_blank">Follow this project on Twitter</a> for more information.
           </p>
           <p>
             This project originated as a hackathon submission for <a href="https://hackathon.money/" target="_blank">HackMoney</a> 2022.

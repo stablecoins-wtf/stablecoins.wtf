@@ -34,16 +34,15 @@ export const AccumulatedCoinsMarketCapChart: FC<AccumulatedCoinsChartsProps> = (
   return <>
     <div tw="relative">
       <ResponsiveContainer width="100%" aspect={2.5}>
-        <AreaChart data={mergedData} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+        <AreaChart data={mergedData} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3" stroke={theme`colors.bbg.gray2`} />
           <XAxis dataKey="date" stroke='white' tickFormatter={d => d && dayjs(d).format('MM/DD')} fontSize={14} tickMargin={5} />
           <YAxis stroke='white' tickFormatter={p => `$${largeNumberFormatter(p)}`} fontSize={14} tickMargin={5} />
           <Tooltip content={<CustomTooltip />} />
           <Legend verticalAlign="top" height={36} payload={[{value: 'Stablecoin Market Caps'}]} />
           {allSymbols.map((symbol, idx) => (
-            <Area key={symbol} type="monotone" dataKey={symbol} name={`${symbol} Market Cap`} stackId="1" stroke={allColors[idx]} fill={allColors[idx]} />
+            <Area key={symbol} type="monotone" dataKey={symbol} name={`${symbol} Market Cap`} stackId="1" stroke={allColors[idx]} fill={allColors[idx]} animateNewValues={false} activeDot={{ r: 2 }} />
           ))}
-
         </AreaChart>
       </ResponsiveContainer>
     </div>

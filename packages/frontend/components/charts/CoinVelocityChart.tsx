@@ -1,5 +1,4 @@
 import { CoingeckoTradingDataPoint } from '@models/Coin.model'
-import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import dayjs from 'dayjs'
 import { FC, useEffect, useState } from 'react'
 import { ImSpinner8 } from 'react-icons/im'
@@ -19,7 +18,7 @@ export const CoinVelocityChart: FC<CoinChartProps> = ({coin, tradingData, isLoad
     const velocity: CoingeckoTradingDataPoint[] = tradingData.total_volumes
       .map((x, idx) => [
         x[0],
-        x[1] / tradingData.market_caps[idx][1] * 100,
+        x[1] / tradingData.market_caps[idx][1],
       ])
     setVelocity(velocity)
   }, [tradingData])
@@ -32,7 +31,7 @@ export const CoinVelocityChart: FC<CoinChartProps> = ({coin, tradingData, isLoad
     if (!data) return null
     return <>
       <div tw="flex flex-col items-center">
-        <div>${largeNumberFormatter(data[1])}</div>
+        <div>{data[1].toFixed(2)}</div>
         <div tw="text-xs text-gray-300">{dayjs(data[0]).format('YYYY/MM/DD')}</div>
       </div>
     </>
@@ -44,7 +43,7 @@ export const CoinVelocityChart: FC<CoinChartProps> = ({coin, tradingData, isLoad
         <LineChart data={velocity} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3" stroke={theme`colors.bbg.gray2`} />
           <XAxis dataKey="0" stroke='white' tickFormatter={d => d && dayjs(d).format('MM/DD')} fontSize={14} tickMargin={5} />
-          <YAxis dataKey="1" stroke='white' tickFormatter={p => `${p.toFixed(0)}%`} fontSize={14} tickMargin={5} domain={[0, 100]} />
+          <YAxis dataKey="1" stroke='white' tickFormatter={p => `${p.toFixed(1)}`} fontSize={14} tickMargin={5} domain={[0, 1.5]} />
           <Tooltip content={<CustomTooltip />} />
           <Legend verticalAlign="top" height={36} />
           <Line type="monotone" dataKey="1" name={`${coin.symbol} Velocity`} r={0} strokeWidth={2} animateNewValues={false} stroke={theme`colors.bbg.cyan`}/>

@@ -1,14 +1,13 @@
-import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import { useMergedCgTradingData } from '@shared/useMergedCgTradingData'
 import dayjs from 'dayjs'
 import { FC } from 'react'
-import { Area, AreaChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import 'twin.macro'
 import { theme } from 'twin.macro'
 import { AccumulatedCoinsChartsProps } from './AccumulatedCoinsCharts'
 
-export const AccumulatedCoinsVolumeChart: FC<AccumulatedCoinsChartsProps> = ({ coins }) => {
-  const { allDates, allSymbols, allColors, mergedData } = useMergedCgTradingData(coins, 'total_volumes')
+export const AccumulatedCoinsVelocityChart: FC<AccumulatedCoinsChartsProps> = ({ coins }) => {
+  const { allDates, allSymbols, allColors, mergedData } = useMergedCgTradingData(coins, 'velocity')
 
   const CustomTooltip: FC = ({ payload }: any) => {
     const data = payload?.[0]?.payload
@@ -21,7 +20,7 @@ export const AccumulatedCoinsVolumeChart: FC<AccumulatedCoinsChartsProps> = ({ c
             <div key={symbol}>
               <span css={[
                 `color: ${allColors[idx]}`
-              ]}>{symbol}:</span> {largeNumberFormatter(value as number)}
+              ]}>{symbol}:</span> {(value as number).toFixed(2)}
               {(idx !== Object.keys(values).length - 1) && ','}
             </div>
           ))}
@@ -34,16 +33,16 @@ export const AccumulatedCoinsVolumeChart: FC<AccumulatedCoinsChartsProps> = ({ c
   return <>
     <div tw="relative">
       <ResponsiveContainer width="100%" aspect={2.5}>
-        <AreaChart data={mergedData} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
+        <LineChart data={mergedData} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3" stroke={theme`colors.bbg.gray2`} />
           <XAxis dataKey="date" stroke='white' tickFormatter={d => d && dayjs(d).format('MM/DD')} fontSize={14} tickMargin={5} />
-          <YAxis stroke='white' tickFormatter={p => `$${largeNumberFormatter(p)}`} fontSize={14} tickMargin={5} />
-          <Tooltip  content={<CustomTooltip />} />
-          <Legend verticalAlign="top" height={36} payload={[{value: 'Stablecoin Volumes'}]} />
+          <YAxis stroke='white' tickFormatter={p => p.toFixed(1)} fontSize={14} tickMargin={5} domain={[0, 2.2]} />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend verticalAlign="top" height={36} payload={[{value: 'Stablecoin Velocity'}]} />
           {allSymbols.map((symbol, idx) => (
-            <Area key={symbol} type="monotone" dataKey={symbol} name={`${symbol} Volume`} stackId="1" stroke={allColors[idx]} fill={allColors[idx]} animateNewValues={false} activeDot={{ r: 2 }} />
+            <Line key={symbol} type="monotone" dataKey={symbol} name={`${symbol} Velocity`} stroke={allColors[idx]} animateNewValues={false} r={0} activeDot={{ r: 1 }} />
           ))}
-        </AreaChart>
+        </LineChart>
       </ResponsiveContainer>
     </div>
   </>

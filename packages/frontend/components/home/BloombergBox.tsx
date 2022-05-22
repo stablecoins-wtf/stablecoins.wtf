@@ -9,6 +9,8 @@ const BloombergBoxWrapper = styled.div(() => [
   tw`flex-grow-0 relative border border-bbg-gray3 p-2 px-3 overflow-scroll`,
 ])
 
+export const BloombergBoxHR = tw.hr`border-bbg-gray3 -mx-3 my-5`
+
 export interface BloombergBoxProps {
   hideTopBar?: boolean
   title?: string
