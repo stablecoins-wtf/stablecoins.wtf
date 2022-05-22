@@ -103,6 +103,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => 
   const price = coin.cmcLatestQuotes?.quote?.USD?.price
   const priceHighlight = (Math.abs(1 - price) > 0.025) ? ((Math.abs(1 - price) > 0.05) ? 'red' : 'orange') : undefined
   const volume24h = coin.cmcLatestQuotes?.quote?.USD?.volume_24h
+  console.log('coin.cmcLatestQuotes?.quote?.USD', coin.cmcLatestQuotes?.quote?.USD)
   const caps = coin.cgTradingData?.market_caps || []
   const cap = caps?.[caps.length - 1]?.[1] || coin.cmcLatestQuotes?.quote?.USD?.market_cap
 
