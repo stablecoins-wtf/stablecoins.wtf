@@ -115,7 +115,6 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => 
         ]}>{coin.symbol}</BloombergTD>
         <BloombergTD css={[
           activeCoin?.id === coin.id ? tw`text-bbg-gray3` : tw`text-bbg-gray1`,
-          
         ]}>
           {/* <div tw="inline-block leading-[1.2] px-1 py-px pb-[2px] text-white bg-bbg-gray3">{coin.mechanismFormatted()}</div> */}
           {coin.mechanismFormatted()}

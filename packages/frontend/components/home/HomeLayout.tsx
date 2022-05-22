@@ -1,16 +1,13 @@
 import { HomeCoinList } from '@components/home/HomeCoinList'
 import { HomeHeader } from '@components/home/HomeHeader'
 import { Coin } from '@models/Coin.model'
-import { Resource } from '@models/Resource.model'
+import { ParsedSharedStaticProps } from '@shared/getSharedStaticProps'
 import { FC, useRef, useState } from 'react'
 import 'twin.macro'
 import { HomeResourcesList } from './HomeResourcesList'
 
 
-export interface HomeLayoutProps {
-  coins: Coin[]
-  resources: Resource[]
-}
+export interface HomeLayoutProps extends ParsedSharedStaticProps {}
 export const HomeLayout: FC<HomeLayoutProps> = ({ coins, resources, children }) => {
   const [activeCoin, setActiveCoin] = useState<Coin>()
   const detailsPageRef = useRef<HTMLDivElement>(null)

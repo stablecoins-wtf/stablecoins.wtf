@@ -21,7 +21,6 @@ export const CoinVelocityChart: FC<CoinChartProps> = ({coin, tradingData, isLoad
         x[0],
         x[1] / tradingData.market_caps[idx][1] * 100,
       ])
-    console.log({velocity})
     setVelocity(velocity)
   }, [tradingData])
 

@@ -51,9 +51,12 @@ const queryGraphCms = async () => {
         jurisdiction
         issuer
         governance
+        color { hex }
 
         cmcMetadata
         cmcLatestQuotes
+
+        cgTradingData
       }
     }
   `

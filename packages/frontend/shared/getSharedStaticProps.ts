@@ -32,7 +32,11 @@ export const getSharedStaticProps: GetStaticProps = async () => {
 /**
  * Helper hook to extract and parse fetched data into respective models
  */
-export const useSharedStaticProps = ({coinsData, resourcesData}: SharedStaticProps) => {
+export interface ParsedSharedStaticProps {
+  coins: Coin[]
+  resources: Resource[]
+}
+export const useSharedStaticProps = ({coinsData, resourcesData}: SharedStaticProps): ParsedSharedStaticProps => {
   const [coins, setCoins] = useState<Coin[]>([])
   const [resources, setResources] = useState<Resource[]>([])
 

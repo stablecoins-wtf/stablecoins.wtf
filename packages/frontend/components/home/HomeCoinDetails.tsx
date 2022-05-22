@@ -1,4 +1,4 @@
-import { CoinCharts } from '@components/coin/CoinCharts'
+import { CoinCharts } from '@components/charts/CoinCharts'
 import { ProseWrapper } from '@components/ProseWrapper'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Coin, CryptopanicNews } from '@models/Coin.model'

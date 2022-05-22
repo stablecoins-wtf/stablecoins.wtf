@@ -8,6 +8,6 @@ export const largeNumberFormatter = (x: number) => {
   } else if (x >= 10000000000) {
     return (x / 1000000000).toFixed(0) + 'B'
   } else {
-    return x.toFixed(2)
+    return x.toFixed(0)
   }
 }

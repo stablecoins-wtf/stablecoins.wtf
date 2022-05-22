@@ -12,6 +12,8 @@ export class Coin {
     public jurisdiction: string,
     public issuer: string,
     public governance: string,
+
+    public color: string,
     
     public cmcMetadata: CoinmarketcapMetadata,
     public cmcLatestQuotes: CoinmarketcapLatestQuotes,
@@ -33,6 +35,8 @@ export class Coin {
       data?.['jurisdiction'] as string,
       data?.['issuer'] as string,
       data?.['governance'] as string,
+
+      data?.['color']?.hex as string,
       
       data?.['cmcMetadata'] as CoinmarketcapMetadata || {},
       data?.['cmcLatestQuotes'] as CoinmarketcapLatestQuotes || {},

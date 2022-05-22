@@ -20,7 +20,7 @@ export const HomeResourcesList: FC<HomeResourcesListProps> = ({resources, ...pro
   }, [slug])
 
   return <>
-    <BloombergBox title="Learning Resources" {...props}>
+    <BloombergBox title="Educational Resources" {...props}>
       <div tw="flex flex-col -mx-3 -mb-1">
         {(resources || []).map((r, idx) => (
           <Link key={r.id} href={`/resources/${r.slug}`} passHref>

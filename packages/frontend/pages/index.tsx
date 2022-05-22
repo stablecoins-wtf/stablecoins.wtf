@@ -5,12 +5,13 @@ import { GetStaticProps } from 'next'
 import React from 'react'
 import 'twin.macro'
 
-export default function HomePage({...props}: SharedStaticProps) {
+export interface HomePageProps extends SharedStaticProps {}
+export default function HomePage({...props}: HomePageProps) {
   const sharedStaticProps = useSharedStaticProps(props)
   
   return <>
     <HomeLayout {...sharedStaticProps}>
-      <HomeStartPage />
+      <HomeStartPage {...sharedStaticProps} />
     </HomeLayout>
   </>
 }
