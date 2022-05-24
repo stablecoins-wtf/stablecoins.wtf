@@ -19,7 +19,7 @@ const BloombergTD = styled.td(({isNumber, highlight}: any) => [
   isNumber && tw`text-right`,
   highlight === 'orange' && tw`bg-bbg-orange text-black`,
   highlight === 'red' && tw`bg-bbg-red1 text-black`,
-  highlight === 'green' && tw`bg-bbg-green1 text-black`,
+  highlight === 'green' && tw`bg-bbg-green2 text-black`,
 ])
 
 const FilterButton = styled.button(({isActive}: any) => [
@@ -85,11 +85,21 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
                 {getFilteredCoins().map((coin, idx) =>
                   <HomeCoinListRow key={coin.id} coin={coin} idx={idx} coins={coins} activeCoin={activeCoin} />)}
               </tbody>
-
             </table>
           </div>
         </div>
       </div>
+
+      {/* Legende */}
+      <div tw="flex justify-end items-center space-x-4 mt-3 mb-1 text-sm text-bbg-gray1">
+        <div tw="flex items-center">
+          <div tw="w-1.5 h-1.5 bg-bbg-orange mr-2" />1% de-pegged
+        </div>
+        <div tw="flex items-center">
+          <div tw="w-1.5 h-1.5 bg-bbg-red1 mr-2" />5% de-pegged
+        </div>
+      </div>
+
     </BloombergBox>
   </>
 }
@@ -102,7 +112,7 @@ export interface HomeCoinListRowProps extends HomeCoinListProps {
 }
 const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => {
   const price = coin.cmcLatestQuotes?.quote?.USD?.price
-  const priceHighlight = (Math.abs(1 - price) > 0.025) ? ((Math.abs(1 - price) > 0.05) ? 'red' : 'orange') : undefined
+  const priceHighlight = (Math.abs(1 - price) > 0.01) ? ((Math.abs(1 - price) > 0.05) ? 'red' : 'orange') : undefined
   const volume24h = coin.cmcLatestQuotes?.quote?.USD?.volume_24h
   const caps = coin.cgTradingData?.market_caps || []
   const cap = caps?.[caps.length - 1]?.[1] || coin.cmcLatestQuotes?.quote?.USD?.market_cap

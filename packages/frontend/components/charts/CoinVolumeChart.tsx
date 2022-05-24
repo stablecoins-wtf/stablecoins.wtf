@@ -25,7 +25,7 @@ export const CoinVolumeChart: FC<CoinChartProps> = ({coin, tradingData, isLoadin
   return <>
     <div tw="relative col-span-2 md:col-span-1">
       <ResponsiveContainer width="100%" aspect={1.5}>
-        <LineChart data={tradingData?.total_volumes} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
+        <LineChart data={tradingData?.total_volumes} syncId={coin.id} margin={{ top: 5, right: 10, left: -10, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3" stroke={theme`colors.bbg.gray2`} />
           <XAxis dataKey="0" stroke='white' tickFormatter={d => d && dayjs(d).format('MM/DD')} fontSize={14} tickMargin={5} />
           <YAxis dataKey="1" stroke='white' tickFormatter={p => `$${largeNumberFormatter(p)}`} fontSize={14} tickMargin={5} />
