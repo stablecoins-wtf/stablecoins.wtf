@@ -3,9 +3,9 @@ export const largeNumberFormatter = (x: number) => {
     return (x/1000).toFixed(1) + 'K'
   } else if (x >= 1000000 && x < 9999999) {
     return (x/1000000).toFixed(1) + 'M'
-  } else if (x >= 10000000 && x < 9999999999) {
+  } else if (x >= 10000000 && x < 999999999) {
     return (x/1000000).toFixed(0) + 'M'
-  } else if (x >= 1000000000 && x < 9999999999) {
+  } else if (x >= 100000000 && x < 9999999999) {
     return (x / 1000000000).toFixed(1) + 'B'
   } else if (x >= 10000000000) {
     return (x / 1000000000).toFixed(0) + 'B'
