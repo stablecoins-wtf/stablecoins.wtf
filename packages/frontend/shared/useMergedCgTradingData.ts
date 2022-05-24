@@ -27,21 +27,21 @@ export const useMergedCgTradingData = (coins: Coin[], maxAgeDays: number = 30) =
 
   useEffect(() => {
     // Determine all unique dates (days) with data-points
-    const allDates: string[] = Array.from(new Set(
-      coins.reduce((acc, val): any => {
+    const maxTimestamp = (new Date).getTime() - maxAgeDays * 86400 * 1000
+    const allDates: string[] = coins
+      .reduce((acc, val): any => {
         const marketCapDataPoints = val?.cgTradingData?.['market_caps'] || []
         const volumeDataPoints = val?.cgTradingData?.['total_volumes'] || []
-        return [
+        return Array.from(new Set([
           ...acc,
           ...marketCapDataPoints
-            .filter(x => !maxAgeDays || dayjs().diff(x[0], 'day') <= maxAgeDays)
+            .filter(x => parseInt(x[0]) > maxTimestamp)
             .map(x => dayjs(x[0]).format('YYYY-MM-DD')),
           ...volumeDataPoints
-            .filter(x => !maxAgeDays || dayjs().diff(x[0], 'day') <= maxAgeDays)
+            .filter(x => parseInt(x[0]) > maxTimestamp)
             .map(x => dayjs(x[0]).format('YYYY-MM-DD')),
-        ]
-      }, [])
-    )).sort()
+        ]))
+      }, []).sort()
     
     // Merge data of given key
     const mergedData: CoingeckoMergedTradingDataSets = {
@@ -50,38 +50,30 @@ export const useMergedCgTradingData = (coins: Coin[], maxAgeDays: number = 30) =
       'velocity': [],
     }
     for (const date of allDates) {
-      let firstRunForDate = true
       for (const coin of coins) {
         let firstMarketCapValueForDate = (coin.cgTradingData?.['market_caps'] || [])
           .find(x => datesAreSameDay(x[0], date))
         let firstVolumeValueForDate = (coin.cgTradingData?.['total_volumes'] || [])
           .find(x => datesAreSameDay(x[0], date))
         if (firstMarketCapValueForDate) {
-          firstRunForDate
-            ? mergedData['market_caps'].push({ date, [coin.symbol]: firstMarketCapValueForDate[1] })
-            : mergedData['market_caps'][mergedData['market_caps'].length - 1] = {
-              ...mergedData['market_caps'][mergedData['market_caps'].length - 1],
-              [coin.symbol]: firstMarketCapValueForDate[1],
-            }
+          const doesExist = mergedData['market_caps']?.[mergedData['market_caps'].length - 1]?.date === date
+          doesExist
+            ? mergedData['market_caps'][mergedData['market_caps'].length - 1][coin.symbol] = firstMarketCapValueForDate[1]
+            : mergedData['market_caps'].push({ date, [coin.symbol]: firstMarketCapValueForDate[1] })
         }
         if (firstVolumeValueForDate) {
-          firstRunForDate
-            ? mergedData['total_volumes'].push({ date, [coin.symbol]: firstVolumeValueForDate[1] })
-            : mergedData['total_volumes'][mergedData['total_volumes'].length - 1] = {
-              ...mergedData['total_volumes'][mergedData['total_volumes'].length - 1],
-              [coin.symbol]: firstVolumeValueForDate[1],
-            }
+          const doesExist = mergedData['total_volumes']?.[mergedData['total_volumes'].length - 1]?.date === date
+          doesExist
+            ? mergedData['total_volumes'][mergedData['total_volumes'].length - 1][coin.symbol] = firstVolumeValueForDate[1]
+            : mergedData['total_volumes'].push({ date, [coin.symbol]: firstVolumeValueForDate[1] })
         }
         if (firstMarketCapValueForDate && firstVolumeValueForDate) {
           const velocity = firstVolumeValueForDate[1] / firstMarketCapValueForDate[1]
-          firstRunForDate
-            ? mergedData['velocity'].push({ date, [coin.symbol]: velocity })
-            : mergedData['velocity'][mergedData['velocity'].length - 1] = {
-              ...mergedData['velocity'][mergedData['velocity'].length - 1],
-              [coin.symbol]: velocity,
-            }
+          const doesExist = mergedData['velocity']?.[mergedData['velocity'].length - 1]?.date === date
+          doesExist
+            ? mergedData['velocity'][mergedData['velocity'].length - 1][coin.symbol] = velocity
+            : mergedData['velocity'].push({ date, [coin.symbol]: velocity })
         }
-        firstRunForDate=false
       }
     }
 
