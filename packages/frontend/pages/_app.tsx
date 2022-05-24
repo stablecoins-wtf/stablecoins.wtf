@@ -43,6 +43,9 @@ export default function App({ Component, pageProps }: AppProps) {
     <Head>
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
+      {/* Plausible Analytics */}
+      {env.isProduction && <script defer data-domain="stablecoins.wtf" src="https://plausible.io/js/plausible.js"></script>}
+
       {/* Favicon */}
       {/* <link rel="icon" type="image/png" sizes="32x32" href="/favicons/still/favicon-32x32.png" /> */}
       {/* <link rel="icon" type="image/png" sizes="16x16" href="/favicons/still/favicon-16x16.png" /> */}
