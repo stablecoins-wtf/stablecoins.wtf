@@ -64,7 +64,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
         return sortAttribute.order === 'asc' ? -1 : 1
       })
     setShownCoins(shownCoins)
-  }, [filteredMechanism, sortAttribute])
+  }, [filteredMechanism, sortAttribute, coins])
 
   const [activeCoin, setActiveCoin] = useState<Coin>()
   useEffect(() => {

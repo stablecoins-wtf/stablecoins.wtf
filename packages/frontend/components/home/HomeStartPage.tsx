@@ -3,6 +3,7 @@ import { KPI, KPIContent, KPIsWrapper, KPITitle } from '@components/layout/KPIs'
 import { datesAreSameDay } from '@shared/datesAreSameDay'
 import { ParsedSharedStaticProps } from '@shared/getSharedStaticProps'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
+import { useIsSSR } from '@shared/useIsSSR'
 import dayjs from 'dayjs'
 import { FC } from 'react'
 import { useCookies } from 'react-cookie'
@@ -14,12 +15,13 @@ import { HomeIntroBox } from './HomeIntroBox'
 export interface HomeStartPageProps extends ParsedSharedStaticProps {}
 export const HomeStartPage: FC<HomeStartPageProps> = ({coins, ...props}) => {
   const [cookies] = useCookies(['hide-intro'])
+  const isSSR = useIsSSR()
  
   const test = true
   return <>
     <div tw="flex flex-col overflow-hidden space-y-1">
       {/* Intro Box */}
-      {!(cookies['hide-intro'] === 'true') && <HomeIntroBox />}
+      {!(cookies['hide-intro'] === 'true' && !isSSR) && <HomeIntroBox />}
 
       {/* Main Page */}
       <BloombergBox tw="flex-1 flex flex-col" title="Total Stablecoin Market KPIs">
