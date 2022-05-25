@@ -23,7 +23,7 @@ export const useUpdatedCgTradingData = (coins: Coin[]) => {
   // Re-fetch trading-data for coins (if outdated) in the background
   useEffect(() => {    
     if (results.some(r => r.isLoading)) return
-    if (results.every(r => r.isIdle)) setUpdatedCoins(coins)
+    // if (results.every(r => r.isIdle)) setUpdatedCoins(coins)
     
     // const updatedCgTradingData: CoingeckoTradingData[] = new Array(coins.length).map(c => c.cgTradingData)
     for (let idx = 0; idx < coins.length; idx++) {
@@ -45,6 +45,8 @@ export const useUpdatedCgTradingData = (coins: Coin[]) => {
         refetch()
         continue
       }
+      
+      coin.cgTradingData.isUpdating = false
     }
 
     setUpdatedCoins(coins)

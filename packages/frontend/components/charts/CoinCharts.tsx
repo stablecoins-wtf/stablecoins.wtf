@@ -23,6 +23,7 @@ export const CoinCharts: FC<CoinChartsProps> = ({ coin, ...props }) => {
     tradingData.total_volumes = coin.cgTradingData.market_caps
     tradingData.updatedAt = coin.cgTradingData.updatedAt
     tradingData.prices = coin.cgTradingData.prices
+    tradingData.isUpdating = coin.cgTradingData.isUpdating
     setTradingData(tradingData)
   }, [coin])
 
