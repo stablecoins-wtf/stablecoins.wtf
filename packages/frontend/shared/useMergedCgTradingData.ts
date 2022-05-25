@@ -38,7 +38,6 @@ export const useMergedCgTradingData = (
       .reduce((acc, val): any => {
         const marketCapDataPoints = val?.cgTradingData?.['market_caps'] || []
         const volumeDataPoints = val?.cgTradingData?.['total_volumes'] || []
-        if (val?.symbol === 'USDC')console.log(volumeDataPoints)
         return Array.from(
           new Set([
             ...acc,

@@ -1,15 +1,14 @@
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import dayjs from 'dayjs'
 import { FC } from 'react'
-import { ImSpinner8 } from 'react-icons/im'
+import { ImSpinner9 } from 'react-icons/im'
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import 'twin.macro'
 import { theme } from 'twin.macro'
 import { CoinChartProps } from './CoinCharts'
 
-export const CoinMarketCapChart: FC<CoinChartProps> = ({coin, tradingData, isLoading, isError}) => {
-  if (isError) return null
-  if (!isLoading && !tradingData?.prices?.length) return null
+export const CoinMarketCapChart: FC<CoinChartProps> = ({coin, tradingData}) => {
+  if (!tradingData?.isUpdating && !tradingData?.prices?.length) return null
 
   const CustomTooltip: FC = ({ payload }: any) => {
     const data = payload?.[0]?.payload
@@ -36,9 +35,9 @@ export const CoinMarketCapChart: FC<CoinChartProps> = ({coin, tradingData, isLoa
       </ResponsiveContainer>
 
       {/* Loading Animation */}
-      {isLoading &&
-        <div tw="absolute inset-0 flex justify-center items-center">
-          <ImSpinner8 size={28} tw="animate-spin mb-10" />
+      {tradingData?.isUpdating &&
+        <div tw="absolute inset-0 flex justify-end items-start">
+          <ImSpinner9 size={14} tw="animate-spin-custom mt-[11px] mr-[10px] opacity-80" />
         </div>}
     </div>
   </>

@@ -11,7 +11,7 @@ import PageNotFound404 from 'pages/404'
 import React from 'react'
 import 'twin.macro'
 
-export default function HomePage({...props}: SharedStaticProps) {
+export default function ResourceDetailPage({...props}: SharedStaticProps) {
   const router = useRouter()
   const {coins, resources} = useSharedStaticProps(props)
   const { slug } = router.query

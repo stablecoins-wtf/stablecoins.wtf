@@ -65,6 +65,7 @@ export type CoingeckoTradingDataPoint = [
   value: number,
 ]
 export interface CoingeckoTradingData {
+  isUpdating?: boolean
   updatedAt: string
   prices: Array<CoingeckoTradingDataPoint>
   total_volumes: Array<CoingeckoTradingDataPoint>

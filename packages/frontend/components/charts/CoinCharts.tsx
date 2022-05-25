@@ -1,9 +1,5 @@
 import { Coin, CoingeckoTradingData } from '@models/Coin.model'
-import axios from 'axios'
-import dayjs from 'dayjs'
-import { CG_TRADING_DATA_MAX_AGE_MINUTES } from 'pages/api/coin/coingecko-trading-data'
 import { FC, useEffect, useState } from 'react'
-import { useQuery } from 'react-query'
 import 'twin.macro'
 import { CoinMarketCapChart } from './CoinMarketCapChart'
 import { CoinPriceChart } from './CoinPriceChart'
@@ -13,37 +9,29 @@ import { CoinVolumeChart } from './CoinVolumeChart'
 export interface CoinChartsProps {
   coin: Coin
 }
-export const CoinCharts: FC<CoinChartsProps> = ({coin, ...props}) => {
-  const query = () => axios.post<{ cgTradingData: CoingeckoTradingData }>(
-    '/api/coin/coingecko-trading-data',
-    { symbol: coin.symbol, coingeckoId: coin.coingeckoId }
-  )
-  const { data, isLoading, isError, refetch } = useQuery(['trading-data', coin.symbol], query, { retry: false, enabled: false })
+export const CoinCharts: FC<CoinChartsProps> = ({ coin, ...props }) => {
+  // NOTE: This artificial tradingData is not really necessary but results in a nice animation
+  //       on route-change on the charts (because they think they still have the same object)
   const [tradingData, setTradingData] = useState<CoingeckoTradingData>()
-
   useEffect(() => {
-    // Check if price history was fetched
-    const cgTradingData = data?.data?.cgTradingData
-    if (cgTradingData) {
-      setTradingData(cgTradingData)
+    if (!tradingData) {
+      setTradingData(coin.cgTradingData)
       return
     }
-    // Check if price history already exist and/or is outdated
-    const updatedAt = coin?.cgTradingData?.updatedAt
-    const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CG_TRADING_DATA_MAX_AGE_MINUTES
-    if (!updatedAt || isOutdated) {
-      refetch()
-    } else {
-      setTradingData(coin.cgTradingData)
-    }
-  }, [data?.data, coin?.symbol])
+
+    tradingData.market_caps = coin.cgTradingData.market_caps
+    tradingData.total_volumes = coin.cgTradingData.market_caps
+    tradingData.updatedAt = coin.cgTradingData.updatedAt
+    tradingData.prices = coin.cgTradingData.prices
+    setTradingData(tradingData)
+  }, [coin])
 
   return <>
     <div tw="grid grid-cols-2 gap-y-4 gap-x-2 mb-8" {...props}>
-      <CoinPriceChart coin={coin} tradingData={tradingData} isLoading={isLoading} isError={isError} />
-      <CoinVolumeChart coin={coin} tradingData={tradingData} isLoading={isLoading} isError={isError} />
-      <CoinMarketCapChart coin={coin} tradingData={tradingData} isLoading={isLoading} isError={isError} />
-      <CoinVelocityChart coin={coin} tradingData={tradingData} isLoading={isLoading} isError={isError} />
+      <CoinPriceChart coin={coin} tradingData={tradingData} />
+      <CoinVolumeChart coin={coin} tradingData={tradingData} />
+      <CoinMarketCapChart coin={coin} tradingData={tradingData} />
+      <CoinVelocityChart coin={coin} tradingData={tradingData} />
     </div>
   </>
 }
@@ -51,6 +39,4 @@ export const CoinCharts: FC<CoinChartsProps> = ({coin, ...props}) => {
 export interface CoinChartProps {
   coin: Coin
   tradingData?: CoingeckoTradingData
-  isLoading: boolean
-  isError: boolean
 }

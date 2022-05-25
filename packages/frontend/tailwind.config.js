@@ -32,6 +32,9 @@ module.exports = {
         display: ['Arial', 'serif'],
         mono: ['Inconsolata', 'Menlo', 'monospace'],
       },
+      animation: {
+        'spin-custom': '800ms ease-in-out infinite spin',
+      },
     },
   },
   plugins: [

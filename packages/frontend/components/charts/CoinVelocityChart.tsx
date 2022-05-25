@@ -1,13 +1,13 @@
 import { CoingeckoTradingDataPoint } from '@models/Coin.model'
 import dayjs from 'dayjs'
 import { FC, useEffect, useState } from 'react'
-import { ImSpinner8 } from 'react-icons/im'
+import { ImSpinner9 } from 'react-icons/im'
 import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import 'twin.macro'
 import { theme } from 'twin.macro'
 import { CoinChartProps } from './CoinCharts'
 
-export const CoinVelocityChart: FC<CoinChartProps> = ({coin, tradingData, isLoading, isError}) => {
+export const CoinVelocityChart: FC<CoinChartProps> = ({coin, tradingData}) => {
   const [velocity, setVelocity] = useState<CoingeckoTradingDataPoint[]>()
   useEffect(() => {
     const equalLengths = tradingData?.total_volumes?.length === tradingData?.market_caps?.length
@@ -23,8 +23,7 @@ export const CoinVelocityChart: FC<CoinChartProps> = ({coin, tradingData, isLoad
     setVelocity(velocity)
   }, [tradingData])
 
-  if (isError) return null
-  if (!isLoading && !tradingData?.prices?.length) return null
+  if (!tradingData?.isUpdating && !tradingData?.prices?.length) return null
 
   const CustomTooltip: FC = ({ payload }: any) => {
     const data = payload?.[0]?.payload
@@ -51,9 +50,9 @@ export const CoinVelocityChart: FC<CoinChartProps> = ({coin, tradingData, isLoad
       </ResponsiveContainer>
 
       {/* Loading Animation */}
-      {isLoading &&
-        <div tw="absolute inset-0 flex justify-center items-center">
-          <ImSpinner8 size={28} tw="animate-spin mb-10" />
+      {tradingData?.isUpdating &&
+        <div tw="absolute inset-0 flex justify-end items-start">
+          <ImSpinner9 size={14} tw="animate-spin-custom mt-[11px] mr-[10px] opacity-80" />
         </div>}
     </div>
   </>

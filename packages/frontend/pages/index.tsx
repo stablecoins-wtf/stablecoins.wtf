@@ -1,17 +1,19 @@
 import { HomeLayout } from '@components/home/HomeLayout'
 import { HomeStartPage } from '@components/home/HomeStartPage'
 import { getSharedStaticProps, SharedStaticProps, useSharedStaticProps } from '@shared/getSharedStaticProps'
+import { useUpdatedCgTradingData } from '@shared/useUpdatedCgTradingData'
 import { GetStaticProps } from 'next'
 import React from 'react'
 import 'twin.macro'
 
 export interface HomePageProps extends SharedStaticProps {}
 export default function HomePage({...props}: HomePageProps) {
-  const sharedStaticProps = useSharedStaticProps(props)
+  const { coins, ...sharedStaticProps } = useSharedStaticProps(props)
+  const { updatedCoins } = useUpdatedCgTradingData(coins)
   
   return <>
-    <HomeLayout {...sharedStaticProps}>
-      <HomeStartPage {...sharedStaticProps} />
+    <HomeLayout {...sharedStaticProps} coins={updatedCoins} >
+      <HomeStartPage {...sharedStaticProps} coins={updatedCoins} />
     </HomeLayout>
   </>
 }
