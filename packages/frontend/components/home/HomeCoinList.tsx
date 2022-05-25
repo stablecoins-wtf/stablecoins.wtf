@@ -2,8 +2,10 @@ import { Coin } from '@models/Coin.model'
 import { datesAreSameDay } from '@shared/datesAreSameDay'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import dayjs from 'dayjs'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import arrowDownIcon from 'public/icons/bbg/bbg-icon-arrowdown.svg'
 import { FC, useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
 import 'twin.macro'
@@ -95,7 +97,10 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
                   <BloombergTH scope="col">Mechanism</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>Price</BloombergTH>
                   <BloombergTH scope="col" isNumber={true}>Volume 24h</BloombergTH>
-                  <BloombergTH scope="col" isNumber={true}>Market Cap</BloombergTH>
+                  <BloombergTH scope="col" isNumber={true}>
+                    <span tw="mr-1">Market Cap</span>
+                    <Image src={arrowDownIcon} width={7} height={10} tw="opacity-50 translate-y-px"/>
+                  </BloombergTH>
                   <BloombergTH scope="col" tw="hidden md:(table-cell pl-2)" isNumber={true}>7d %</BloombergTH>
                 </tr>
               </thead>
