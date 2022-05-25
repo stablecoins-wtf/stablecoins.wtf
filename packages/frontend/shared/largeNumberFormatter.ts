@@ -1,4 +1,6 @@
-export const largeNumberFormatter = (x: number) => {
+export const largeNumberFormatter = (x?: number) => {
+  if (!x) return 0
+  
   if (x >= 999 && x < 1000000) {
     return (x/1000).toFixed(1) + 'K'
   } else if (x >= 1000000 && x < 9999999) {

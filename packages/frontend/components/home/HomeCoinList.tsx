@@ -35,19 +35,39 @@ export interface HomeCoinListProps {
 export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {  
   const router = useRouter()
   const { slug } = router.query
-  const [activeCoin, setActiveCoin] = useState<Coin>()
-  const [filteredMechanism, setFilteredMechanism] = useState<string>()
   const allMechanisms = Array.from(new Set((coins || []).map(c => c.mechanism)))
+  const [filteredMechanism, setFilteredMechanism] = useState<string>()
+  const [sortAttribute, setSortAttribute] = useState<{ attr: 'market_caps', order: 'asc' | 'desc' }>({
+    attr: 'market_caps',
+    order: 'desc',
+  })
+  const [shownCoins, setShownCoins] = useState<Coin[]>([])
+  
+  useEffect(() => {
+    const shownCoins = coins
+      .filter((c) => (
+        !filteredMechanism || filteredMechanism === c.mechanism
+      ))
+      .sort((c1, c2) => {
+        let val1: number
+        let val2: number          
+        if (sortAttribute.attr === 'market_caps') {
+          const caps1 = c1?.cgTradingData?.market_caps || []
+          val1 = caps1?.[caps1.length - 1]?.[1] || 0
+          const caps2 = c2?.cgTradingData?.market_caps || []
+          val2 = caps2?.[caps2.length - 1]?.[1] || 0
+        }
+        if (val1! === val2!) return 0
+        if (val1! > val2!) return sortAttribute.order === 'asc' ? 1 : -1
+        return sortAttribute.order === 'asc' ? -1 : 1
+      })
+    setShownCoins(shownCoins)
+  }, [filteredMechanism, sortAttribute])
 
+  const [activeCoin, setActiveCoin] = useState<Coin>()
   useEffect(() => {
     setActiveCoin(coins.find(c => c.slug === slug))
   }, [slug])
-
-  const getFilteredCoins = () => {
-    return coins.filter((c) => (
-      !filteredMechanism || filteredMechanism === c.mechanism
-    ))
-  }
 
   return <>
     <BloombergBox title="Top Stablecoins by Market Cap" {...props}>
@@ -82,7 +102,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
 
               {/* Table Rows */}
               <tbody tw="divide-y divide-bbg-gray3">
-                {getFilteredCoins().map((coin, idx) =>
+                {shownCoins.map((coin, idx) =>
                   <HomeCoinListRow key={coin.id} coin={coin} idx={idx} coins={coins} activeCoin={activeCoin} />)}
               </tbody>
             </table>
@@ -110,23 +130,39 @@ export interface HomeCoinListRowProps extends HomeCoinListProps {
   idx: number
   activeCoin?: Coin
 }
-const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => {
-  const price = coin.cmcLatestQuotes?.quote?.USD?.price
-  const priceHighlight = (Math.abs(1 - price) > 0.01) ? ((Math.abs(1 - price) > 0.05) ? 'red' : 'orange') : undefined
-  const volume24h = coin.cmcLatestQuotes?.quote?.USD?.volume_24h
-  const caps = coin.cgTradingData?.market_caps || []
-  const cap = caps?.[caps.length - 1]?.[1] || coin.cmcLatestQuotes?.quote?.USD?.market_cap
+const HomeCoinListRow: FC<HomeCoinListRowProps> = (({ coin, idx, activeCoin }) => {
+  const [marketData, setmarketData] = useState<{
+    price: number
+    priceHighlight: string | undefined
+    volume24h: number
+    cap: number
+    cap7dChange: number
+  }>()
+  useEffect(() => {
+    const price = coin.cmcLatestQuotes?.quote?.USD?.price
+    const caps = coin.cgTradingData?.market_caps || []
+    const cap = caps?.[caps.length - 1]?.[1]
 
-  // Calculate 7-day Cap Change
-  let cap7dAgo = 0
-  for (let i = caps.length - 1; i >= 0; i--) {
-    const is7DaysAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(7, 'day'))
-    if (is7DaysAgo) {
-      cap7dAgo = caps[i]?.[1]
-      break
+    // Calculate 7-day Cap Change
+    let cap7dAgo = 0
+    for (let i = caps.length - 1; i >= 0; i--) {
+      const is7DaysAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(7, 'day'))
+      if (is7DaysAgo) {
+        cap7dAgo = caps[i]?.[1]
+        break
+      }
     }
-  }
-  const cap7dChange = (cap - (cap7dAgo || 0)) / (cap7dAgo || 1)
+    const cap7dChange = (cap - (cap7dAgo || 0)) / (cap7dAgo || 1)
+  
+    setmarketData({
+      price,
+      priceHighlight: (Math.abs(1 - price) > 0.01) ? ((Math.abs(1 - price) > 0.05) ? 'red' : 'orange') : undefined,
+      volume24h: coin.cmcLatestQuotes?.quote?.USD?.volume_24h,
+      cap,
+      cap7dChange,
+    })
+  }, [])
+
 
   return <>
     <Link href={`/coins/${coin.slug}`} passHref>
@@ -145,19 +181,19 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({coin, idx, activeCoin}) => 
           {/* <div tw="inline-block leading-[1.2] px-1 py-px pb-[2px] text-white bg-bbg-gray3">{coin.mechanismFormatted()}</div> */}
           {coin.mechanismFormatted()}
         </BloombergTD>
-        <BloombergTD isNumber={true} highlight={priceHighlight}>
-          <NumberFormat value={price} displayType={'text'} prefix={'$'} fixedDecimalScale={true} decimalScale={3} />
+        <BloombergTD isNumber={true} highlight={marketData?.priceHighlight}>
+          <NumberFormat value={marketData?.price} displayType={'text'} prefix={'$'} fixedDecimalScale={true} decimalScale={3} />
         </BloombergTD>
-        <BloombergTD isNumber={true} highlight={priceHighlight}>
-          <span tw="md:hidden">${largeNumberFormatter(volume24h)}</span>
-          <NumberFormat tw="hidden md:inline" value={volume24h} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
+        <BloombergTD isNumber={true} highlight={marketData?.priceHighlight}>
+          <span tw="md:hidden">${largeNumberFormatter(marketData?.volume24h)}</span>
+          <NumberFormat tw="hidden md:inline" value={marketData?.volume24h} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
         </BloombergTD>
-        <BloombergTD isNumber={true} highlight={priceHighlight}>
-          <span tw="md:hidden">${largeNumberFormatter(cap)}</span>
-          <NumberFormat tw="hidden md:inline" value={cap} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
+        <BloombergTD isNumber={true} highlight={marketData?.priceHighlight}>
+          <span tw="md:hidden">${largeNumberFormatter(marketData?.cap)}</span>
+          <NumberFormat tw="hidden md:inline" value={marketData?.cap} displayType={'text'} prefix={'$'} decimalScale={0} thousandSeparator={true} />
         </BloombergTD>
-        <BloombergTD tw="hidden md:(table-cell pr-2)" isNumber={true} highlight={priceHighlight}>
-          <NumberFormat value={Math.abs(cap7dChange * 100)} displayType={'text'} prefix={cap7dChange >= 0 ? '+' : '-'} suffix={'%'} decimalScale={0} />
+        <BloombergTD tw="hidden md:(table-cell pr-2)" isNumber={true} highlight={marketData?.priceHighlight}>
+          <NumberFormat value={Math.abs((marketData?.cap7dChange || 0) * 100)} displayType={'text'} prefix={(marketData?.cap7dChange || 0) >= 0 ? '+' : '-'} suffix={'%'} decimalScale={0} />
         </BloombergTD>
       </tr>
     </Link>
