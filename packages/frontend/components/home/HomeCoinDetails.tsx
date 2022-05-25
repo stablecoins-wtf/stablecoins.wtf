@@ -10,7 +10,6 @@ import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
 import { useQuery } from 'react-query'
-import 'twin.macro'
 import tw, { styled } from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
 

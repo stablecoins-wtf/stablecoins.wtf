@@ -1,37 +1,25 @@
 import { AccumulatedCoinsCharts } from '@components/charts/AccumulatedCoinsCharts'
-import { ProseWrapper } from '@components/ProseWrapper'
+import { KPI, KPIContent, KPIsWrapper, KPITitle } from '@components/layout/KPIs'
 import { datesAreSameDay } from '@shared/datesAreSameDay'
 import { ParsedSharedStaticProps } from '@shared/getSharedStaticProps'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import dayjs from 'dayjs'
-import Link from 'next/link'
 import { FC } from 'react'
+import { useCookies } from 'react-cookie'
 import NumberFormat from 'react-number-format'
-import 'twin.macro'
-import tw, { styled } from 'twin.macro'
+import tw from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
+import { HomeIntroBox } from './HomeIntroBox'
 
 export interface HomeStartPageProps extends ParsedSharedStaticProps {}
 export const HomeStartPage: FC<HomeStartPageProps> = ({coins, ...props}) => {
-
+  const [cookies] = useCookies(['hide-intro'])
+ 
+  const test = true
   return <>
     <div tw="flex flex-col overflow-hidden space-y-1">
       {/* Intro Box */}
-      <BloombergBox title="WTF! Where to start?">
-        <ProseWrapper>
-          <div tw="text-sm text-bbg-gray1 flex-col space-y-1.5 my-2">
-            <div>
-              <span tw="text-bbg-gray2">{'⋇ '}</span><strong>Select a coin</strong> in the table to get more details. 🪙
-            </div>
-            <div>
-              <span tw="text-bbg-gray2">{'⋇ '}</span><strong>Study our educational content</strong> about stablecoins<span tw="hidden lg:inline"> (lower left)</span>. 📚
-            </div>
-            <div>
-              <span tw="text-bbg-gray2">{'⋇ '}</span><Link href="/about" passHref><a>Learn more</a></Link> about this project. ℹ️
-            </div>
-          </div>           
-        </ProseWrapper>
-      </BloombergBox>
+      {!(cookies['hide-intro'] === 'true') && <HomeIntroBox />}
 
       {/* Main Page */}
       <BloombergBox tw="flex-1 flex flex-col" title="Total Stablecoin Market KPIs">
@@ -44,19 +32,6 @@ export const HomeStartPage: FC<HomeStartPageProps> = ({coins, ...props}) => {
     </div>
   </>
 }
-
-const KPIsWrapper = styled.div(() => [
-  tw`flex flex-wrap -mx-0.5 -mt-0.5 mb-6`,
-])
-const KPI = styled.div(() => [
-  tw`flex-1 m-0.5 bg-bbg-gray3 border-t border-[#404040] p-1 px-2`,
-])
-const KPITitle = styled.div(() => [
-  tw`text-bbg-gray1 text-sm mb-1 whitespace-nowrap `,
-])
-const KPIContent = styled.div(() => [
-  tw`font-semibold`,
-])
 
 export const HomeStartPageKPIs: FC<HomeStartPageProps> = ({coins}) => {
   const totalCap = coins.reduce((acc, val): any => {
@@ -108,6 +83,7 @@ export const HomeStartPageKPIs: FC<HomeStartPageProps> = ({coins}) => {
 
   return <>
     <h4 tw="text-center mb-4">Total Stablecoin Market KPIs</h4>
+
     <KPIsWrapper>
       <KPI>
         <KPITitle>Market Cap</KPITitle>

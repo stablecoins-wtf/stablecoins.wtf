@@ -1,5 +1,4 @@
 import { FC } from 'react'
-import 'twin.macro'
 
 export const ProseWrapper: FC = ({children, ...props}) => {
   return <>

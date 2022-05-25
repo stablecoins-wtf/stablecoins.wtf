@@ -16,5 +16,8 @@
   "devDependencies": {
     "concurrently": "^7.2.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "resolutions": {
+    "@types/react": "^17.0.0"
+  }
 }
