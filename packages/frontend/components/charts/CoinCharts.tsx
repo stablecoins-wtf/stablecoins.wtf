@@ -1,6 +1,7 @@
 import { Coin, CoingeckoTradingData } from '@models/Coin.model'
 import axios from 'axios'
 import dayjs from 'dayjs'
+import { CG_TRADING_DATA_MAX_AGE_MINUTES } from 'pages/api/coin/coingecko-trading-data'
 import { FC, useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import 'twin.macro'
@@ -8,8 +9,6 @@ import { CoinMarketCapChart } from './CoinMarketCapChart'
 import { CoinPriceChart } from './CoinPriceChart'
 import { CoinVelocityChart } from './CoinVelocityChart'
 import { CoinVolumeChart } from './CoinVolumeChart'
-
-const TRADING_DATA_MAX_AGE_MINUTES = 60 * 24
 
 export interface CoinChartsProps {
   coin: Coin
@@ -31,7 +30,7 @@ export const CoinCharts: FC<CoinChartsProps> = ({coin, ...props}) => {
     }
     // Check if price history already exist and/or is outdated
     const updatedAt = coin?.cgTradingData?.updatedAt
-    const isOutdated = dayjs().diff(updatedAt, 'minute', true) > TRADING_DATA_MAX_AGE_MINUTES
+    const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CG_TRADING_DATA_MAX_AGE_MINUTES
     if (!updatedAt || isOutdated) {
       refetch()
     } else {
