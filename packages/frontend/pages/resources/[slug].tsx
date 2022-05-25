@@ -5,6 +5,7 @@ import { RichText } from '@graphcms/rich-text-react-renderer'
 import { fetchOrGetResources } from '@shared/getAllResources'
 import { getSharedStaticProps, SharedStaticProps, useSharedStaticProps } from '@shared/getSharedStaticProps'
 import { GetStaticPaths, GetStaticProps } from 'next'
+import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import PageNotFound404 from 'pages/404'
 import React from 'react'
@@ -18,6 +19,11 @@ export default function HomePage({...props}: SharedStaticProps) {
   if (!resource) return <PageNotFound404 {...props} />
 
   return <>
+    <NextSeo
+      title={resource.title}
+      description={resource.subtitle || 'Research and educational content about stablecoins'}
+    />
+
     <HomeLayout coins={coins} resources={resources}>
       <BloombergBox tw="flex-1" title={resource.subtitle || resource.title}>
         {resource.content &&

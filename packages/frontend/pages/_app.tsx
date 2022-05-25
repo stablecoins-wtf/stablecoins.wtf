@@ -28,12 +28,20 @@ export default function App({ Component, pageProps }: AppProps) {
       dangerouslySetAllPagesToNoFollow={!env.isProduction}
       dangerouslySetAllPagesToNoIndex={!env.isProduction}
       defaultTitle='stablecoins.wtf'
+      titleTemplate='%s | stablecoins.wtf'
       description='Educating degens about stablecoins'
       openGraph={{
         type: 'website',
         locale: 'en',
         url: 'https://stablecoins.wtf',
         site_name: 'stablecoins.wtf',
+        images: [
+          {
+            url: `${env.url}/og/cover.jpg`,
+            width: 1200,
+            height: 670,
+          },
+        ],
       }}
       twitter={{
         handle: '@stablecoinswtf',
