@@ -21,8 +21,8 @@ const customStyles = css`
   #nprogress > .spinner {
     ${tw`hidden!`}
   }
-  .tippy-tooltip.dark-theme {
-    ${tw`bg-black bg-opacity-70 backdrop-blur text-white text-sm px-2 py-1.5 rounded-none`},
+  .tippy-tooltip {
+    ${tw`bg-bbg-gray2 bg-opacity-90 text-white text-sm px-2 py-1.5 rounded-none`},
   }
 `
 

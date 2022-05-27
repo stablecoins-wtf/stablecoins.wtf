@@ -91,7 +91,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
     }
     return <>
       <BloombergTH scope="col" isNumber={isNumber} isSortable={!!sortAttribute} onClick={doSort} {...props}>
-        <Tooltip disabled={!tooltip} title={tooltip} position="top" animateFill={false}>
+        <Tooltip disabled={!tooltip} title={tooltip} position="top">
           <div css={[isSortedBy && tw`flex justify-end items-center`]}>
             <span css={[isSortedBy && tw`mr-1`]}>{title}</span>
             {isSortedBy &&
@@ -209,7 +209,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({ coin, idx, activeCoin }) =
           tw`uppercase font-semibold text-bbg-orange`,
           activeCoin?.id === coin.id && tw`text-black`,
         ]}>
-          <Tooltip title={coin.name} position="bottom" animateFill={false}>
+          <Tooltip title={coin.name} position="bottom">
             <div>{coin.symbol}</div>
           </Tooltip>
         </BloombergTD>
