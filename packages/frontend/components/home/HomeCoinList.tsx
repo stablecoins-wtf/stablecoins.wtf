@@ -209,7 +209,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({ coin, idx, activeCoin }) =
           tw`uppercase font-semibold text-bbg-orange`,
           activeCoin?.id === coin.id && tw`text-black`,
         ]}>
-          <Tooltip title={coin.name} position="bottom">
+          <Tooltip title={coin.name} position="bottom" disabled={true}>
             <div>{coin.symbol}</div>
           </Tooltip>
         </BloombergTD>
