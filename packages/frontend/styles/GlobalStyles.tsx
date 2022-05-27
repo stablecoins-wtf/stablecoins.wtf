@@ -1,6 +1,7 @@
 import { Global } from '@emotion/react'
 import 'nprogress/nprogress.css'
 import React from 'react'
+import 'react-tippy/dist/tippy.css'
 import tw, { css, GlobalStyles as BaseStyles } from 'twin.macro'
 
 const customStyles = css`
@@ -19,6 +20,9 @@ const customStyles = css`
   }
   #nprogress > .spinner {
     ${tw`hidden!`}
+  }
+  .tippy-tooltip.dark-theme {
+    ${tw`bg-black bg-opacity-70 backdrop-blur text-white text-sm px-2 py-1.5 rounded-none`},
   }
 `
 

@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import arrowDownIcon from 'public/icons/bbg/bbg-icon-arrowdown--cyan.svg'
 import { FC, useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
+import { Tooltip } from 'react-tippy'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
@@ -79,7 +80,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
     setActiveCoin(coins.find(c => c.slug === slug))
   }, [slug])
 
-  const TH: FC<{ title: string, sortAttribute?: HomeCoinListSortState['attribute'], isNumber?: boolean }> = ({ title, sortAttribute, isNumber, ...props }) => {
+  const TH: FC<{ title: string, tooltip?: string, sortAttribute?: HomeCoinListSortState['attribute'], isNumber?: boolean }> = ({ title, tooltip, sortAttribute, isNumber, ...props }) => {
     const isSortedBy = !!sortAttribute && (sortAttribute === sortState.attribute)
     const doSort = () => {
       if (!sortAttribute) return
@@ -90,11 +91,13 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
     }
     return <>
       <BloombergTH scope="col" isNumber={isNumber} isSortable={!!sortAttribute} onClick={doSort} {...props}>
-        <div css={[isSortedBy && tw`flex justify-end items-center`]}>
-          <span css={[isSortedBy && tw`mr-1`]}>{title}</span>
-          {isSortedBy &&
+        <Tooltip disabled={!tooltip} title={tooltip} position="top" animateFill={false}>
+          <div css={[isSortedBy && tw`flex justify-end items-center`]}>
+            <span css={[isSortedBy && tw`mr-1`]}>{title}</span>
+            {isSortedBy &&
             <Image src={arrowDownIcon} width={7} height={10} css={[sortState.order === 'asc' && tw`scale-y-[-1]`]} />}
-        </div>
+          </div>
+        </Tooltip>
       </BloombergTH>
     </>
   }
@@ -127,7 +130,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
                   <TH title='Price' isNumber={true} sortAttribute='prices' />
                   <TH title='Volume 24h' isNumber={true} sortAttribute='total_volumes' />
                   <TH title='Market Cap' isNumber={true} sortAttribute='market_caps' />
-                  <TH title='7d %' isNumber={true} tw="hidden md:(table-cell pl-2)" />
+                  <TH title='7d %' tooltip='7-Day Change of Market Cap' isNumber={true} tw="hidden md:(table-cell pl-2)" />
                 </tr>
               </thead>
 
@@ -205,7 +208,11 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = (({ coin, idx, activeCoin }) =
         <BloombergTD css={[
           tw`uppercase font-semibold text-bbg-orange`,
           activeCoin?.id === coin.id && tw`text-black`,
-        ]}>{coin.symbol}</BloombergTD>
+        ]}>
+          <Tooltip title={coin.name} position="bottom" animateFill={false}>
+            <div>{coin.symbol}</div>
+          </Tooltip>
+        </BloombergTD>
         <BloombergTD css={[
           activeCoin?.id === coin.id ? tw`text-bbg-gray3` : tw`text-bbg-gray1`,
         ]}>
