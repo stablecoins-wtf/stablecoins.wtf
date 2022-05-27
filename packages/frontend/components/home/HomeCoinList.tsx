@@ -1,4 +1,4 @@
-import { Coin } from '@models/Coin.model'
+import { Coin, CoinMechanism } from '@models/Coin.model'
 import { datesAreSameDay } from '@shared/datesAreSameDay'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import dayjs from 'dayjs'
@@ -38,7 +38,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
   const router = useRouter()
   const { slug } = router.query
   const allMechanisms = Array.from(new Set((coins || []).map(c => c.mechanism)))
-  const [filteredMechanism, setFilteredMechanism] = useState<string>()
+  const [filteredMechanism, setFilteredMechanism] = useState<CoinMechanism>()
   const [sortAttribute, setSortAttribute] = useState<{ attr: 'market_caps', order: 'asc' | 'desc' }>({
     attr: 'market_caps',
     order: 'desc',

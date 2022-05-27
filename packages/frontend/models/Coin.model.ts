@@ -8,7 +8,7 @@ export class Coin {
     public slug: string,
     public coingeckoId: string,
     public description: RichTextContent | undefined,
-    public mechanism: string,
+    public mechanism: CoinMechanism,
     public jurisdiction: string,
     public issuer: string,
     public governance: string,
@@ -31,7 +31,7 @@ export class Coin {
       data?.['slug'] as string,
       data?.['coingeckoId'] as string,
       data?.['description']?.raw as RichTextContent,
-      data?.['mechanism'] as string,
+      data?.['mechanism'] as CoinMechanism,
       data?.['jurisdiction'] as string,
       data?.['issuer'] as string,
       data?.['governance'] as string,
@@ -48,6 +48,13 @@ export class Coin {
   mechanismFormatted(): string {
     return (this.mechanism || '').replaceAll('_', '-')
   }
+}
+
+export enum CoinMechanism {
+  FIAT_BACKED = 'Fiat_backed',
+  CRYPTO_BACKED = 'Crypto_backed',
+  ALGORITHMIC = 'Algorithmic',
+  HYBRID = 'Hybrid',
 }
 
 export interface CoinmarketcapMetadata {

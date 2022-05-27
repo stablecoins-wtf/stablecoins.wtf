@@ -1,16 +1,18 @@
 import { CoinCharts } from '@components/charts/CoinCharts'
+import { KPI, KPIContent, KPIsWrapper, KPITitle } from '@components/layout/KPIs'
 import { ProseWrapper } from '@components/ProseWrapper'
 import { RichText } from '@graphcms/rich-text-react-renderer'
-import { Coin, CryptopanicNews } from '@models/Coin.model'
+import { Coin, CoinMechanism, CryptopanicNews } from '@models/Coin.model'
 import { datesAreSameDay } from '@shared/datesAreSameDay'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import axios from 'axios'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
+import { BsInfoCircle } from 'react-icons/bs'
 import NumberFormat from 'react-number-format'
 import { useQuery } from 'react-query'
-import tw, { styled } from 'twin.macro'
+import tw from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
 
 export interface HomeCoinDetailsProps {
@@ -90,19 +92,6 @@ export const CoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({coin}) => {
 }
 
 
-const KPIsWrapper = styled.div(() => [
-  tw`flex flex-wrap -mx-0.5 -mt-0.5 mb-6`,
-])
-const KPI = styled.div(() => [
-  tw`flex-1 m-0.5 bg-bbg-gray3 border-t border-[#404040] p-1 px-2`,
-])
-const KPITitle = styled.div(() => [
-  tw`text-bbg-gray1 text-sm mb-1 whitespace-nowrap `,
-])
-const KPIContent = styled.div(() => [
-  tw`font-semibold whitespace-nowrap `,
-])
-
 export const CoinDetailsKPIs: FC<HomeCoinDetailsProps> = ({coin}) => {
   const caps = coin.cgTradingData?.market_caps || []
   const cap = caps?.[caps.length - 1][1]
@@ -163,11 +152,26 @@ export const CoinDetailsKPIs: FC<HomeCoinDetailsProps> = ({coin}) => {
 
 
 export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({coin}) => {
+  const mechanismLinks: { [key in CoinMechanism]?: string } = {
+    [CoinMechanism.ALGORITHMIC]: '/resources/algorithmic-stablecoins',
+    [CoinMechanism.FIAT_BACKED]: '/resources/fiat-backed-stablecoins',
+    [CoinMechanism.CRYPTO_BACKED]: '/resources/crypto-backed-stablecoins',
+  }
+
   return <>
     <KPIsWrapper>
       <KPI>
         <KPITitle>Mechanism</KPITitle>
-        <KPIContent>{coin.mechanismFormatted()}</KPIContent>
+        <KPIContent>
+          {Object.keys(mechanismLinks).includes(coin.mechanism)
+            ? <Link href={mechanismLinks[coin.mechanism]!} passHref>
+              <a tw="flex items-center underline cursor-pointer">
+                <span>{coin.mechanismFormatted()}</span>
+                <BsInfoCircle tw="ml-2 -translate-y-px" />
+              </a>
+            </Link>
+            : coin.mechanismFormatted()}
+        </KPIContent>
       </KPI>
       <KPI>
         <KPITitle>Governance</KPITitle>
