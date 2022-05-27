@@ -205,7 +205,9 @@ export const CoinDetailsLinks: FC<HomeCoinDetailsProps> = ({coin}) => {
         {Object.entries(links).map(([title, url]) => url
           ? (
             <li key={url}>
-              {title}: <Link href={url} target="_blank"><a>{url}</a></Link>
+              {title}: <Link href={url} target="_blank"><a tw="break-words">
+                {url}
+              </a></Link>
             </li>
           )
           : null
