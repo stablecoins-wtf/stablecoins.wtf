@@ -119,10 +119,10 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
       {/* Legende */}
       <div tw="flex justify-end items-center space-x-4 mt-3 mb-1 text-sm text-bbg-gray1">
         <div tw="flex items-center">
-          <div tw="w-1.5 h-1.5 bg-bbg-orange mr-2" />1% de-pegged
+          <div tw="w-1.5 h-1.5 bg-bbg-orange mr-2" />&gt;1% de-pegged
         </div>
         <div tw="flex items-center">
-          <div tw="w-1.5 h-1.5 bg-bbg-red1 mr-2" />5% de-pegged
+          <div tw="w-1.5 h-1.5 bg-bbg-red1 mr-2" />&gt;5% de-pegged
         </div>
       </div>
 
