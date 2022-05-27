@@ -15,20 +15,21 @@ export default function ResourceDetailPage({...props}: SharedStaticProps) {
   const router = useRouter()
   const {coins, resources} = useSharedStaticProps(props)
   const { slug } = router.query
-  const resource = resources.find(r => r.slug === slug)
-  if (!resource) return <PageNotFound404 {...props} />
+  const activeResource = resources.find(r => r.slug === slug)
+
+  if (!activeResource) return <PageNotFound404 {...props} />
 
   return <>
     <NextSeo
-      title={resource.title}
-      description={resource.subtitle || 'Research and educational content about stablecoins'}
+      title={activeResource.title}
+      description={activeResource.subtitle || 'Research and educational content about stablecoins'}
     />
 
     <HomeLayout coins={coins} resources={resources}>
-      <BloombergBox tw="flex-1" title={resource.subtitle || resource.title}>
-        {resource.content &&
+      <BloombergBox tw="flex-1" title={activeResource.subtitle || activeResource.title}>
+        {activeResource.content &&
           <ProseWrapper>
-            <RichText content={resource.content} />
+            <RichText content={activeResource.content} />
           </ProseWrapper>
         }
       </BloombergBox>

@@ -42,20 +42,16 @@ export interface ParsedSharedStaticProps {
 }
 export const useSharedStaticProps = ({coinsData, resourcesData}: SharedStaticProps): ParsedSharedStaticProps => {
   // Initialize Coins
-  const [coins, setCoins] = useState<Coin[]>([])
-  useEffect(() => {
-    setCoins((coinsData || [])
-      .map(Coin.fromObject)
-      .filter(Boolean) as Coin[])
-  }, [])
+  const getCoins = () => (coinsData || [])
+    .map(Coin.fromObject)
+    .filter(Boolean) as Coin[]
+  const [coins] = useState(getCoins())
   
   // Initialize Resources
-  const [resources, setResources] = useState<Resource[]>([])
-  useEffect(() => {
-    setResources((resourcesData || [])
-      .map(Resource.fromObject)
-      .filter(Boolean) as Resource[])
-  }, [])
+  const getResources = () => (resourcesData || [])
+    .map(Resource.fromObject)
+    .filter(Boolean) as Resource[]
+  const [resources] = useState(getResources())
 
   // Check & initiate trading-data update (if outdated)
   const getQuery = (coin: Coin) => () => axios.post(
