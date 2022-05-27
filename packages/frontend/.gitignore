@@ -35,3 +35,6 @@ yarn-error.log*
 
 # custom build cache
 .cache
+
+# next-sitemap
+public/sitemap*.xml

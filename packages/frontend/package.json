@@ -11,6 +11,7 @@
     "dev": "NODE_ENV=development && yarn clean && next",
     "build": "NODE_ENV=production && yarn clean && next build",
     "start": "NODE_ENV=production && next start",
+    "postbuild": "next-sitemap",
     "clean": "rm -rf .cache"
   },
   "dependencies": {
@@ -66,6 +67,7 @@
     "babel-loader": "^8.2.5",
     "babel-plugin-macros": "^3.1.0",
     "eslint": "^8.15.0",
+    "next-sitemap": "^2.5.25",
     "postcss": "^8.4.13",
     "postcss-preset-env": "^7.6.0",
     "tailwindcss": "^3.0.24",
