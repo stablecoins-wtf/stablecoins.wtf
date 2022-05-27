@@ -30,7 +30,7 @@ export const AccumulatedCoinsVelocityChart: FC<AccumulatedCoinsChartProps> = ({ 
 
   return <>
     <div tw="relative col-span-2">
-      <ResponsiveContainer width="100%" aspect={2.5}>
+      <ResponsiveContainer width="100%" aspect={2} maxHeight={275}>
         <LineChart syncId={0} data={mergedData} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3" stroke={theme`colors.bbg.gray2`} />
           <XAxis dataKey="date" stroke='white' tickFormatter={d => d && dayjs(d).format('MM/DD')} fontSize={14} tickMargin={5} />

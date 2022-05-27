@@ -6,7 +6,7 @@ import 'twin.macro'
 import { theme } from 'twin.macro'
 import { AccumulatedCoinsChartProps } from './AccumulatedCoinsCharts'
 
-export const  AccumulatedCoinsMarketCapChart: FC<AccumulatedCoinsChartProps> = ({ coins, allDates, allSymbols, allColors, mergedData }) => {
+export const  AccumulatedCoinsMarketCapChart: FC<AccumulatedCoinsChartProps> = ({ allSymbols, allColors, mergedData }) => {
   const CustomTooltip: FC = ({ payload }: any) => {
     const data = payload?.[0]?.payload
     if (!data) return null
@@ -31,7 +31,7 @@ export const  AccumulatedCoinsMarketCapChart: FC<AccumulatedCoinsChartProps> = (
 
   return <>
     <div tw="relative col-span-2">
-      <ResponsiveContainer width="100%" aspect={2.5}>
+      <ResponsiveContainer width="100%" aspect={2} maxHeight={275}>
         <AreaChart data={mergedData} syncId={0} margin={{ top: 5, right: 5, left: -10, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3" stroke={theme`colors.bbg.gray2`} />
           <XAxis dataKey="date" stroke='white' tickFormatter={d => d && dayjs(d).format('MM/DD')} fontSize={14} tickMargin={5} />
