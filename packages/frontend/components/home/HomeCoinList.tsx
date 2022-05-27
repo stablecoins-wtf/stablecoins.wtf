@@ -74,6 +74,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
   return <>
     <BloombergBox title="Top Stablecoins by Market Cap" {...props}>
       <div tw="flex flex-col">
+        
         {/* Filter Bar */}
         <div tw="flex flex-wrap space-x-1 mb-2">
           <FilterButton isActive={!filteredMechanism} onClick={() => setFilteredMechanism(undefined)}>All</FilterButton>

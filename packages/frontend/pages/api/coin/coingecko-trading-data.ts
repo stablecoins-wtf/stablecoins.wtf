@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const updatedAt = cachedCgTradingData?.updatedAt
     const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CG_TRADING_DATA_MAX_AGE_MINUTES
     if (updatedAt && !isOutdated) {
-      return res.status(200).json({ cgTradingData: cachedCgTradingData })
+      return res.status(200).end()
     }
     
     // Fetch price history from CoinGecko
@@ -60,7 +60,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     `
     graphCmsClient.request(mutation, { symbol, cgTradingData })
 
-    res.status(200).json({ cgTradingData })
+    res.status(200).end()
 
   } catch (e) {
     console.error('Error while fetching data from CoinGecko', e)

@@ -58,53 +58,29 @@ export const useMergedCgTradingData = (
       total_volumes: [],
       velocity: [],
     }
+    const pushOrMerge = (dataPoints: CoingeckoMergedTradingDataPoint[], date: string, symbol: string, value: any) => {
+      if (!value) return
+      const doesExist = dataPoints?.[dataPoints.length - 1]?.date === date
+      if (doesExist) {
+        dataPoints[dataPoints.length - 1][symbol] = value
+      } else {
+        dataPoints.push({ date, [symbol]: value })
+      }
+    }
     for (const date of allDates) {
       for (const coin of coins) {
-        let firstMarketCapValueForDate = (
+        let firstMarketCapForDate = (
           coin.cgTradingData?.['market_caps'] || []
         ).find((x) => datesAreSameDay(x[0], date))
-        let firstVolumeValueForDate = (
+        pushOrMerge(mergedData['market_caps'], date, coin.symbol, firstMarketCapForDate?.[1])
+        
+        let firstVolumeForDate = (
           coin.cgTradingData?.['total_volumes'] || []
         ).find((x) => datesAreSameDay(x[0], date))
-        if (firstMarketCapValueForDate) {
-          const doesExist =
-            mergedData['market_caps']?.[mergedData['market_caps'].length - 1]
-              ?.date === date
-          doesExist
-            ? (mergedData['market_caps'][mergedData['market_caps'].length - 1][
-              coin.symbol
-            ] = firstMarketCapValueForDate[1])
-            : mergedData['market_caps'].push({
-              date,
-              [coin.symbol]: firstMarketCapValueForDate[1],
-            })
-        }
-        if (firstVolumeValueForDate) {
-          const doesExist =
-            mergedData['total_volumes']?.[
-              mergedData['total_volumes'].length - 1
-            ]?.date === date
-          doesExist
-            ? (mergedData['total_volumes'][
-              mergedData['total_volumes'].length - 1
-            ][coin.symbol] = firstVolumeValueForDate[1])
-            : mergedData['total_volumes'].push({
-              date,
-              [coin.symbol]: firstVolumeValueForDate[1],
-            })
-        }
-        if (firstMarketCapValueForDate && firstVolumeValueForDate) {
-          const velocity =
-            firstVolumeValueForDate[1] / firstMarketCapValueForDate[1]
-          const doesExist =
-            mergedData['velocity']?.[mergedData['velocity'].length - 1]
-              ?.date === date
-          doesExist
-            ? (mergedData['velocity'][mergedData['velocity'].length - 1][
-              coin.symbol
-            ] = velocity)
-            : mergedData['velocity'].push({ date, [coin.symbol]: velocity })
-        }
+        pushOrMerge(mergedData['total_volumes'], date, coin.symbol, firstVolumeForDate?.[1])
+        
+        const velocity = firstVolumeForDate && firstMarketCapForDate && firstVolumeForDate?.[1] / firstMarketCapForDate?.[1]
+        pushOrMerge(mergedData['velocity'], date, coin.symbol, velocity)
       }
     }
 

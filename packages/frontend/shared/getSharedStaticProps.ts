@@ -1,7 +1,11 @@
 import { Coin } from '@models/Coin.model'
 import { Resource } from '@models/Resource.model'
+import axios from 'axios'
+import dayjs from 'dayjs'
 import { GetStaticProps } from 'next'
+import { CG_TRADING_DATA_MAX_AGE_MINUTES } from 'pages/api/coin/coingecko-trading-data'
 import { useEffect, useState } from 'react'
+import { useQueries } from 'react-query'
 import {
   CoinsDataProps,
   getAllCoinsAndMetadata
@@ -37,22 +41,44 @@ export interface ParsedSharedStaticProps {
   resources: Resource[]
 }
 export const useSharedStaticProps = ({coinsData, resourcesData}: SharedStaticProps): ParsedSharedStaticProps => {
-  const [coins, setCoins] = useState<Coin[]>([])
-  const [resources, setResources] = useState<Resource[]>([])
-
   // Initialize Coins
+  const [coins, setCoins] = useState<Coin[]>([])
   useEffect(() => {
     setCoins((coinsData || [])
       .map(Coin.fromObject)
       .filter(Boolean) as Coin[])
-  }, [coinsData])
-
+  }, [])
+  
   // Initialize Resources
+  const [resources, setResources] = useState<Resource[]>([])
   useEffect(() => {
     setResources((resourcesData || [])
       .map(Resource.fromObject)
       .filter(Boolean) as Resource[])
-  }, [coinsData])
+  }, [])
+
+  // Check & initiate trading-data update (if outdated)
+  const getQuery = (coin: Coin) => () => axios.post(
+    '/api/coin/coingecko-trading-data',
+    { symbol: coin.symbol, coingeckoId: coin.coingeckoId }
+  )
+  const results = useQueries(coins.map((coin) => ({
+    queryKey: ['trading-data', coin.symbol],
+    queryFn: getQuery(coin),
+    enabled: false,
+    retry: false,
+  })))
+  useEffect(() => {
+    for (let idx = 0; idx < coins.length; idx++) {
+      const { refetch, isIdle } = results[idx]
+      const coin = coins[idx]
+      const updatedAt = coin.cgTradingData?.updatedAt
+      const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CG_TRADING_DATA_MAX_AGE_MINUTES
+      if (!updatedAt || isOutdated && isIdle) {
+        refetch()
+      }
+    }
+  }, [coins])
 
   return { coins, resources }
 }

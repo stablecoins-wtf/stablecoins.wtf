@@ -3,7 +3,6 @@ import { HomeLayout } from '@components/home/HomeLayout'
 import { Coin } from '@models/Coin.model'
 import { fetchOrGetCoinsData } from '@shared/getAllCoinsAndMetadata'
 import { getSharedStaticProps, SharedStaticProps, useSharedStaticProps } from '@shared/getSharedStaticProps'
-import { useUpdatedCgTradingData } from '@shared/useUpdatedCgTradingData'
 import { GetStaticPaths, GetStaticProps } from 'next'
 import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
@@ -15,11 +14,10 @@ export default function CoinDetailsPage({ coinsData, resourcesData }: SharedStat
   const router = useRouter()
   const { slug } = router.query
   const { coins, resources } = useSharedStaticProps({coinsData, resourcesData})
-  const { updatedCoins } = useUpdatedCgTradingData(coins)
   const [activeCoin, setActiveCoin] = useState<Coin | undefined>()
   useEffect(() => {
-    setActiveCoin(updatedCoins.find(c => c.slug === slug))
-  }, [updatedCoins, slug])
+    setActiveCoin(coins.find(c => c.slug === slug))
+  }, [coins, slug])
 
   if (!activeCoin) return <PageNotFound404 coinsData={coinsData} resourcesData={resourcesData} />
 
@@ -29,7 +27,7 @@ export default function CoinDetailsPage({ coinsData, resourcesData }: SharedStat
       description={`Trading-Data and Information about ${activeCoin.name} (${activeCoin.symbol})`}
     />
 
-    <HomeLayout coins={updatedCoins} resources={resources}>
+    <HomeLayout coins={coins} resources={resources}>
       <HomeCoinDetails coin={activeCoin} />
     </HomeLayout>
   </>

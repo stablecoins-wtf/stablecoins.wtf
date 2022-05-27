@@ -125,7 +125,7 @@ const updateCoinmarketcapMetadata = async (coinsData: any[]) => {
  * Checks whether the cached market quotes are outdated (older than CMC_LATEST_QUOTES_MAX_AGE_MINUTES).
  * If yes, they're re-fetched, merged into the coinsData, and updated in the GraphCMS database.
  */
-const CMC_LATEST_QUOTES_MAX_AGE_MINUTES = 60 * 2
+const CMC_LATEST_QUOTES_MAX_AGE_MINUTES = 60 * 6
 const updateCoinmarketcapQuotes = async (coinsData: any[]) => {
   // Determin symbols to fetch for (because attribute does not yet exist or is outdated)
   const coinsToUpdate = coinsData.filter((c: any) => {
