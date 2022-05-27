@@ -5,16 +5,17 @@ import dayjs from 'dayjs'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import arrowDownIcon from 'public/icons/bbg/bbg-icon-arrowdown.svg'
+import arrowDownIcon from 'public/icons/bbg/bbg-icon-arrowdown--cyan.svg'
 import { FC, useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
 
-const BloombergTH = styled.th(({isNumber}: any) => [
-  tw`pb-0.5 pl-1 pr-1 text-left text-xs text-bbg-gray1`,
+const BloombergTH = styled.th(({isNumber, isSortable}: any) => [
+  tw`pb-0.5 pl-1 pr-1 text-left text-xs text-bbg-gray1 font-semibold select-none`,
   isNumber && tw`text-right`,
+  isSortable && tw`cursor-pointer font-bold hover:text-gray-300`
 ])
 const BloombergTD = styled.td(({isNumber, highlight}: any) => [
   tw`whitespace-nowrap pb-0.5 pl-1 pr-1 text-sm`,
@@ -31,6 +32,10 @@ const FilterButton = styled.button(({isActive}: any) => [
     : tw`bg-bbg-gray3 border-[#383838] text-bbg-gray1`
 ])
 
+export interface HomeCoinListSortState {
+  attribute: 'market_caps' | 'total_volumes' | 'prices' | 'market_caps_7d_change'
+  order: 'asc' | 'desc'
+}
 export interface HomeCoinListProps {
   coins: Coin[]
 }
@@ -39,10 +44,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
   const { slug } = router.query
   const allMechanisms = Array.from(new Set((coins || []).map(c => c.mechanism)))
   const [filteredMechanism, setFilteredMechanism] = useState<CoinMechanism>()
-  const [sortAttribute, setSortAttribute] = useState<{ attr: 'market_caps', order: 'asc' | 'desc' }>({
-    attr: 'market_caps',
-    order: 'desc',
-  })
+  const [sortState, setSortState] = useState<HomeCoinListSortState>({ attribute: 'market_caps', order: 'desc' })
   const [shownCoins, setShownCoins] = useState<Coin[]>([])
   
   useEffect(() => {
@@ -53,23 +55,49 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
       .sort((c1, c2) => {
         let val1: number
         let val2: number          
-        if (sortAttribute.attr === 'market_caps') {
+        if (sortState.attribute === 'market_caps') {
           const caps1 = c1?.cgTradingData?.market_caps || []
           val1 = caps1?.[caps1.length - 1]?.[1] || 0
           const caps2 = c2?.cgTradingData?.market_caps || []
           val2 = caps2?.[caps2.length - 1]?.[1] || 0
+        } else if (sortState.attribute === 'prices') {
+          val1 = c1.cmcLatestQuotes?.quote?.USD?.price
+          val2 = c2.cmcLatestQuotes?.quote?.USD?.price
+        } else if (sortState.attribute === 'total_volumes') {
+          val1 = c1.cmcLatestQuotes?.quote?.USD?.volume_24h
+          val2 = c2.cmcLatestQuotes?.quote?.USD?.volume_24h
         }
         if (val1! === val2!) return 0
-        if (val1! > val2!) return sortAttribute.order === 'asc' ? 1 : -1
-        return sortAttribute.order === 'asc' ? -1 : 1
+        if (val1! > val2!) return sortState.order === 'asc' ? 1 : -1
+        return sortState.order === 'asc' ? -1 : 1
       })
     setShownCoins(shownCoins)
-  }, [filteredMechanism, sortAttribute, coins])
+  }, [filteredMechanism, sortState, coins])
 
   const [activeCoin, setActiveCoin] = useState<Coin>()
   useEffect(() => {
     setActiveCoin(coins.find(c => c.slug === slug))
   }, [slug])
+
+  const TH: FC<{ title: string, sortAttribute?: HomeCoinListSortState['attribute'], isNumber?: boolean }> = ({ title, sortAttribute, isNumber, ...props }) => {
+    const isSortedBy = !!sortAttribute && (sortAttribute === sortState.attribute)
+    const doSort = () => {
+      if (!sortAttribute) return
+      setSortState({
+        attribute: sortAttribute,
+        order: isSortedBy ? (sortState.order === 'asc' ? 'desc' : 'asc') : 'desc',
+      })
+    }
+    return <>
+      <BloombergTH scope="col" isNumber={isNumber} isSortable={!!sortAttribute} onClick={doSort} {...props}>
+        <div css={[isSortedBy && tw`flex justify-end items-center`]}>
+          <span css={[isSortedBy && tw`mr-1`]}>{title}</span>
+          {isSortedBy &&
+            <Image src={arrowDownIcon} width={7} height={10} css={[sortState.order === 'asc' && tw`scale-y-[-1]`]} />}
+        </div>
+      </BloombergTH>
+    </>
+  }
 
   return <>
     <BloombergBox title="Top Stablecoins by Market Cap" {...props}>
@@ -93,16 +121,13 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({coins, ...props}) => {
               {/* Table Head */}
               <thead tw="bg-bbg-gray3 border-t border-[#383838]">
                 <tr tw="divide-x divide-black">
-                  <BloombergTH scope="col" tw="hidden md:(table-cell pl-2)" isNumber={true}>#</BloombergTH>
-                  <BloombergTH scope="col">Symbol</BloombergTH>
-                  <BloombergTH scope="col">Mechanism</BloombergTH>
-                  <BloombergTH scope="col" isNumber={true}>Price</BloombergTH>
-                  <BloombergTH scope="col" isNumber={true}>Volume 24h</BloombergTH>
-                  <BloombergTH scope="col" isNumber={true}>
-                    <span tw="mr-1">Market Cap</span>
-                    <Image src={arrowDownIcon} width={7} height={10} tw="opacity-50 translate-y-px"/>
-                  </BloombergTH>
-                  <BloombergTH scope="col" tw="hidden md:(table-cell pl-2)" isNumber={true}>7d %</BloombergTH>
+                  <TH title='#' isNumber={true} tw="hidden md:(table-cell pl-2)" />
+                  <TH title='Symbol' />
+                  <TH title='Mechanism' />
+                  <TH title='Price' isNumber={true} sortAttribute='prices' />
+                  <TH title='Volume 24h' isNumber={true} sortAttribute='total_volumes' />
+                  <TH title='Market Cap' isNumber={true} sortAttribute='market_caps' />
+                  <TH title='7d %' isNumber={true} tw="hidden md:(table-cell pl-2)" />
                 </tr>
               </thead>
 
