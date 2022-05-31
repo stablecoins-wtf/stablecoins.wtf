@@ -856,7 +856,7 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
-"@types/react@*", "@types/react@^17.0.38":
+"@types/react@*", "@types/react@^17.0.0", "@types/react@^17.0.38":
   version "17.0.45"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.45.tgz#9b3d5b661fd26365fefef0e766a1c6c30ccf7b3f"
   integrity sha512-YfhQ22Lah2e3CHPsb93tRwIGNiSwkuz1/blk4e6QrWS0jQzCSNbGLtOEYhPg02W0yGTTmpajp7dCTbBAMN3qsg==
@@ -3414,7 +3414,7 @@ tsutils@^3.21.0:
   dependencies:
     tslib "^1.8.1"
 
-twin.macro@3.0.0-rc.1:
+twin.macro@3.0.0-rc.2:
   version "3.0.0-rc.1"
   resolved "https://registry.yarnpkg.com/twin.macro/-/twin.macro-3.0.0-rc.1.tgz#cb95515476695e330d63d829e1ba1e1ad2a34f37"
   integrity sha512-YlMnw0J2d8tohKTVDn8/aistKL5cDg7+PIG+VHX+gVKwWnJ7vFbTN1wR5bS8ieUvaiMxGVSIKogEGDj6pt54SQ==
