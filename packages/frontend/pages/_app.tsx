@@ -11,7 +11,6 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { env } from 'shared/environment'
 import { Layout } from '../components/layout/Layout'
 import GlobalStyles from '../styles/GlobalStyles'
-import '../styles/tailwind.css'
 
 
 // Router Loading Animation with @tanem/react-nprogress
@@ -29,7 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
       dangerouslySetAllPagesToNoIndex={!env.isProduction}
       defaultTitle='stablecoins.wtf'
       titleTemplate='%s | stablecoins.wtf'
-      description='Educating degens about stablecoins'
+      description='Educating degens about stablecoins with a live-data dashboard.'
       openGraph={{
         type: 'website',
         locale: 'en',

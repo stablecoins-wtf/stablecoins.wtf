@@ -20,11 +20,7 @@ export default function HomePage({ ...props }: SharedStaticProps) {
             And we aim to make the data understandable by everyone by providing additional educational content.
           </p>
           <p>
-            This project started as an hackathon submission for <a href="https://hackathon.money/" target="_blank">HackMoney</a> 2022.
-            You can <a href="https://www.loom.com/share/e628c495c8ba4aee9bfd42c0834c1ea6" target="_blank">watch our demo video</a>.
-          </p>
-          <p>
-          Follow this project on <a href="https://twitter.com/stablecoinswtf" target="_blank">Twitter</a> for more information.
+          Follow this project & reach out to us on <a href="https://twitter.com/stablecoinswtf" target="_blank">Twitter</a>.
           </p>
 
           <h4>Authors:</h4>
