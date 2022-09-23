@@ -1,7 +1,6 @@
 import { Coin, CoinMechanism } from '@models/Coin.model'
 import { datesAreSameDay } from '@shared/datesAreSameDay'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
-import { useIsSSR } from '@shared/useIsSSR'
 import Tippy from '@tippyjs/react'
 import dayjs from 'dayjs'
 import Image from 'next/image'
@@ -52,7 +51,6 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
   })
   const [shownCoins, setShownCoins] = useState<Coin[]>([])
   const [isLoading, setIsLoading] = useState(true)
-  const isSSR = useIsSSR()
 
   useEffect(() => {
     setIsLoading(true)
@@ -176,7 +174,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
 
                 {/* Table Rows */}
                 <tbody tw="divide-y divide-bbg-gray3">
-                  {isLoading && !isSSR && !shownCoins?.length
+                  {isLoading && !shownCoins?.length
                     ? new Array(15)
                         .fill(undefined)
                         .map((_, idx) => <HomeCoinListRowIsLoading key={idx} {...{ idx }} />)
