@@ -1,6 +1,7 @@
 import { Coin, CoinMechanism } from '@models/Coin.model'
 import { datesAreSameDay } from '@shared/datesAreSameDay'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
+import { useIsSSR } from '@shared/useIsSSR'
 import Tippy from '@tippyjs/react'
 import dayjs from 'dayjs'
 import Image from 'next/image'
@@ -50,8 +51,11 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
     order: 'desc',
   })
   const [shownCoins, setShownCoins] = useState<Coin[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const isSSR = useIsSSR()
 
   useEffect(() => {
+    setIsLoading(true)
     const shownCoins = coins
       .filter((c) => !filteredMechanism || filteredMechanism === c.mechanism)
       .sort((c1, c2) => {
@@ -74,6 +78,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
         return sortState.order === 'asc' ? -1 : 1
       })
     setShownCoins(shownCoins)
+    setIsLoading(false)
   }, [filteredMechanism, sortState, coins])
 
   const [activeCoin, setActiveCoin] = useState<Coin>()
@@ -95,6 +100,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
         order: isSortedBy ? (sortState.order === 'asc' ? 'desc' : 'asc') : 'desc',
       })
     }
+
     return (
       <>
         <BloombergTH
@@ -170,15 +176,19 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
 
                 {/* Table Rows */}
                 <tbody tw="divide-y divide-bbg-gray3">
-                  {shownCoins.map((coin, idx) => (
-                    <HomeCoinListRow
-                      key={coin.id}
-                      coin={coin}
-                      idx={idx}
-                      coins={coins}
-                      activeCoin={activeCoin}
-                    />
-                  ))}
+                  {isLoading && !isSSR && !shownCoins?.length
+                    ? new Array(15)
+                        .fill(undefined)
+                        .map((_, idx) => <HomeCoinListRowIsLoading key={idx} {...{ idx }} />)
+                    : shownCoins.map((coin, idx) => (
+                        <HomeCoinListRow
+                          key={coin.id}
+                          coin={coin}
+                          idx={idx}
+                          coins={coins}
+                          activeCoin={activeCoin}
+                        />
+                      ))}
                 </tbody>
               </table>
             </div>
@@ -197,6 +207,28 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
           </div>
         </div>
       </BloombergBox>
+    </>
+  )
+}
+
+const HomeCoinListRowIsLoading: FC<{ idx: number }> = ({ idx }) => {
+  return (
+    <>
+      <tr
+        tw="h-[23px] bg-bbg-gray3/50 animate-pulse divide-x divide-bbg-gray3 pointer-events-none"
+        style={{
+          animationDelay: `${idx % 2 == 0 ? 0 : 1000}ms`,
+          animationDuration: '2000ms',
+        }}
+      >
+        <BloombergTD tw="hidden md:(table-cell pl-2)" />
+        <BloombergTD />
+        <BloombergTD />
+        <BloombergTD />
+        <BloombergTD />
+        <BloombergTD />
+        <BloombergTD tw="hidden md:(table-cell pl-2)" />
+      </tr>
     </>
   )
 }
