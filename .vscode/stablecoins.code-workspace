@@ -1,0 +1,42 @@
+{
+  "folders": [
+    {
+      "name": "_ROOT",
+      "path": "../"
+    },
+    {
+      "name": "Frontend",
+      "path": "../packages/frontend"
+    }
+  ],
+  "settings": {
+    "files.exclude": {
+      "**/node_modules/": true,
+      "**/package-lock.json": true,
+      "**/pnpm-lock.yaml": true,
+      "**/yarn.lock": true,
+      "**/yarn-error.log": true,
+      "**/.yarn": true,
+      "**/.turbo": true,
+      "**/.next": true
+    },
+    "search.useIgnoreFiles": true,
+    "search.useGlobalIgnoreFiles": true,
+    "search.useParentIgnoreFiles": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true,
+      "source.fixAll.eslint": true
+    },
+    "peacock.color": "#fca311",
+    "workbench.colorCustomizations": {
+      "sash.hoverBorder": "#fdb643",
+      "statusBar.background": "#fca311",
+      "statusBar.foreground": "#15202b",
+      "statusBarItem.hoverBackground": "#d78703",
+      "statusBarItem.remoteBackground": "#fca311",
+      "statusBarItem.remoteForeground": "#15202b"
+    }
+  }
+}
