@@ -16,7 +16,6 @@ export default class MyDocument extends Document {
         />
       </React.Fragment>
     )
-
     return initialProps
   }
 

@@ -1,7 +1,7 @@
 {
   "name": "@stablecoins/frontend",
+  "version": "0.0.1",
   "license": "MIT",
-  "version": "1.0.0",
   "babelMacros": {
     "twin": {
       "preset": "emotion"
@@ -69,11 +69,13 @@
     "babel-jest": "^29.0.3",
     "babel-loader": "^8.2.5",
     "babel-plugin-macros": "^3.1.0",
+    "cssnano": "^5.1.13",
     "eslint": "^8.23.1",
     "eslint-config-next": "^12.3.1",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react": "^7.31.8",
     "next-sitemap": "^3.1.22",
+    "postcss": "^8.4.16",
     "prettier": "^2.7.1",
     "tailwindcss": "^3.1.8",
     "ts-node": "^10.9.1",
