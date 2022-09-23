@@ -68,9 +68,9 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
         } else if (sortState.attribute === 'total_volumes') {
           val1 = c1.cmcLatestQuotes?.quote?.USD?.volume_24h
           val2 = c2.cmcLatestQuotes?.quote?.USD?.volume_24h
-        }
-        if (val1! === val2!) return 0
-        if (val1! > val2!) return sortState.order === 'asc' ? 1 : -1
+        } else return 0
+        if (val1 === val2) return 0
+        if (val1 > val2) return sortState.order === 'asc' ? 1 : -1
         return sortState.order === 'asc' ? -1 : 1
       })
     setShownCoins(shownCoins)

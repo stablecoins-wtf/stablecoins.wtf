@@ -168,6 +168,7 @@ export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({ coin }) 
     [CoinMechanism.FIAT_BACKED]: '/resources/fiat-backed-stablecoins',
     [CoinMechanism.CRYPTO_BACKED]: '/resources/crypto-backed-stablecoins',
   }
+  const mechanismLink = mechanismLinks[coin.mechanism]
 
   return (
     <>
@@ -175,8 +176,8 @@ export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({ coin }) 
         <KPI>
           <KPITitle>Mechanism</KPITitle>
           <KPIContent>
-            {Object.keys(mechanismLinks).includes(coin.mechanism) ? (
-              <Link href={mechanismLinks[coin.mechanism]!} passHref>
+            {mechanismLink ? (
+              <Link href={mechanismLink} passHref>
                 <a tw="flex items-center underline cursor-pointer">
                   <span>{coin.mechanismFormatted()}</span>
                   <BsInfoCircle tw="ml-2 -translate-y-px" />
