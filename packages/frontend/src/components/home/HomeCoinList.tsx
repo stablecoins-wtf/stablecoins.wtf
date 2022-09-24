@@ -213,10 +213,10 @@ const HomeCoinListRowIsLoading: FC<{ idx: number }> = ({ idx }) => {
   return (
     <>
       <tr
-        tw="h-[23px] bg-bbg-gray3/50 animate-pulse divide-x divide-bbg-gray3 pointer-events-none"
+        tw="h-[23px] bg-bbg-gray3/60 animate-pulse divide-x divide-bbg-gray3 pointer-events-none"
         style={{
-          animationDelay: `${idx % 2 == 0 ? 0 : 1000}ms`,
-          animationDuration: '2000ms',
+          animationDelay: `${idx % 2 == 0 ? 0 : 800}ms`,
+          animationDuration: '1600ms',
         }}
       >
         <BloombergTD tw="hidden md:(table-cell pl-2)" />
