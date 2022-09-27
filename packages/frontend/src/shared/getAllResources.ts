@@ -3,7 +3,7 @@ import { cache } from './buildCache'
 import { graphCmsClient } from './graphCmsClient'
 
 /**
- * Query resources/articles from GraphCMS
+ * Query resources from GraphCMS
  */
 export interface ResourcesDataProps {
   resourcesData: any[]
@@ -14,7 +14,7 @@ export const getAllResources = async (): Promise<ResourcesDataProps> => {
 }
 
 /**
- * Ether fetches resourcesData or returns it from the local-file `.cache`
+ * Ether fetches `resourcesData` or returns it from the local-file `.cache`
  */
 export const fetchOrGetResources = async (forceFetch?: boolean) => {
   let resourcesData = await cache.get('resources')
@@ -28,13 +28,15 @@ export const fetchOrGetResources = async (forceFetch?: boolean) => {
 }
 
 /**
- * Fetches all resources-articles from the GraphCMS database.
+ * Fetches all resources from the GraphCMS database.
  */
 const queryGraphCms = async () => {
   const query = gql`
-    query Coins {
+    query Resources {
       resources {
         id
+        createdAt
+        updatedAt
         title
         subtitle
         slug
@@ -44,6 +46,6 @@ const queryGraphCms = async () => {
       }
     }
   `
-  const data = await graphCmsClient.request(query)
-  return data.resources
+  const { resources } = await graphCmsClient.request(query)
+  return resources
 }

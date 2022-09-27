@@ -19,7 +19,7 @@ export const getAllCoinsAndMetadata = async (): Promise<CoinsDataProps> => {
 }
 
 /**
- * Ether fetches coinsData or returns it from the local-file `.cache`
+ * Ether fetches `coinsData` or returns it from the local-file `.cache`
  */
 export const fetchOrGetCoinsData = async (forceFetch?: boolean) => {
   let coinsData = await cache.get('coins')
@@ -42,6 +42,8 @@ const queryGraphCms = async () => {
     query Coins {
       coins {
         id
+        createdAt
+        updatedAt
         name
         symbol
         slug

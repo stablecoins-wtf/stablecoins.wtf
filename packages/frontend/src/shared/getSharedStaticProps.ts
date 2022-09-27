@@ -1,3 +1,4 @@
+import { Article } from '@models/Article.model'
 import { Coin } from '@models/Coin.model'
 import { Resource } from '@models/Resource.model'
 import { CG_TRADING_DATA_MAX_AGE_MINUTES } from '@pages/api/coin/coingecko-trading-data'
@@ -6,6 +7,7 @@ import dayjs from 'dayjs'
 import { GetStaticProps } from 'next'
 import { useEffect, useState } from 'react'
 import { useQueries } from 'react-query'
+import { ArticlesDataProps, getAllArticles } from './getAllArticles'
 import { CoinsDataProps, getAllCoinsAndMetadata } from './getAllCoinsAndMetadata'
 import { getAllResources, ResourcesDataProps } from './getAllResources'
 
@@ -14,15 +16,19 @@ import { getAllResources, ResourcesDataProps } from './getAllResources'
  * - `getAllCoinsAndMetadata`
  * - `getAllResources`
  */
-export type SharedStaticProps = CoinsDataProps & ResourcesDataProps
+export type SharedStaticProps = CoinsDataProps & ResourcesDataProps & ArticlesDataProps
 export const getSharedStaticProps: GetStaticProps = async () => {
-  const coinsData = await getAllCoinsAndMetadata()
-  const resourcesData = await getAllResources()
+  const [coinsData, resourcesData, articlesData] = await Promise.all([
+    getAllCoinsAndMetadata(),
+    getAllResources(),
+    getAllArticles(),
+  ])
 
   return {
     props: {
       ...coinsData,
       ...resourcesData,
+      ...articlesData,
     } as SharedStaticProps,
     revalidate: 60 * 10, // 10 minutes
   }
@@ -34,10 +40,12 @@ export const getSharedStaticProps: GetStaticProps = async () => {
 export interface ParsedSharedStaticProps {
   coins: Coin[]
   resources: Resource[]
+  articles: Article[]
 }
 export const useSharedStaticProps = ({
   coinsData,
   resourcesData,
+  articlesData,
 }: SharedStaticProps): ParsedSharedStaticProps => {
   // Initialize Coins
   const getCoins = () => (coinsData || []).map(Coin.fromObject).filter(Boolean) as Coin[]
@@ -47,6 +55,11 @@ export const useSharedStaticProps = ({
   const getResources = () =>
     (resourcesData || []).map(Resource.fromObject).filter(Boolean) as Resource[]
   const [resources] = useState(getResources())
+
+  // Initialize Articles
+  const getArticles = () =>
+    (articlesData || []).map(Article.fromObject).filter(Boolean) as Article[]
+  const [articles] = useState(getArticles())
 
   // Check & initiate trading-data update (if outdated)
   const getQuery = (coin: Coin) => () =>
@@ -74,5 +87,5 @@ export const useSharedStaticProps = ({
     }
   }, [coins])
 
-  return { coins, resources }
+  return { coins, resources, articles }
 }
