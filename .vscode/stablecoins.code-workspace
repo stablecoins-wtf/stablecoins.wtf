@@ -12,13 +12,12 @@
   "settings": {
     "files.exclude": {
       "**/node_modules/": true,
-      "**/package-lock.json": true,
       "**/pnpm-lock.yaml": true,
-      "**/yarn.lock": true,
-      "**/yarn-error.log": true,
+      "**/tsconfig.tsbuildinfo": true,
       "**/.yarn": true,
+      "**/.next": true,
       "**/.turbo": true,
-      "**/.next": true
+      "**/.vercel": true
     },
     "search.useIgnoreFiles": true,
     "search.useGlobalIgnoreFiles": true,

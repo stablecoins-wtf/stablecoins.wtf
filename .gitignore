@@ -1,3 +1,4 @@
+# dependencies
 node_modules
 
 # misc
@@ -5,10 +6,21 @@ node_modules
 *.pem
 
 # debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+npm-*.log*
+yarn-*.log*
+yarn-*.log*
 
 #environments
 .env.local
 .env
+
+# typescript
+*.tsbuildinfo
+dist
+
+# vercel
+.vercel
+
+# turbo
+.turbo
+
