@@ -23,7 +23,6 @@ export const fetchOrGetArticles = async (forceFetch?: boolean) => {
   articlesData = await queryGraphCms()
 
   await cache.set('articles', articlesData)
-
   return articlesData
 }
 

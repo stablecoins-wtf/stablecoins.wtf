@@ -11,7 +11,6 @@ import 'twin.macro'
 export interface HomePageProps extends SharedStaticProps {}
 export default function HomePage({ ...props }: HomePageProps) {
   const sharedStaticProps = useSharedStaticProps(props)
-  console.log('sharedStaticProps', sharedStaticProps)
 
   return (
     <>

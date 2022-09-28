@@ -26,6 +26,10 @@ module.exports = {
           discord: '#EB459E',
         },
       },
+      fontSize: {
+        xs: '0.8rem',
+        sm: '0.9rem',
+      },
       fontFamily: {
         display: ['Arial', 'serif'],
         mono: ['Inconsolata', 'Menlo', 'monospace'],

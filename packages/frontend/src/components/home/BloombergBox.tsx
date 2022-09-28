@@ -34,7 +34,7 @@ export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
           {!hideTopBar && (
             <div tw="sticky -top-2 z-50 bg-black bg-opacity-50 backdrop-blur flex justify-between text-bbg-gray2 text-sm p-2 px-3 -mt-2 -mx-3">
               <h3>{title}</h3>
-              <div tw="flex-shrink-0 flex items-center select-none space-x-4">
+              <div tw="shrink-0 flex items-center select-none space-x-4">
                 {isClosable ? (
                   <button
                     tw="flex items-center space-x-2 self-center text-white bg-white bg-opacity-0 px-1 -mr-1 hover:bg-opacity-10"
@@ -45,14 +45,14 @@ export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
                   </button>
                 ) : (
                   <>
-                    <div tw="flex items-center space-x-2">
+                    <div>
                       <Image
                         src={topbarMenuIcon}
                         width={10}
                         height={10}
                         alt="Decorative Options Icon"
+                        tw="opacity-50"
                       />
-                      <span>Options</span>
                     </div>
                     <div>
                       <Image
@@ -60,6 +60,7 @@ export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
                         width={10}
                         height={10}
                         alt="Decorative Arrow Icon"
+                        tw="opacity-50"
                       />
                     </div>
                     <div>
@@ -68,6 +69,7 @@ export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
                         width={10}
                         height={10}
                         alt="Decorative Square Icon"
+                        tw="opacity-50"
                       />
                     </div>
                   </>

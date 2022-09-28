@@ -2,7 +2,7 @@ import { BloombergBox } from '@components/home/BloombergBox'
 import { HomeArticleContent } from '@components/home/HomeArticleContent'
 import { HomeLayout } from '@components/home/HomeLayout'
 import PageNotFound404 from '@pages/404'
-import { fetchOrGetResources } from '@shared/getAllResources'
+import { fetchOrGetArticles } from '@shared/getAllArticles'
 import {
   getSharedStaticProps,
   SharedStaticProps,
@@ -13,22 +13,22 @@ import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/router'
 import 'twin.macro'
 
-export default function ResourceDetailPage({ ...props }: SharedStaticProps) {
+export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
   const sharedStaticProps = useSharedStaticProps(props)
   const { query } = useRouter()
-  const resource = sharedStaticProps.resources.find((r) => r.slug === query.slug)
-  if (!resource) return <PageNotFound404 {...props} />
+  const article = sharedStaticProps.articles.find((a) => a.slug === query.slug)
+  if (!article) return <PageNotFound404 {...props} />
 
   return (
     <>
       <NextSeo
-        title={resource.title}
-        description={resource.subtitle || 'Research and educational content about stablecoins'}
+        title={article.title}
+        description={article.subtitle || 'Blog article related to stablecoins'}
       />
 
       <HomeLayout {...sharedStaticProps}>
-        <BloombergBox tw="flex-1" title={resource.getRelativeUrl()}>
-          <HomeArticleContent article={resource} />
+        <BloombergBox tw="flex-1" title={article.getRelativeUrl()}>
+          <HomeArticleContent article={article} />
         </BloombergBox>
       </HomeLayout>
     </>
@@ -36,11 +36,11 @@ export default function ResourceDetailPage({ ...props }: SharedStaticProps) {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const resourcesData = await fetchOrGetResources()
-  const paths = (resourcesData || [])
-    .filter((resourceData: any) => !!resourceData?.slug)
-    .map((resourceData: any) => ({
-      params: { slug: resourceData.slug },
+  const articlesData = await fetchOrGetArticles()
+  const paths = (articlesData || [])
+    .filter((articleData: any) => !!articleData?.slug)
+    .map((articleData: any) => ({
+      params: { slug: articleData.slug },
     }))
 
   return {

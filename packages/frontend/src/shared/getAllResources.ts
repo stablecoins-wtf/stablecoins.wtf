@@ -43,6 +43,7 @@ const queryGraphCms = async () => {
         content {
           raw
         }
+        tags
       }
     }
   `

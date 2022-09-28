@@ -15,9 +15,8 @@ import 'twin.macro'
 export default function CoinDetailsPage({ ...props }: SharedStaticProps) {
   const router = useRouter()
   const { slug } = router.query
-  const { coins, resources } = useSharedStaticProps(props)
-  const activeCoin = coins.find((c) => c.slug === slug)
-
+  const sharedStaticProps = useSharedStaticProps(props)
+  const activeCoin = sharedStaticProps.coins.find((c) => c.slug === slug)
   if (!activeCoin) return <PageNotFound404 {...props} />
 
   return (
@@ -27,7 +26,7 @@ export default function CoinDetailsPage({ ...props }: SharedStaticProps) {
         description={`Trading-Data and Information about ${activeCoin.name} (${activeCoin.symbol})`}
       />
 
-      <HomeLayout coins={coins} resources={resources}>
+      <HomeLayout {...sharedStaticProps}>
         <HomeCoinDetails coin={activeCoin} />
       </HomeLayout>
     </>

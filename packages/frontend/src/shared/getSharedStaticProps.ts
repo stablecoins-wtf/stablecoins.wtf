@@ -15,6 +15,7 @@ import { getAllResources, ResourcesDataProps } from './getAllResources'
  * Merges the following into globally shared static props:
  * - `getAllCoinsAndMetadata`
  * - `getAllResources`
+ * - `getAllArticles`
  */
 export type SharedStaticProps = CoinsDataProps & ResourcesDataProps & ArticlesDataProps
 export const getSharedStaticProps: GetStaticProps = async () => {

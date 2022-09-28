@@ -26,4 +26,8 @@ export class Article {
       data?.['tags'] as string[],
     )
   }
+
+  getRelativeUrl(): string {
+    return `/articles/${this.slug}`
+  }
 }
