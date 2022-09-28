@@ -26,9 +26,9 @@ export default function App({ Component, pageProps }: AppProps) {
       <DefaultSeo
         dangerouslySetAllPagesToNoFollow={!env.isProduction}
         dangerouslySetAllPagesToNoIndex={!env.isProduction}
-        defaultTitle="stablecoins.wtf"
-        titleTemplate="%s | stablecoins.wtf"
-        description="Educating degens about stablecoins with a live-data dashboard."
+        defaultTitle="stablecoins.wtf – Crypto Stablecoin Dashboard & Resources"
+        titleTemplate="%s | stablecoins.wtf – Crypto Stablecoin Dashboard"
+        description="Track live market data of crypto stablecoins pegged to USD & EUR. Learn about mechanisms: algorithmic, crypto-backed, and fiat-backed."
         openGraph={{
           type: 'website',
           locale: 'en',
