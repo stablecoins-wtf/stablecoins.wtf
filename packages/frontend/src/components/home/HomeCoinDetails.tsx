@@ -10,7 +10,7 @@ import dayjs from 'dayjs'
 import Link from 'next/link'
 import { FC, useEffect, useState } from 'react'
 import { BsInfoCircle } from 'react-icons/bs'
-import NumberFormat from 'react-number-format'
+import { NumericFormat } from 'react-number-format'
 import { useQuery } from 'react-query'
 import tw from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
@@ -126,7 +126,7 @@ export const CoinDetailsKPIs: FC<HomeCoinDetailsProps> = ({ coin }) => {
         <KPI>
           <KPITitle>Market Cap 7d %</KPITitle>
           <KPIContent css={[cap7dChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`]}>
-            <NumberFormat
+            <NumericFormat
               value={Math.abs(cap7dChange * 100)}
               displayType={'text'}
               prefix={cap7dChange >= 0 ? '+' : '-'}
@@ -139,7 +139,7 @@ export const CoinDetailsKPIs: FC<HomeCoinDetailsProps> = ({ coin }) => {
         <KPI>
           <KPITitle>Market Cap 30d %</KPITitle>
           <KPIContent css={[cap30dChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`]}>
-            <NumberFormat
+            <NumericFormat
               value={Math.abs(cap30dChange * 100)}
               displayType={'text'}
               prefix={cap30dChange >= 0 ? '+' : '-'}

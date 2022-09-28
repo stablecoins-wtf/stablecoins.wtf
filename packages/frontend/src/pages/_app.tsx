@@ -60,9 +60,6 @@ export default function App({ Component, pageProps }: AppProps) {
         )}
 
         {/* Favicon */}
-        {/* <link rel="icon" type="image/png" sizes="32x32" href="/favicons/still/favicon-32x32.png" /> */}
-        {/* <link rel="icon" type="image/png" sizes="16x16" href="/favicons/still/favicon-16x16.png" /> */}
-        {/* <link rel="shortcut icon" href="/favicons/still/favicon.ico" /> */}
         <link rel="apple-touch-icon" sizes="180x180" href="/favicons/still/apple-touch-icon.png" />
         <link rel="mask-icon" href="/favicons/still/safari-pinned-tab.svg" color="#eaa929" />
         <link rel="manifest" href="/favicons/still/site.webmanifest" />

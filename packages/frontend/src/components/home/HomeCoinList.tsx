@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import arrowDownIcon from 'public/icons/bbg/bbg-icon-arrowdown--cyan.svg'
 import { FC, useEffect, useState } from 'react'
-import NumberFormat from 'react-number-format'
+import { NumericFormat } from 'react-number-format'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
@@ -298,7 +298,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
             {coin.mechanismFormatted()}
           </BloombergTD>
           <BloombergTD isNumber={true} highlight={marketData?.priceHighlight}>
-            <NumberFormat
+            <NumericFormat
               value={marketData?.price}
               displayType={'text'}
               prefix={'$'}
@@ -308,7 +308,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
           </BloombergTD>
           <BloombergTD isNumber={true} highlight={marketData?.priceHighlight}>
             <span tw="md:hidden">${largeNumberFormatter(marketData?.volume24h)}</span>
-            <NumberFormat
+            <NumericFormat
               tw="hidden md:inline"
               value={marketData?.volume24h}
               displayType={'text'}
@@ -319,7 +319,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
           </BloombergTD>
           <BloombergTD isNumber={true} highlight={marketData?.priceHighlight}>
             <span tw="md:hidden">${largeNumberFormatter(marketData?.cap)}</span>
-            <NumberFormat
+            <NumericFormat
               tw="hidden md:inline"
               value={marketData?.cap}
               displayType={'text'}
@@ -333,7 +333,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
             isNumber={true}
             highlight={marketData?.priceHighlight}
           >
-            <NumberFormat
+            <NumericFormat
               value={Math.abs((marketData?.cap7dChange || 0) * 100)}
               displayType={'text'}
               prefix={(marketData?.cap7dChange || 0) >= 0 ? '+' : '-'}

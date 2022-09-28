@@ -7,7 +7,7 @@ import { useIsSSR } from '@shared/useIsSSR'
 import dayjs from 'dayjs'
 import { FC } from 'react'
 import { useCookies } from 'react-cookie'
-import NumberFormat from 'react-number-format'
+import { NumericFormat } from 'react-number-format'
 import tw from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
 import { HomeIntroBox } from './HomeIntroBox'
@@ -97,7 +97,7 @@ export const HomeStartPageKPIs: FC<HomeStartPageProps> = ({ coins }) => {
         <KPI>
           <KPITitle>Market Cap 7d %</KPITitle>
           <KPIContent css={[cap7dChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`]}>
-            <NumberFormat
+            <NumericFormat
               value={Math.abs(cap7dChange * 100)}
               displayType={'text'}
               prefix={cap7dChange >= 0 ? '+' : '-'}
@@ -110,7 +110,7 @@ export const HomeStartPageKPIs: FC<HomeStartPageProps> = ({ coins }) => {
         <KPI>
           <KPITitle>Market Cap 30d %</KPITitle>
           <KPIContent css={[cap30dChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`]}>
-            <NumberFormat
+            <NumericFormat
               value={Math.abs(cap30dChange * 100)}
               displayType={'text'}
               prefix={cap30dChange >= 0 ? '+' : '-'}
