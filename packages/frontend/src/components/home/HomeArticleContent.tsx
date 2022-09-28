@@ -25,7 +25,7 @@ export const HomeArticleContent: FC<HomeArticleContentProps> = ({ article }) => 
           {!!tags.length && (
             <div tw="flex flex-wrap -mx-1 -my-0.5 ml-2 justify-end">
               {tags.map((tag) => (
-                <div key={tag} tw="mx-1 my-0.5 text-bbg-gray1 text-sm tracking-wide uppercase">
+                <div key={tag} tw="mx-1 my-0.5 text-bbg-gray1 text-sm tracking-wide lowercase">
                   #{tag}
                 </div>
               ))}

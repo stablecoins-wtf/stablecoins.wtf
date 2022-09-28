@@ -39,10 +39,10 @@ export const HomeArticlesList: FC<HomeArticlesListProps> = ({ articles, ...props
                 <div tw="flex pb-0.5 px-1 overflow-hidden">
                   <div tw="whitespace-pre font-semibold">{idx + 1}. </div>
                   <div tw="flex flex-col overflow-hidden">
-                    <div tw="leading-5 truncate font-semibold">{a.title}</div>
+                    <div tw="truncate font-semibold">{a.title}</div>
                     <div
                       css={[
-                        tw`leading-5 text-xs truncate`,
+                        tw`leading-4 text-xs truncate`,
                         activeArticle?.id === a.id ? tw`text-bbg-gray2` : tw`text-bbg-gray1`,
                       ]}
                     >
