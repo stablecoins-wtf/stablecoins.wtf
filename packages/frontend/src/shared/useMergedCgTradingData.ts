@@ -15,7 +15,7 @@ export type CoingeckoMergedTradingDataSets = {
   [set in CoingeckoTradingDataKey]: CoingeckoMergedTradingDataPoint[]
 }
 
-export const useMergedCgTradingData = (coins: Coin[], maxAgeDays = 30) => {
+export const useMergedCgTradingData = (coins: Coin[], maxAgeDays = 30, maxCoins = 10) => {
   const [allDates, setAllDates] = useState<string[]>([])
   const [allSymbols, setAllSymbols] = useState<string[]>([])
   const [allColors, setAllColors] = useState<string[]>([])
@@ -26,6 +26,19 @@ export const useMergedCgTradingData = (coins: Coin[], maxAgeDays = 30) => {
   })
 
   useEffect(() => {
+    // Filter only top `maxCoins` by market cap
+    coins = coins
+      .sort((c1, c2) => {
+        const c1MarketCapDataPoints = c1?.cgTradingData?.['market_caps'] || []
+        const c2MarketCapDataPoints = c2?.cgTradingData?.['market_caps'] || []
+        const c1LatestMarketCap =
+          c1MarketCapDataPoints?.[c1MarketCapDataPoints.length - 1]?.[1] || 0
+        const c2LatestMarketCap =
+          c2MarketCapDataPoints?.[c2MarketCapDataPoints.length - 1]?.[1] || 0
+        return c2LatestMarketCap - c1LatestMarketCap
+      })
+      .slice(0, maxCoins)
+
     // Determine all unique dates (days) with data-points
     const maxTimestamp = new Date().getTime() - maxAgeDays * 86400 * 1000
     const allDates: string[] = coins

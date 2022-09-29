@@ -18,19 +18,17 @@ export const HomeIntroBox: FC<HomeIntroBoxProps> = () => {
         }}
       >
         <ul tw="text-sm text-bbg-gray1 flex flex-col space-y-1.5 mb-1">
+          <li>→ Select a coin in the table to get more details 🪙</li>
           <li>
-            → <strong>Select a coin</strong> in the table to get more details. 🪙
-          </li>
-          <li>
-            → <strong>Study our educational content</strong> about stablecoins
-            <span tw="hidden lg:inline"> (lower left)</span>. 📚
+            → Study our educational content about stablecoins
+            <span tw="hidden lg:inline"> (lower left)</span> 📚
           </li>
           <li>
             →{' '}
             <Link href="/about" passHref>
-              <a>Learn more</a>
+              <a tw="font-bold hover:underline">Learn more about this project</a>
             </Link>{' '}
-            about this project. ℹ️
+            ℹ️
           </li>
         </ul>
       </BloombergBox>

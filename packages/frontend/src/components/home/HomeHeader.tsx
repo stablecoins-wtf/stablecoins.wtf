@@ -30,7 +30,13 @@ export const HomeHeader: FC<HomeHeaderProps> = ({ ...props }) => {
 
   const CoinLogo = () => (
     <div tw="flex items-center justify-center mr-2">
-      <Image src={stablecoinGif} alt="Animated Logo of stablecoins.wtf" height={20} width={20} />
+      <Image
+        src={stablecoinGif}
+        alt="Animated Logo of stablecoins.wtf"
+        height={20}
+        width={20}
+        priority
+      />
     </div>
   )
 

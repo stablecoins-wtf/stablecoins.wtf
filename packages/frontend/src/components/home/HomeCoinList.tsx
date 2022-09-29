@@ -151,46 +151,42 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
           </div>
 
           {/* Coin Table */}
-          <div tw="-mx-3 overflow-x-auto">
-            <div tw="relative inline-block min-w-full align-middle">
-              <table tw="min-w-full divide-y divide-bbg-gray3 border-b border-bbg-gray3">
-                {/* Table Head */}
-                <thead tw="bg-bbg-gray3 border-t border-[#383838]">
-                  <tr tw="divide-x divide-black">
-                    <TH title="#" isNumber={true} tw="hidden md:(table-cell pl-2)" />
-                    <TH title="Symbol" />
-                    <TH title="Mechanism" />
-                    <TH title="Price" isNumber={true} sortAttribute="prices" />
-                    <TH title="Volume 24h" isNumber={true} sortAttribute="total_volumes" />
-                    <TH title="Market Cap" isNumber={true} sortAttribute="market_caps" />
-                    <TH
-                      title="7d %"
-                      tooltip="7-Day Change of Market Cap"
-                      isNumber={true}
-                      tw="hidden md:(table-cell pl-2)"
-                    />
-                  </tr>
-                </thead>
+          <table tw="-mx-3 overflow-x-auto relative align-middle min-w-full divide-y divide-bbg-gray3 border-b border-bbg-gray3">
+            {/* Table Head */}
+            <thead tw="bg-bbg-gray3 border-t border-[#383838]">
+              <tr tw="divide-x divide-black">
+                <TH title="#" isNumber={true} tw="hidden md:(table-cell pl-2)" />
+                <TH title="Symbol" />
+                <TH title="Mechanism" />
+                <TH title="Price" isNumber={true} sortAttribute="prices" />
+                <TH title="Volume 24h" isNumber={true} sortAttribute="total_volumes" />
+                <TH title="Market Cap" isNumber={true} sortAttribute="market_caps" />
+                <TH
+                  title="7d %"
+                  tooltip="7-Day Change of Market Cap"
+                  isNumber={true}
+                  tw="hidden md:(table-cell pl-2)"
+                />
+              </tr>
+            </thead>
 
-                {/* Table Rows */}
-                <tbody tw="divide-y divide-bbg-gray3">
-                  {isLoading && !shownCoins?.length
-                    ? new Array(15)
-                        .fill(undefined)
-                        .map((_, idx) => <HomeCoinListRowIsLoading key={idx} {...{ idx }} />)
-                    : shownCoins.map((coin, idx) => (
-                        <HomeCoinListRow
-                          key={coin.id}
-                          coin={coin}
-                          idx={idx}
-                          coins={coins}
-                          activeCoin={activeCoin}
-                        />
-                      ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+            {/* Table Rows */}
+            <tbody tw="divide-y divide-bbg-gray3">
+              {isLoading && !shownCoins?.length
+                ? new Array(15)
+                    .fill(undefined)
+                    .map((_, idx) => <HomeCoinListRowIsLoading key={idx} {...{ idx }} />)
+                : shownCoins.map((coin, idx) => (
+                    <HomeCoinListRow
+                      key={coin.id}
+                      coin={coin}
+                      idx={idx}
+                      coins={coins}
+                      activeCoin={activeCoin}
+                    />
+                  ))}
+            </tbody>
+          </table>
         </div>
 
         {/* Legende */}

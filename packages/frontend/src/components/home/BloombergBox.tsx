@@ -7,7 +7,7 @@ import { FC, PropsWithChildren } from 'react'
 import tw, { styled } from 'twin.macro'
 
 const BloombergBoxWrapper = styled.div(() => [
-  tw`grow-0 relative border border-bbg-gray3 p-2 px-3 overflow-scroll`,
+  tw`grow-0 flex flex-col relative border border-bbg-gray3 p-2 px-3 overflow-scroll`,
 ])
 
 export const BloombergBoxHR = tw.hr`border-bbg-gray3 -mx-3 my-5`
@@ -29,58 +29,56 @@ export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
   return (
     <>
       <BloombergBoxWrapper {...props}>
-        <div tw="flex flex-col grow">
-          {/* Top Bar */}
-          {!hideTopBar && (
-            <div tw="sticky -top-2 z-50 bg-black bg-opacity-50 backdrop-blur flex justify-between text-bbg-gray2 text-sm p-2 px-3 -mt-2 -mx-3">
-              <h3>{title}</h3>
-              <div tw="shrink-0 flex items-center select-none space-x-4">
-                {isClosable ? (
-                  <button
-                    tw="flex items-center space-x-2 self-center text-white bg-white bg-opacity-0 px-1 -mr-1 hover:bg-opacity-10"
-                    onClick={() => onClosed?.()}
-                  >
-                    <Image src={topbarCrossIcon} width={10} height={10} alt="Close Button Icon" />
-                    <span>Hide</span>
-                  </button>
-                ) : (
-                  <>
-                    <div>
-                      <Image
-                        src={topbarMenuIcon}
-                        width={10}
-                        height={10}
-                        alt="Decorative Options Icon"
-                        tw="opacity-50"
-                      />
-                    </div>
-                    <div>
-                      <Image
-                        src={topbarArrowIcon}
-                        width={10}
-                        height={10}
-                        alt="Decorative Arrow Icon"
-                        tw="opacity-50"
-                      />
-                    </div>
-                    <div>
-                      <Image
-                        src={topbarSquareIcon}
-                        width={10}
-                        height={10}
-                        alt="Decorative Square Icon"
-                        tw="opacity-50"
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
+        {/* Top Bar */}
+        {!hideTopBar && (
+          <div tw="sticky -top-2 z-50 bg-black bg-opacity-50 backdrop-blur flex justify-between text-bbg-gray2 text-sm p-2 px-3 -mt-2 -mx-3">
+            <h3>{title}</h3>
+            <div tw="shrink-0 flex items-center select-none space-x-4">
+              {isClosable ? (
+                <button
+                  tw="flex items-center space-x-2 self-center text-white bg-white bg-opacity-0 px-1 -mr-1 hover:bg-opacity-10"
+                  onClick={() => onClosed?.()}
+                >
+                  <Image src={topbarCrossIcon} width={10} height={10} alt="Close Button Icon" />
+                  <span>Hide</span>
+                </button>
+              ) : (
+                <>
+                  <div>
+                    <Image
+                      src={topbarMenuIcon}
+                      width={10}
+                      height={10}
+                      alt="Decorative Options Icon"
+                      tw="opacity-50"
+                    />
+                  </div>
+                  <div>
+                    <Image
+                      src={topbarArrowIcon}
+                      width={10}
+                      height={10}
+                      alt="Decorative Arrow Icon"
+                      tw="opacity-50"
+                    />
+                  </div>
+                  <div>
+                    <Image
+                      src={topbarSquareIcon}
+                      width={10}
+                      height={10}
+                      alt="Decorative Square Icon"
+                      tw="opacity-50"
+                    />
+                  </div>
+                </>
+              )}
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Content */}
-          {children}
-        </div>
+        {/* Content */}
+        {children}
       </BloombergBoxWrapper>
     </>
   )
