@@ -17,7 +17,6 @@ export const HomeStartPage: FC<HomeStartPageProps> = ({ coins, ...props }) => {
   const [cookies] = useCookies(['hide-intro'])
   const isSSR = useIsSSR()
 
-  const test = true
   return (
     <>
       <div tw="flex flex-col overflow-hidden space-y-1">

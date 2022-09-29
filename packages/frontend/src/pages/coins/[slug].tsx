@@ -3,8 +3,9 @@ import { HomeLayout } from '@components/home/HomeLayout'
 import PageNotFound404 from '@pages/404'
 import { fetchOrGetCoinsData } from '@shared/getAllCoinsAndMetadata'
 import {
-  getSharedStaticProps,
+  getSharedStaticPropsFor,
   SharedStaticProps,
+  SharedStatisPropsPage,
   useSharedStaticProps,
 } from '@shared/getSharedStaticProps'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -47,4 +48,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = getSharedStaticProps
+export const getStaticProps: GetStaticProps = getSharedStaticPropsFor(SharedStatisPropsPage.COIN)

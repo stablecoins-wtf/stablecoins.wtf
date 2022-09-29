@@ -4,8 +4,9 @@ import { HomeLayout } from '@components/home/HomeLayout'
 import PageNotFound404 from '@pages/404'
 import { fetchOrGetArticles } from '@shared/getAllArticles'
 import {
-  getSharedStaticProps,
+  getSharedStaticPropsFor,
   SharedStaticProps,
+  SharedStatisPropsPage,
   useSharedStaticProps,
 } from '@shared/getSharedStaticProps'
 import { GetStaticPaths, GetStaticProps } from 'next'
@@ -49,4 +50,4 @@ export const getStaticPaths: GetStaticPaths = async () => {
   }
 }
 
-export const getStaticProps: GetStaticProps = getSharedStaticProps
+export const getStaticProps: GetStaticProps = getSharedStaticPropsFor(SharedStatisPropsPage.ARTICLE)

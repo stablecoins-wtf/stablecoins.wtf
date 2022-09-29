@@ -1,8 +1,9 @@
 import { HomeLayout } from '@components/home/HomeLayout'
 import { HomeStartPage } from '@components/home/HomeStartPage'
 import {
-  getSharedStaticProps,
+  getSharedStaticPropsFor,
   SharedStaticProps,
+  SharedStatisPropsPage,
   useSharedStaticProps,
 } from '@shared/getSharedStaticProps'
 import { GetStaticProps } from 'next'
@@ -21,4 +22,4 @@ export default function HomePage({ ...props }: HomePageProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps = getSharedStaticProps
+export const getStaticProps: GetStaticProps = getSharedStaticPropsFor(SharedStatisPropsPage.INDEX)

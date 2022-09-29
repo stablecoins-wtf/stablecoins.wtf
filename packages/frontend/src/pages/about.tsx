@@ -2,8 +2,9 @@ import { BloombergBox } from '@components/home/BloombergBox'
 import { HomeLayout } from '@components/home/HomeLayout'
 import { ProseWrapper } from '@components/ProseWrapper'
 import {
-  getSharedStaticProps,
+  getSharedStaticPropsFor,
   SharedStaticProps,
+  SharedStatisPropsPage,
   useSharedStaticProps,
 } from '@shared/getSharedStaticProps'
 import { GetStaticProps } from 'next'
@@ -127,4 +128,4 @@ export default function HomePage({ ...props }: SharedStaticProps) {
   )
 }
 
-export const getStaticProps: GetStaticProps = getSharedStaticProps
+export const getStaticProps: GetStaticProps = getSharedStaticPropsFor(SharedStatisPropsPage.ABOUT)
