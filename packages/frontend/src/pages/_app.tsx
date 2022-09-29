@@ -60,9 +60,9 @@ export default function App({ Component, pageProps }: AppProps) {
         )}
 
         {/* Favicon */}
+        <link rel="manifest" href="/site.webmanifest" />
         <link rel="apple-touch-icon" sizes="180x180" href="/favicons/still/apple-touch-icon.png" />
         <link rel="mask-icon" href="/favicons/still/safari-pinned-tab.svg" color="#eaa929" />
-        <link rel="manifest" href="/favicons/still/site.webmanifest" />
         <meta name="msapplication-TileColor" content="#2b5797" />
         <meta name="msapplication-config" content="/favicons/still/browserconfig.xml" />
         <meta name="theme-color" content="#000000" />
