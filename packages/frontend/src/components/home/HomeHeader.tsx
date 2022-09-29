@@ -11,7 +11,6 @@ import { BloombergBox } from './BloombergBox'
 export interface HomeHeaderProps {}
 export const HomeHeader: FC<HomeHeaderProps> = ({ ...props }) => {
   const router = useRouter()
-
   const actions = [
     {
       title: 'Start',
@@ -32,7 +31,7 @@ export const HomeHeader: FC<HomeHeaderProps> = ({ ...props }) => {
     <div tw="flex items-center justify-center mr-2">
       <Image
         src={stablecoinGif}
-        alt="Animated Logo of stablecoins.wtf"
+        alt="Stablecoin-Logo of stablecoins.wtf"
         height={20}
         width={20}
         priority
@@ -57,7 +56,7 @@ export const HomeHeader: FC<HomeHeaderProps> = ({ ...props }) => {
           </Link>
 
           {/* Links */}
-          <div tw="flex items-center text-sm">
+          <nav tw="flex items-center text-sm">
             {actions.map((action, idx) => (
               <Fragment key={idx}>
                 <Link href={action.href} passHref>
@@ -71,7 +70,7 @@ export const HomeHeader: FC<HomeHeaderProps> = ({ ...props }) => {
                 {idx !== actions.length - 1 && <span tw="text-bbg-gray2">{' ⋇ '}</span>}
               </Fragment>
             ))}
-          </div>
+          </nav>
         </div>
       </BloombergBox>
     </>

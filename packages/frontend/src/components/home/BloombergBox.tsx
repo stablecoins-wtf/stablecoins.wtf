@@ -15,6 +15,7 @@ export const BloombergBoxHR = tw.hr`border-bbg-gray3 -mx-3 my-5`
 export interface BloombergBoxProps {
   hideTopBar?: boolean
   title?: string
+  noTitleMarkup?: boolean
   isClosable?: boolean
   onClosed?: () => void
 }
@@ -24,6 +25,7 @@ export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
   isClosable,
   onClosed,
   title,
+  noTitleMarkup,
   ...props
 }) => {
   return (
@@ -32,7 +34,7 @@ export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
         {/* Top Bar */}
         {!hideTopBar && (
           <div tw="sticky -top-2 z-50 bg-black bg-opacity-50 backdrop-blur flex justify-between text-bbg-gray2 text-sm p-2 px-3 -mt-2 -mx-3">
-            <h3>{title}</h3>
+            {noTitleMarkup ? <span>{title}</span> : <h2>{title}</h2>}
             <div tw="shrink-0 flex items-center select-none space-x-4">
               {isClosable ? (
                 <button

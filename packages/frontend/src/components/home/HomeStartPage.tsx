@@ -86,7 +86,7 @@ export const HomeStartPageKPIs: FC<HomeStartPageProps> = ({ coins }) => {
 
   return (
     <>
-      <h4 tw="text-center mb-4">Total Stablecoin Market KPIs</h4>
+      <span tw="text-center mb-4 mt-2">Total Stablecoin Market KPIs</span>
 
       <KPIsWrapper>
         <KPI>
