@@ -24,7 +24,11 @@ export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
     <>
       <NextSeo
         title={article.title}
-        description={article.subtitle || 'Blog article related to stablecoins'}
+        description={
+          article.subtitle
+            ? `${article.subtitle} – Blog article related to stablecoins & crypto`
+            : 'Blog article related to stablecoins & crypto. – Track stablecoin market data & learn about their mechanisms on stablecoins.wtf.'
+        }
       />
 
       <HomeLayout {...sharedStaticProps}>

@@ -24,7 +24,11 @@ export default function ResourceDetailPage({ ...props }: SharedStaticProps) {
     <>
       <NextSeo
         title={resource.title}
-        description={resource.subtitle || 'Research and educational content about stablecoins'}
+        description={
+          resource.subtitle
+            ? `${resource.subtitle} – Research and educational content related to stablecoins & crypto`
+            : 'Research and educational content related to stablecoins & crypto. – Track stablecoin market data & learn about their mechanisms on stablecoins.wtf.'
+        }
       />
 
       <HomeLayout {...sharedStaticProps}>
