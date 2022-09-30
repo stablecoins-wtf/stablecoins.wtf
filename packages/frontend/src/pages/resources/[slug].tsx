@@ -32,7 +32,7 @@ export default function ResourceDetailPage({ ...props }: SharedStaticProps) {
       />
 
       <HomeLayout {...sharedStaticProps}>
-        <BloombergBox tw="flex-1" title={resource.getRelativeUrl()} noTitleMarkup={true}>
+        <BloombergBox tw="flex-1" title={resource.getRelativeUrl()} noHeadingMarkup={true}>
           <HomeArticleContent article={resource} />
         </BloombergBox>
       </HomeLayout>

@@ -15,7 +15,7 @@ export const BloombergBoxHR = tw.hr`border-bbg-gray3 -mx-3 my-5`
 export interface BloombergBoxProps {
   hideTopBar?: boolean
   title?: string
-  noTitleMarkup?: boolean
+  noHeadingMarkup?: boolean
   isClosable?: boolean
   onClosed?: () => void
 }
@@ -25,7 +25,7 @@ export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
   isClosable,
   onClosed,
   title,
-  noTitleMarkup,
+  noHeadingMarkup: noTitleMarkup,
   ...props
 }) => {
   return (

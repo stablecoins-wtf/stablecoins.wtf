@@ -268,7 +268,7 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
 
   return (
     <>
-      <Link href={`/coins/${coin.slug}`} passHref>
+      <Link href={coin.getRelativeUrl()} passHref>
         <tr
           key={coin.id}
           css={[

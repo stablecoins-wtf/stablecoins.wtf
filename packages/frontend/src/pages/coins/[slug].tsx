@@ -23,8 +23,8 @@ export default function CoinDetailsPage({ ...props }: SharedStaticProps) {
   return (
     <>
       <NextSeo
-        title={`${activeCoin.symbol} USD-Stablecoin`}
-        description={`Trading-data and information about ${activeCoin.name}, ${activeCoin.symbol} (USD-pegged crypto stablecoin).`}
+        title={`${activeCoin.name}, $${activeCoin.symbol} (USD-pegged Stablecoin)`}
+        description={`Trading-data, information, and risk-analysis about ${activeCoin.name}, $${activeCoin.symbol} (USD-pegged crypto stablecoin).`}
       />
 
       <HomeLayout {...sharedStaticProps}>

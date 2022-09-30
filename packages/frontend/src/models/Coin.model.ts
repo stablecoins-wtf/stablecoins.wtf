@@ -3,6 +3,8 @@ import { RichTextContent } from '@graphcms/rich-text-types'
 export class Coin {
   constructor(
     public id: string,
+    public createdAt: Date,
+    public updatedAt: Date,
     public name: string,
     public symbol: string,
     public slug: string,
@@ -26,6 +28,8 @@ export class Coin {
 
     return new Coin(
       data?.['id'] as string,
+      new Date(data?.['createdAt']),
+      new Date(data?.['updatedAt']),
       data?.['name'] as string,
       data?.['symbol'] as string,
       data?.['slug'] as string,
@@ -47,6 +51,10 @@ export class Coin {
 
   mechanismFormatted(): string {
     return (this.mechanism || '').replaceAll('_', '-')
+  }
+
+  getRelativeUrl(): string {
+    return `/coins/${this.slug}`
   }
 }
 

@@ -14,6 +14,7 @@ import { NumericFormat } from 'react-number-format'
 import { useQuery } from 'react-query'
 import tw from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
+import { HomeContentHeader } from './HomeContentHeader'
 
 export interface HomeCoinDetailsProps {
   coin: Coin
@@ -32,8 +33,14 @@ export const HomeCoinDetails: FC<HomeCoinDetailsProps> = ({ coin }) => {
 export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
   return (
     <>
-      <BloombergBox tw="flex-1 flex flex-col" title={coin.name}>
-        <h3 tw="text-center mb-4">${coin.symbol} KPIs & Market Data</h3>
+      <BloombergBox
+        tw="flex-1 flex flex-col"
+        title={`Last updated at ${dayjs(coin.updatedAt).format('YYYY/MM/DD')}`}
+        noHeadingMarkup={true}
+      >
+        <HomeContentHeader item={coin} hideTopBar={true} tw="mb-4" />
+
+        <h2 tw="sr-only">KPIs & Market Data</h2>
 
         <CoinDetailsKPIs coin={coin} />
 
@@ -220,7 +227,7 @@ export const CoinDetailsLinks: FC<HomeCoinDetailsProps> = ({ coin }) => {
   return (
     <>
       <ProseWrapper>
-        <h4 tw="mt-1.5">Links:</h4>
+        <h2 tw="mt-2.5">Links</h2>
         <ul>
           {Object.entries(links).map(([title, url]) =>
             url ? (

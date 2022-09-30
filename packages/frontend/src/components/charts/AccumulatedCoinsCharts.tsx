@@ -25,6 +25,7 @@ export const AccumulatedCoinsCharts: FC<AccumulatedCoinsChartsProps> = ({ coins 
   return (
     <>
       <div tw="grid grid-cols-2 gap-y-4">
+        <h2 tw="sr-only">Stablecoin Market Caps</h2>
         <AccumulatedCoinsMarketCapChart
           coins={coins}
           allDates={allDates}
@@ -32,6 +33,7 @@ export const AccumulatedCoinsCharts: FC<AccumulatedCoinsChartsProps> = ({ coins 
           allColors={allColors}
           mergedData={mergedData['market_caps']}
         />
+        <h2 tw="sr-only">Stablecoin Volumes</h2>
         <AccumulatedCoinsVolumeChart
           coins={coins}
           allDates={allDates}
@@ -39,6 +41,7 @@ export const AccumulatedCoinsCharts: FC<AccumulatedCoinsChartsProps> = ({ coins 
           allColors={allColors}
           mergedData={mergedData['total_volumes']}
         />
+        <h2 tw="sr-only">Stablecoin Velocity</h2>
         <AccumulatedCoinsVelocityChart
           coins={coins}
           allDates={allDates}
