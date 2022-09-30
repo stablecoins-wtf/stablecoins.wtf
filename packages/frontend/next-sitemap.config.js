@@ -3,4 +3,5 @@
 module.exports = {
   siteUrl: 'https://stablecoins.wtf',
   generateRobotsTxt: true,
+  exclude: ['/articles/*'],
 }
