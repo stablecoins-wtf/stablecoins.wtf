@@ -10,9 +10,7 @@ const getCachePath = (id: string) => {
   return path.join(cacheDir, `${id}.json`)
 }
 
-const cacheIsEnabled =
-  env.buildCacheMaxAge > 0 &&
-  !(env.isProduction && process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD)
+const cacheIsEnabled = env.buildCacheMaxAge > 0 && process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD
 
 /**
  * Cache to speed up build-process by minimizing repetetive, server-side fetching calls
