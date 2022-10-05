@@ -18,6 +18,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const model = payload?.__typename
     const slug = payload?.slug
 
+    // Revalidate article-pages
+    if (model === 'Article' && slug) {
+      res.revalidate(`/articles/${slug}`)
+    }
+
     // Revalidate resource-pages
     if (model === 'Resource' && slug) {
       res.revalidate(`/resources/${slug}`)
