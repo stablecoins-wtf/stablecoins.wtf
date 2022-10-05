@@ -1,6 +1,5 @@
 import dayjs from 'dayjs'
 import { promises as fs } from 'fs'
-import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 import path from 'path'
 import { env } from './environment'
 
@@ -10,7 +9,7 @@ const getCachePath = (id: string) => {
   return path.join(cacheDir, `${id}.json`)
 }
 
-const cacheIsEnabled = env.buildCacheMaxAge > 0 && process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD
+const cacheIsEnabled = env.buildCacheMaxAge > 0
 
 /**
  * Cache to speed up build-process by minimizing repetetive, server-side fetching calls
