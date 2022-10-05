@@ -119,19 +119,19 @@ const doSharedStaticPropsOptimizations = (
   ],
 ): SharedStaticProps => {
   const P = SharedStatisPropsPage
-  if ([P.INDEX, P.ARTICLE, P.COIN].includes(page)) {
+  if ([P.INDEX, P.ABOUT, P.ARTICLE, P.COIN].includes(page)) {
     resourcesData = (resourcesData || []).map((resource: Resource) => {
       delete resource.content
       return resource
     })
   }
-  if ([P.INDEX, P.RESOURCE, P.COIN].includes(page)) {
+  if ([P.INDEX, P.ABOUT, P.RESOURCE, P.COIN].includes(page)) {
     articlesData = (articlesData || []).map((article: Article) => {
       delete article.content
       return article
     })
   }
-  if ([P.INDEX, P.ARTICLE, P.RESOURCE].includes(page)) {
+  if ([P.INDEX, P.ABOUT, P.ARTICLE, P.RESOURCE].includes(page)) {
     coinsData = (coinsData || []).map((coin: Coin) => {
       delete coin.description
       return coin

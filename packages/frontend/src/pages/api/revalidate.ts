@@ -33,8 +33,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.revalidate(`/coins/${slug}`)
     }
 
+    // Always revalidate all static pages
+    res.revalidate(`/`)
+    res.revalidate(`/about`)
+    res.revalidate(`/404`)
+
     return res.status(200).json({ revalidated: true })
   } catch (err) {
+    console.error('Error while revalidating:', err)
     return res.status(500).send('Error revalidating')
   }
 }
