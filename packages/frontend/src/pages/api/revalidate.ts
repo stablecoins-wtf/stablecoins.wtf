@@ -20,23 +20,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Revalidate article-pages
     if (model === 'Article' && slug) {
-      res.revalidate(`/articles/${slug}`)
+      await res.revalidate(`/articles/${slug}`)
     }
 
     // Revalidate resource-pages
     if (model === 'Resource' && slug) {
-      res.revalidate(`/resources/${slug}`)
+      await res.revalidate(`/resources/${slug}`)
     }
 
     // Revalidate coin-pages
     if (model === 'Coin' && slug) {
-      res.revalidate(`/coins/${slug}`)
+      await res.revalidate(`/coins/${slug}`)
     }
 
     // Always revalidate all static pages
-    res.revalidate(`/`)
-    res.revalidate(`/about`)
-    res.revalidate(`/404`)
+    await res.revalidate(`/`)
+    await res.revalidate(`/about`)
+    await res.revalidate(`/404`)
 
     return res.status(200).json({ revalidated: true })
   } catch (err) {
