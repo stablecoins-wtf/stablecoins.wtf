@@ -46,7 +46,7 @@ export const getSharedStaticPropsFor =
         resourcesData,
         articlesData,
       } as SharedStaticProps,
-      revalidate: 60 * 10, // 10 minutes
+      revalidate: 60 * 2, // 2 minutes
     }
   }
 

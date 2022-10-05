@@ -4,7 +4,7 @@ import { PHASE_PRODUCTION_BUILD } from 'next/constants'
 import path from 'path'
 import { env } from './environment'
 
-const cacheDir = path.join(process.cwd(), `.cache/`)
+const cacheDir = path.join(process.cwd(), `.next/cache`)
 
 const getCachePath = (id: string) => {
   return path.join(cacheDir, `${id}.json`)
