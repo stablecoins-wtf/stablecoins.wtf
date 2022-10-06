@@ -31,6 +31,9 @@ export const HomeCoinDetails: FC<HomeCoinDetailsProps> = ({ coin }) => {
 }
 
 export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
+  const title = `${coin.name}, $${coin.symbol}`
+  const subtitle = `USD-pegged Stablecoin`
+
   return (
     <>
       <BloombergBox
@@ -38,7 +41,7 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
         title={`Last updated at ${dayjs(coin.updatedAt).format('YYYY/MM/DD')}`}
         noHeadingMarkup={true}
       >
-        <HomeContentHeader item={coin} hideTopBar={true} tw="mb-4" />
+        <HomeContentHeader {...{ title, subtitle }} hideTopBar={true} tw="mb-4" />
 
         <h2 tw="sr-only">KPIs & Market Data</h2>
 
@@ -49,7 +52,8 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
         <CoinDetailsStaticAttributes coin={coin} />
 
         {coin.description && (
-          <ProseWrapper>
+          <ProseWrapper tw="py-0">
+            <h2 tw="sr-only">Description</h2>
             <RichText content={coin.description} />
           </ProseWrapper>
         )}

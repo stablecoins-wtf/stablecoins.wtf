@@ -5,7 +5,7 @@ export const ProseWrapper: FC<PropsWithChildren> = ({ children, ...props }) => {
   return (
     <>
       <div
-        tw="prose prose-invert max-w-full 
+        tw="prose prose-invert max-w-full px-2 py-1
     prose-p:(text-justify)
     prose-ul:(list-['⋇'])
     prose-h2:(mt-2.5)

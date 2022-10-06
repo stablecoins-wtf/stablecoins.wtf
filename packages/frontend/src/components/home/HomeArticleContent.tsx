@@ -7,19 +7,19 @@ import { ProseWrapper } from '../ProseWrapper'
 import { HomeContentHeader } from './HomeContentHeader'
 
 export interface HomeArticleContentProps {
-  article: Article | Resource
+  item: Article | Resource
 }
-export const HomeArticleContent: FC<HomeArticleContentProps> = ({ article }) => {
+export const HomeArticleContent: FC<HomeArticleContentProps> = ({ item }) => {
   return (
     <article itemScope itemType="http://schema.org/Article">
       {/* Header */}
-      <HomeContentHeader item={article} />
+      <HomeContentHeader {...item} />
 
       {/* Body */}
-      {article.content && (
+      {item.content && (
         <section itemProp="articleBody">
-          <ProseWrapper tw="px-2 py-1">
-            <RichText content={article.content} />
+          <ProseWrapper>
+            <RichText content={item.content} />
           </ProseWrapper>
         </section>
       )}

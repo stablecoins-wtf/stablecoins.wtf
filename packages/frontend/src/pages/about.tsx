@@ -1,4 +1,5 @@
 import { BloombergBox } from '@components/home/BloombergBox'
+import { HomeContentHeader } from '@components/home/HomeContentHeader'
 import { HomeLayout } from '@components/home/HomeLayout'
 import { ProseWrapper } from '@components/ProseWrapper'
 import {
@@ -8,6 +9,7 @@ import {
   useSharedStaticProps,
 } from '@shared/getSharedStaticProps'
 import { GetStaticProps } from 'next'
+import { NextSeo } from 'next-seo'
 import 'twin.macro'
 
 export default function HomePage({ ...props }: SharedStaticProps) {
@@ -15,10 +17,19 @@ export default function HomePage({ ...props }: SharedStaticProps) {
 
   return (
     <>
+      <NextSeo
+        title="About stablecoins.wtf"
+        description="Who is behind this crypto stablecoin dashboard? Track stablecoin market data & learn about their mechanisms on stablecoins.wtf."
+      />
+
       <HomeLayout {...sharedStaticProps}>
-        <BloombergBox title="Educating degens about stablecoins">
+        <BloombergBox title="Educating degens about stablecoins" noHeadingMarkup={true}>
+          <HomeContentHeader
+            title="About stablecoins.wtf"
+            subtitle="Who is behind this crypto stablecoin dashboard?"
+          />
+
           <ProseWrapper>
-            <h3>About stablecoins.wtf</h3>
             <p>
               The purpose of this website is to educate degens about stablecoins. We accumulate
               quantitative live-data of major stablecoins in a single dashboard. And we aim to make
@@ -29,15 +40,19 @@ export default function HomePage({ ...props }: SharedStaticProps) {
               <a href="https://twitter.com/stablecoinswtf" target="_blank">
                 Twitter
               </a>
-              .
+              . 💙
             </p>
 
-            <h4>Authors:</h4>
+            <h2>Authors</h2>
             <ul>
               <li>
-                zoma.eth (
+                Dennis (
                 <a href="https://twitter.com/dennis_zoma" target="_blank">
                   @dennis_zoma
+                </a>
+                ,{' '}
+                <a href="https://zoma.dev" target="_blank">
+                  zoma.dev
                 </a>
                 )
               </li>
@@ -50,7 +65,7 @@ export default function HomePage({ ...props }: SharedStaticProps) {
               </li>
             </ul>
 
-            <h4>Links:</h4>
+            <h2>Links</h2>
             <ul>
               <li>
                 Twitter:{' '}
@@ -66,22 +81,14 @@ export default function HomePage({ ...props }: SharedStaticProps) {
               </li>
             </ul>
 
-            <h4>Credits:</h4>
+            <h2>Credits</h2>
             <ul>
               <li>
                 The{' '}
                 <a href="https://twitter.com/liamihorne/status/1525106982511845377" target="_blank">
                   original idea
                 </a>{' '}
-                came from liam.eth 💡
-              </li>
-              <li>
-                Thanks for the feedback and some great ideas,{' '}
-                <a href="https://twitter.com/dmihal" target="_blank">
-                  @dmihal
-                </a>
-                . In the next weeks we aim to have all our data provided by public open-source
-                CryptoStats adapters. 📊
+                came from liam.eth. 💡
               </li>
               <li>
                 Thanks{' '}
@@ -111,8 +118,8 @@ export default function HomePage({ ...props }: SharedStaticProps) {
                   Vercel
                 </a>{' '}
                 with static data on{' '}
-                <a href="https://graphcms.com/" target="_blank">
-                  GraphCMS
+                <a href="https://hygraph.com/" target="_blank">
+                  Hygraph
                 </a>
                 . 📂
               </li>
