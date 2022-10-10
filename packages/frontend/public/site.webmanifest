@@ -1,6 +1,7 @@
 {
-    "name": "",
-    "short_name": "",
+    "name": "stablecoins.wtf – Crypto Stablecoin Dashboard",
+    "short_name": "stablecoins.wtf",
+    "start_url": "/",
     "icons": [
         {
             "src": "/favicons/still/android-chrome-192x192.png",
