@@ -3,7 +3,6 @@ import { KPI, KPIContent, KPIsWrapper, KPITitle } from '@components/layout/KPIs'
 import { ProseWrapper } from '@components/ProseWrapper'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Coin, CoinMechanism, CryptopanicNews } from '@models/Coin.model'
-import { datesAreSameDay } from '@shared/datesAreSameDay'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -104,70 +103,66 @@ export const CoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({ coin }) => {
 }
 
 export const CoinDetailsKPIs: FC<HomeCoinDetailsProps> = ({ coin }) => {
-  const caps = coin.cgTradingData?.market_caps || []
-  const cap = caps?.[caps.length - 1][1]
-  let cap7dAgo = 0
-  let cap30dAgo = 0
-  for (let i = caps.length - 1; i >= 0; i--) {
-    const is7dAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(7, 'day'))
-    const is30dAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(30, 'day'))
-    if (is7dAgo) cap7dAgo = caps[i]?.[1]
-    if (is30dAgo) {
-      cap30dAgo = caps[i]?.[1]
-      break
-    }
-  }
-  const cap7dChange = (cap - (cap7dAgo || 0)) / (cap7dAgo || 1)
-  const cap30dChange = (cap - (cap30dAgo || 0)) / (cap30dAgo || 1)
-  const volume24h = coin.cmcLatestQuotes?.quote?.USD?.volume_24h
-  let volume7d = 0
-  const volumes = coin.cgTradingData?.total_volumes || []
-  for (let i = volumes.length - 1; i >= 0; i--) {
-    if (dayjs().diff(volumes[i]?.[0], 'day') > 7) break
-    volume7d += volumes[i]?.[1]
-  }
-
+  const quotes = coin.latestQuotes.USD
   return (
     <>
       <KPIsWrapper>
-        <KPI>
-          <KPITitle>Market Cap</KPITitle>
-          <KPIContent>${largeNumberFormatter(cap)}</KPIContent>
-        </KPI>
-        <KPI>
-          <KPITitle>Market Cap 7d %</KPITitle>
-          <KPIContent css={[cap7dChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`]}>
-            <NumericFormat
-              value={Math.abs(cap7dChange * 100)}
-              displayType={'text'}
-              prefix={cap7dChange >= 0 ? '+' : '-'}
-              suffix={'%'}
-              decimalScale={2}
-              fixedDecimalScale={true}
-            />
-          </KPIContent>
-        </KPI>
-        <KPI>
-          <KPITitle>Market Cap 30d %</KPITitle>
-          <KPIContent css={[cap30dChange >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`]}>
-            <NumericFormat
-              value={Math.abs(cap30dChange * 100)}
-              displayType={'text'}
-              prefix={cap30dChange >= 0 ? '+' : '-'}
-              suffix={'%'}
-              decimalScale={2}
-              fixedDecimalScale={true}
-            />
-          </KPIContent>
-        </KPI>
-        <KPI>
-          <KPITitle>Volume 24h</KPITitle>
-          <KPIContent>${largeNumberFormatter(volume24h)}</KPIContent>
-        </KPI>
-        <KPI>
-          <KPITitle>Volume 7d</KPITitle>
-          <KPIContent>${largeNumberFormatter(volume7d)}</KPIContent>
-        </KPI>
+        {quotes.marketCap && (
+          <KPI>
+            <KPITitle>Market Cap</KPITitle>
+            <KPIContent>${largeNumberFormatter(quotes.marketCap.value)}</KPIContent>
+          </KPI>
+        )}
+
+        {quotes.marketCap7dChange && (
+          <KPI>
+            <KPITitle>Market Cap 7d %</KPITitle>
+            <KPIContent
+              css={[quotes.marketCap7dChange.value >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`]}
+            >
+              <NumericFormat
+                value={Math.abs(quotes.marketCap7dChange.value * 100)}
+                displayType={'text'}
+                prefix={quotes.marketCap7dChange.value >= 0 ? '+' : '-'}
+                suffix={'%'}
+                decimalScale={2}
+                fixedDecimalScale={true}
+              />
+            </KPIContent>
+          </KPI>
+        )}
+
+        {quotes.marketCap30dChange && (
+          <KPI>
+            <KPITitle>Market Cap 30d %</KPITitle>
+            <KPIContent
+              css={[quotes.marketCap30dChange.value >= 0 ? tw`text-bbg-green1` : tw`text-bbg-red1`]}
+            >
+              <NumericFormat
+                value={Math.abs(quotes.marketCap30dChange.value * 100)}
+                displayType={'text'}
+                prefix={quotes.marketCap30dChange.value >= 0 ? '+' : '-'}
+                suffix={'%'}
+                decimalScale={2}
+                fixedDecimalScale={true}
+              />
+            </KPIContent>
+          </KPI>
+        )}
+
+        {quotes.volume24h && (
+          <KPI>
+            <KPITitle>Volume 24h</KPITitle>
+            <KPIContent>${largeNumberFormatter(quotes.volume24h.value)}</KPIContent>
+          </KPI>
+        )}
+
+        {quotes.volume7d && (
+          <KPI>
+            <KPITitle>Volume 7d</KPITitle>
+            <KPIContent>${largeNumberFormatter(quotes.volume7d.value)}</KPIContent>
+          </KPI>
+        )}
       </KPIsWrapper>
     </>
   )

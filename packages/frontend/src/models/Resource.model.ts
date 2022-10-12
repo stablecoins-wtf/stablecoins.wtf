@@ -7,7 +7,9 @@ export class Resource extends Article {
 
     return new Resource(
       data?.['id'] as string,
+      !data?.['documentInStages']?.length,
       new Date(data?.['createdAt']),
+      undefined,
       new Date(data?.['updatedAt']),
       data?.['title'] as string,
       data?.['subtitle'] as string,

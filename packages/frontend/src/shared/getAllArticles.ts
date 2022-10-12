@@ -34,7 +34,11 @@ const queryGraphCms = async () => {
     query Articles {
       articles {
         id
+        documentInStages(stages: PUBLISHED) {
+          id
+        }
         createdAt
+        createdAtOverwrite
         updatedAt
         title
         subtitle

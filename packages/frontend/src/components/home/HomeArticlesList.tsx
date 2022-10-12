@@ -1,4 +1,5 @@
 import { Article } from '@models/Article.model'
+import { env } from '@shared/environment'
 import dayjs from 'dayjs'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -27,7 +28,8 @@ export const HomeArticlesList: FC<HomeArticlesListProps> = ({ articles, ...props
       <BloombergBox title="Latest Blog Articles" {...props}>
         <div tw="flex flex-col -mx-3 -mb-1">
           {(articles || []).map((a, idx) => {
-            const isNew = dayjs().diff(a.createdAt, 'week') <= 1
+            const createdAt = a.createdAtOverwrite || a.createdAt
+            const isNew = dayjs().diff(createdAt, 'week') <= 1
             const isUpdated = dayjs().diff(a.updatedAt, 'week') <= 1
 
             return (
@@ -43,7 +45,10 @@ export const HomeArticlesList: FC<HomeArticlesListProps> = ({ articles, ...props
                   <div tw="flex pb-0.5 px-1 overflow-hidden">
                     <div tw="whitespace-pre font-semibold">{idx + 1}. </div>
                     <div tw="flex flex-col overflow-hidden">
-                      <div tw="truncate font-semibold">{a.title}</div>
+                      <div tw="truncate font-semibold">
+                        {a.title}
+                        {!env.isProduction && a.isDraft && ' 🏗️'}
+                      </div>
                       <div
                         css={[
                           tw`leading-4 text-xs truncate`,
@@ -56,7 +61,7 @@ export const HomeArticlesList: FC<HomeArticlesListProps> = ({ articles, ...props
                   </div>
                   <div tw="pb-0.5 px-1 font-normal text-bbg-gray2">
                     <div tw="flex flex-col items-end">
-                      {dayjs(a.createdAt).format('YYYY/MM/DD')}
+                      {dayjs(createdAt).format('YYYY/MM/DD')}
                       {(isNew || isUpdated) && (
                         <div tw="leading-none text-xs text-bbg-red1 font-black tracking-wider">
                           {isNew ? 'NEW' : 'UPDATED'}

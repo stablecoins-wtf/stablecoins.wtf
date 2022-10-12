@@ -3,7 +3,9 @@ import { RichTextContent } from '@graphcms/rich-text-types'
 export class Article {
   constructor(
     public id: string,
+    public isDraft: boolean,
     public createdAt: Date,
+    public createdAtOverwrite: Date | undefined,
     public updatedAt: Date,
     public title: string,
     public subtitle: string,
@@ -17,7 +19,9 @@ export class Article {
 
     return new Article(
       data?.['id'] as string,
+      !data?.['documentInStages']?.length,
       new Date(data?.['createdAt']),
+      data?.['createdAtOverwrite'] && new Date(data?.['createdAtOverwrite']),
       new Date(data?.['updatedAt']),
       data?.['title'] as string,
       data?.['subtitle'] as string,

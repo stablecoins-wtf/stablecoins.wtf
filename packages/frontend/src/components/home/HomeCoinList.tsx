@@ -1,8 +1,7 @@
 import { Coin, CoinMechanism } from '@models/Coin.model'
-import { datesAreSameDay } from '@shared/datesAreSameDay'
+import { env } from '@shared/environment'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
 import Tippy from '@tippyjs/react'
-import dayjs from 'dayjs'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -43,7 +42,7 @@ export interface HomeCoinListProps {
 export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
   const router = useRouter()
   const { slug } = router.query
-  const allMechanisms = Array.from(new Set((coins || []).map((c) => c.mechanism)))
+  const allMechanisms = Array.from(new Set((coins || []).map((c) => c.mechanism).filter(Boolean)))
   const [filteredMechanism, setFilteredMechanism] = useState<CoinMechanism>()
   const [sortState, setSortState] = useState<HomeCoinListSortState>({
     attribute: 'market_caps',
@@ -57,23 +56,18 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
     const shownCoins = coins
       .filter((c) => !filteredMechanism || filteredMechanism === c.mechanism)
       .sort((c1, c2) => {
-        let val1: number
-        let val2: number
+        let val1, val2: number
         if (sortState.attribute === 'market_caps') {
-          const caps1 = c1?.cgTradingData?.market_caps || []
-          val1 = caps1?.[caps1.length - 1]?.[1] || 0
-          const caps2 = c2?.cgTradingData?.market_caps || []
-          val2 = caps2?.[caps2.length - 1]?.[1] || 0
+          val1 = c1.latestQuotes.USD.marketCap?.value || 0
+          val2 = c2.latestQuotes.USD.marketCap?.value || 0
         } else if (sortState.attribute === 'prices') {
-          val1 = c1.cmcLatestQuotes?.quote?.USD?.price
-          val2 = c2.cmcLatestQuotes?.quote?.USD?.price
+          val1 = c1.latestQuotes.USD.price?.value || 0
+          val2 = c2.latestQuotes.USD.price?.value || 0
         } else if (sortState.attribute === 'total_volumes') {
-          val1 = c1.cmcLatestQuotes?.quote?.USD?.volume_24h
-          val2 = c2.cmcLatestQuotes?.quote?.USD?.volume_24h
+          val1 = c1.latestQuotes.USD.volume24h?.value || 0
+          val2 = c2.latestQuotes.USD.volume24h?.value || 0
         } else return 0
-        if (val1 === val2) return 0
-        if (val1 > val2) return sortState.order === 'asc' ? 1 : -1
-        return sortState.order === 'asc' ? -1 : 1
+        return sortState.order === 'asc' ? val1 - val2 : val2 - val1
       })
     setShownCoins(shownCoins)
     setIsLoading(false)
@@ -233,38 +227,13 @@ export interface HomeCoinListRowProps extends HomeCoinListProps {
   activeCoin?: Coin
 }
 const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) => {
-  const [marketData, setmarketData] = useState<{
-    price: number
-    priceHighlight: string | undefined
-    volume24h: number
-    cap: number
-    cap7dChange: number
-  }>()
-  useEffect(() => {
-    const price = coin.cmcLatestQuotes?.quote?.USD?.price
-    const caps = coin.cgTradingData?.market_caps || []
-    const cap = caps?.[caps.length - 1]?.[1]
-
-    // Calculate 7-day Cap Change
-    let cap7dAgo = 0
-    for (let i = caps.length - 1; i >= 0; i--) {
-      const is7DaysAgo = datesAreSameDay(caps[i]?.[0], dayjs().subtract(7, 'day'))
-      if (is7DaysAgo) {
-        cap7dAgo = caps[i]?.[1]
-        break
-      }
-    }
-    const cap7dChange = (cap - (cap7dAgo || 0)) / (cap7dAgo || 1)
-
-    setmarketData({
-      price,
-      priceHighlight:
-        Math.abs(1 - price) > 0.01 ? (Math.abs(1 - price) > 0.05 ? 'red' : 'orange') : undefined,
-      volume24h: coin.cmcLatestQuotes?.quote?.USD?.volume_24h,
-      cap,
-      cap7dChange,
-    })
-  }, [])
+  const quotes = coin.latestQuotes.USD
+  const priceHighlight =
+    quotes.price?.value && Math.abs(1 - quotes.price.value) > 0.01
+      ? Math.abs(1 - quotes.price.value) > 0.05
+        ? 'red'
+        : 'orange'
+      : undefined
 
   return (
     <>
@@ -286,53 +255,51 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
             ]}
           >
             <Tippy content={coin.name} placement="bottom">
-              <div>{coin.symbol}</div>
+              <div>
+                {coin.symbol}
+                {!env.isProduction && coin.isDraft && ' 🏗️'}
+              </div>
             </Tippy>
           </BloombergTD>
           <BloombergTD css={[activeCoin?.id === coin.id ? tw`text-bbg-gray3` : tw`text-bbg-gray1`]}>
-            {/* <div tw="inline-block leading-[1.2] px-1 py-px pb-[2px] text-white bg-bbg-gray3">{coin.mechanismFormatted()}</div> */}
             {coin.mechanismFormatted()}
           </BloombergTD>
-          <BloombergTD isNumber={true} highlight={marketData?.priceHighlight}>
+          <BloombergTD isNumber={true} highlight={priceHighlight}>
             <NumericFormat
-              value={marketData?.price}
+              value={quotes.price?.value}
               displayType={'text'}
               prefix={'$'}
               fixedDecimalScale={true}
               decimalScale={3}
             />
           </BloombergTD>
-          <BloombergTD isNumber={true} highlight={marketData?.priceHighlight}>
-            <span tw="md:hidden">${largeNumberFormatter(marketData?.volume24h)}</span>
+          <BloombergTD isNumber={true} highlight={priceHighlight}>
+            <span tw="md:hidden">${largeNumberFormatter(quotes.volume24h?.value)}</span>
             <NumericFormat
               tw="hidden md:inline"
-              value={marketData?.volume24h}
+              value={quotes.volume24h?.value}
               displayType={'text'}
               prefix={'$'}
               decimalScale={0}
               thousandSeparator={true}
             />
           </BloombergTD>
-          <BloombergTD isNumber={true} highlight={marketData?.priceHighlight}>
-            <span tw="md:hidden">${largeNumberFormatter(marketData?.cap)}</span>
+          <BloombergTD isNumber={true} highlight={priceHighlight}>
+            <span tw="md:hidden">${largeNumberFormatter(quotes.marketCap?.value)}</span>
             <NumericFormat
               tw="hidden md:inline"
-              value={marketData?.cap}
+              value={quotes.marketCap?.value}
               displayType={'text'}
               prefix={'$'}
               decimalScale={0}
               thousandSeparator={true}
             />
           </BloombergTD>
-          <BloombergTD
-            tw="hidden md:(table-cell pr-2)"
-            isNumber={true}
-            highlight={marketData?.priceHighlight}
-          >
+          <BloombergTD tw="hidden md:(table-cell pr-2)" isNumber={true} highlight={priceHighlight}>
             <NumericFormat
-              value={Math.abs((marketData?.cap7dChange || 0) * 100)}
+              value={quotes.marketCap7dChange && Math.abs(quotes.marketCap7dChange.value * 100)}
               displayType={'text'}
-              prefix={(marketData?.cap7dChange || 0) >= 0 ? '+' : '-'}
+              prefix={(quotes.marketCap7dChange || 0) >= 0 ? '+' : '-'}
               suffix={'%'}
               decimalScale={0}
             />

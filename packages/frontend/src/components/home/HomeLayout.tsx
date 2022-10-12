@@ -1,6 +1,5 @@
 import { HomeCoinList } from '@components/home/HomeCoinList'
 import { HomeHeader } from '@components/home/HomeHeader'
-import { env } from '@shared/environment'
 import { ParsedSharedStaticProps } from '@shared/getSharedStaticProps'
 import { useRouter } from 'next/router'
 import { FC, PropsWithChildren, useRef } from 'react'
@@ -32,7 +31,7 @@ export const HomeLayout: FC<PropsWithChildren<HomeLayoutProps>> = ({
           <HomeHeader tw="shrink-0" />
           <HomeCoinList tw="grow max-h-[42vh] lg:max-h-[none]" coins={coins} />
           <HomeResourcesList tw="shrink-0" {...{ resources }} />
-          {!env.isProduction && <HomeArticlesList tw="shrink-0" {...{ articles }} />}
+          {!!articles?.length && <HomeArticlesList tw="shrink-0" {...{ articles }} />}
         </div>
       </main>
     </>

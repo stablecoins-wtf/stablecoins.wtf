@@ -1,8 +1,12 @@
 import { RichTextContent } from '@graphcms/rich-text-types'
+import { CoinLatestQuotes } from './CoinLatestQuotes.model'
 
 export class Coin {
+  public latestQuotes: CoinLatestQuotes
+
   constructor(
     public id: string,
+    public isDraft: boolean,
     public createdAt: Date,
     public updatedAt: Date,
     public name: string,
@@ -18,16 +22,19 @@ export class Coin {
     public color: string,
 
     public cmcMetadata: CoinmarketcapMetadata,
-    public cmcLatestQuotes: CoinmarketcapLatestQuotes,
+    // public cmcLatestQuotes: CoinmarketcapLatestQuotes,
 
     public cgTradingData: CoingeckoTradingData,
-  ) {}
+  ) {
+    this.latestQuotes = new CoinLatestQuotes(this)
+  }
 
   static fromObject(data: any): Coin | null {
     if (!data) return null
 
     return new Coin(
       data?.['id'] as string,
+      !data?.['documentInStages']?.length,
       new Date(data?.['createdAt']),
       new Date(data?.['updatedAt']),
       data?.['name'] as string,
@@ -43,7 +50,7 @@ export class Coin {
       data?.['color']?.hex as string,
 
       (data?.['cmcMetadata'] as CoinmarketcapMetadata) || {},
-      (data?.['cmcLatestQuotes'] as CoinmarketcapLatestQuotes) || {},
+      // (data?.['cmcLatestQuotes'] as CoinmarketcapLatestQuotes) || {},
 
       (data?.['cgTradingData'] as CoingeckoTradingData) || {},
     )

@@ -23,7 +23,6 @@ export const fetchOrGetResources = async (forceFetch?: boolean) => {
   resourcesData = await queryGraphCms()
 
   await cache.set('resources', resourcesData)
-
   return resourcesData
 }
 
@@ -35,6 +34,9 @@ const queryGraphCms = async () => {
     query Resources {
       resources {
         id
+        documentInStages(stages: PUBLISHED) {
+          id
+        }
         createdAt
         updatedAt
         title

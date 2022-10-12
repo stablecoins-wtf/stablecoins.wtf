@@ -5,6 +5,9 @@ import dayjs from 'dayjs'
 import { useEffect, useState } from 'react'
 import { useQueries } from 'react-query'
 
+/**
+ * DEPRECATED
+ */
 export const useUpdatedCgTradingData = (coins: Coin[]) => {
   const [updatedCoins, setUpdatedCoins] = useState<Coin[]>([])
 

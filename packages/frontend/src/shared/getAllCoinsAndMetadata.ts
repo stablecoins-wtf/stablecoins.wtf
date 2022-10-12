@@ -27,10 +27,11 @@ export const fetchOrGetCoinsData = async (forceFetch?: boolean) => {
 
   coinsData = await queryGraphCms()
   coinsData = await updateCoinmarketcapMetadata(coinsData)
-  coinsData = await updateCoinmarketcapQuotes(coinsData)
+
+  // TODO Test & Remove fully
+  // coinsData = await updateCoinmarketcapQuotes(coinsData)
 
   await cache.set('coins', coinsData)
-
   return coinsData
 }
 
@@ -42,6 +43,9 @@ const queryGraphCms = async () => {
     query Coins {
       coins {
         id
+        documentInStages(stages: PUBLISHED) {
+          id
+        }
         createdAt
         updatedAt
         name
@@ -59,8 +63,8 @@ const queryGraphCms = async () => {
           hex
         }
 
+        unavailableOnCMC
         cmcMetadata
-        cmcLatestQuotes
 
         cgTradingData
       }
@@ -78,6 +82,8 @@ const CMC_METADATA_MAX_AGE_MINUTES = 60 * 24
 const updateCoinmarketcapMetadata = async (coinsData: any[]) => {
   // Determin symbols to fetch for (because attribute does not yet exist or is outdated)
   const coinsToUpdate = coinsData.filter((c: any) => {
+    const isUnavailable = !!c?.unavailableOnCMC
+    if (isUnavailable) return false
     const updatedAt = c?.cmcMetadata?.updatedAt
     const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CMC_METADATA_MAX_AGE_MINUTES
     return !updatedAt || isOutdated
@@ -86,7 +92,7 @@ const updateCoinmarketcapMetadata = async (coinsData: any[]) => {
 
   // Fetch new data
   const symbols = coinsToUpdate.map((c: any) => c.symbol).join(',')
-  console.log('Updating cmcMetadata for symbols: ', symbols)
+  // console.log('Updating cmcMetadata for symbols: ', symbols)
   const params = new URLSearchParams({ symbol: symbols }).toString()
   const headers = { 'X-CMC_PRO_API_KEY': env.coinmarketcapApiKey }
   const { data } = await axios.get(
@@ -139,7 +145,7 @@ const updateCoinmarketcapQuotes = async (coinsData: any[]) => {
 
   // Fetch new data
   const symbols = coinsToUpdate.map((c: any) => c.symbol).join(',')
-  console.log('Updating cmcLatestQuotes for symbols: ', symbols)
+  // console.log('Updating cmcLatestQuotes for symbols: ', symbols)
   const params = new URLSearchParams({ symbol: symbols }).toString()
   const headers = { 'X-CMC_PRO_API_KEY': env.coinmarketcapApiKey }
   const { data } = await axios.get(

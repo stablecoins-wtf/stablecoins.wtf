@@ -1,4 +1,5 @@
 import { Resource } from '@models/Resource.model'
+import { env } from '@shared/environment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
@@ -37,6 +38,7 @@ export const HomeResourcesList: FC<HomeResourcesListProps> = ({ resources, ...pr
               >
                 <div tw="whitespace-nowrap pb-0.5 px-1 font-semibold">
                   {idx + 1}. {r.title}
+                  {!env.isProduction && r.isDraft && ' 🏗️'}
                 </div>
                 <div tw="hidden md:block truncate pb-0.5 pl-4 pr-1 text-bbg-gray2">/{r.slug}</div>
               </a>
