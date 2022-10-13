@@ -1,7 +1,7 @@
 import { BloombergBox } from '@components/home/BloombergBox'
 import { HomeContentHeader } from '@components/home/HomeContentHeader'
 import { HomeLayout } from '@components/home/HomeLayout'
-import { ProseWrapper } from '@components/ProseWrapper'
+import { ProseWrapper } from '@components/shared/ProseWrapper'
 import {
   getSharedStaticPropsFor,
   SharedStaticProps,

@@ -1,5 +1,5 @@
+import { ArticleContent } from '@components/article/ArticleContent'
 import { BloombergBox } from '@components/home/BloombergBox'
-import { HomeArticleContent } from '@components/home/HomeArticleContent'
 import { HomeLayout } from '@components/home/HomeLayout'
 import PageNotFound404 from '@pages/404'
 import { fetchOrGetArticles } from '@shared/getAllArticles'
@@ -33,7 +33,7 @@ export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
 
       <HomeLayout {...sharedStaticProps}>
         <BloombergBox tw="flex-1" title={article.getRelativeUrl()} noHeadingMarkup={true}>
-          <HomeArticleContent item={article} />
+          <ArticleContent item={article} />
         </BloombergBox>
       </HomeLayout>
     </>

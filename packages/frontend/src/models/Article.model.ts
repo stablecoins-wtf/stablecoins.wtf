@@ -1,4 +1,5 @@
 import { RichTextContent } from '@graphcms/rich-text-types'
+import { Coin } from './Coin.model'
 
 export class Article {
   constructor(
@@ -12,10 +13,15 @@ export class Article {
     public slug: string,
     public content: RichTextContent | undefined,
     public tags: string[],
+    public relatedCoins: Coin[],
   ) {}
 
-  static fromObject(data: any): Article | null {
+  static fromObject(data: any, coins?: Coin[]): Article | null {
     if (!data) return null
+
+    const relatedCoins = (data?.['relatedCoins'] || []).map(({ id }: any) =>
+      (coins || []).find((c) => c.id === id),
+    )
 
     return new Article(
       data?.['id'] as string,
@@ -27,7 +33,8 @@ export class Article {
       data?.['subtitle'] as string,
       data?.['slug'] as string,
       data?.['content']?.raw as RichTextContent,
-      data?.['tags'] as string[],
+      (data?.['tags'] || []) as string[],
+      relatedCoins,
     )
   }
 

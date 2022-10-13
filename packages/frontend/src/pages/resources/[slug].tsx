@@ -1,5 +1,5 @@
+import { ArticleContent } from '@components/article/ArticleContent'
 import { BloombergBox } from '@components/home/BloombergBox'
-import { HomeArticleContent } from '@components/home/HomeArticleContent'
 import { HomeLayout } from '@components/home/HomeLayout'
 import PageNotFound404 from '@pages/404'
 import { fetchOrGetResources } from '@shared/getAllResources'
@@ -33,7 +33,7 @@ export default function ResourceDetailPage({ ...props }: SharedStaticProps) {
 
       <HomeLayout {...sharedStaticProps}>
         <BloombergBox tw="flex-1" title={resource.getRelativeUrl()} noHeadingMarkup={true}>
-          <HomeArticleContent item={resource} />
+          <ArticleContent item={resource} />
         </BloombergBox>
       </HomeLayout>
     </>

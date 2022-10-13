@@ -69,12 +69,12 @@ export const useSharedStaticProps = ({
 
   // Initialize Resources
   const getResources = () =>
-    (resourcesData || []).map(Resource.fromObject).filter(Boolean) as Resource[]
+    (resourcesData || []).map((r) => Resource.fromObject(r, coins)).filter(Boolean) as Resource[]
   const [resources] = useState(getResources())
 
   // Initialize Articles
   const getArticles = () =>
-    (articlesData || []).map(Article.fromObject).filter(Boolean) as Article[]
+    (articlesData || []).map((a) => Article.fromObject(a, coins)).filter(Boolean) as Article[]
   const [articles] = useState(getArticles())
 
   // Check & initiate trading-data update (if outdated)

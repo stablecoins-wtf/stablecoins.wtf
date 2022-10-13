@@ -3,13 +3,14 @@ import { Article } from '@models/Article.model'
 import { Resource } from '@models/Resource.model'
 import { FC } from 'react'
 import 'twin.macro'
-import { ProseWrapper } from '../ProseWrapper'
-import { HomeContentHeader } from './HomeContentHeader'
+import { HomeContentHeader } from '../home/HomeContentHeader'
+import { ProseWrapper } from '../shared/ProseWrapper'
+import { ArticleRelatedCoinBoxes } from './ArticleRelatedCoinBoxes'
 
-export interface HomeArticleContentProps {
+export interface ArticleContentProps {
   item: Article | Resource
 }
-export const HomeArticleContent: FC<HomeArticleContentProps> = ({ item }) => {
+export const ArticleContent: FC<ArticleContentProps> = ({ item }) => {
   const { title, subtitle, updatedAt, tags } = item
 
   return (
@@ -25,6 +26,9 @@ export const HomeArticleContent: FC<HomeArticleContentProps> = ({ item }) => {
           </ProseWrapper>
         </section>
       )}
+
+      {/* Related Coins */}
+      <ArticleRelatedCoinBoxes coins={item.relatedCoins} />
     </article>
   )
 }

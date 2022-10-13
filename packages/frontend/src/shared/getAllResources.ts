@@ -46,6 +46,9 @@ const queryGraphCms = async () => {
           raw
         }
         tags
+        relatedCoins {
+          id
+        }
       }
     }
   `

@@ -1,6 +1,6 @@
 import { CoinCharts } from '@components/charts/CoinCharts'
 import { KPI, KPIContent, KPIsWrapper, KPITitle } from '@components/layout/KPIs'
-import { ProseWrapper } from '@components/ProseWrapper'
+import { ProseWrapper } from '@components/shared/ProseWrapper'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Coin, CoinMechanism, CryptopanicNews } from '@models/Coin.model'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
