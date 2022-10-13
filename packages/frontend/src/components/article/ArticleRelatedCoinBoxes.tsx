@@ -59,7 +59,7 @@ export const ArticleRelatedCoinBox: FC<ArticleRelatedCoinBoxProps> = ({ coin: c 
 
   return (
     <>
-      <div tw="grow flex mx-2 my-2 bg-bbg-gray3/40 divide-x divide-bbg-gray3 border border-bbg-gray3 overflow-hidden">
+      <div tw="grow max-w-[50rem] flex mx-2 my-2 bg-bbg-gray3/40 divide-x divide-bbg-gray3 border border-bbg-gray3 overflow-hidden">
         {/* Name, Symbol, and Link */}
         <div tw="grow [flex-basis: 40%] flex flex-col items-center justify-center mx-4 my-2 text-center whitespace-nowrap">
           <div tw="text-bbg-gray2 text-sm">{c.name}</div>
