@@ -8,7 +8,9 @@ import Head from 'next/head'
 import Router from 'next/router'
 import NProgress from 'nprogress'
 import Favicon from 'react-favicon'
+import { Toaster } from 'react-hot-toast'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { theme } from 'twin.macro'
 import { Layout } from '../components/layout/Layout'
 import GlobalStyles from '../styles/GlobalStyles'
 
@@ -88,6 +90,24 @@ export default function App({ Component, pageProps }: AppProps) {
             </Layout>
           </ThemeProvider>
         </QueryClientProvider>
+
+        <Toaster
+          toastOptions={{
+            position: 'top-center',
+            style: {
+              wordBreak: 'break-all',
+              maxWidth: '30rem',
+              background: theme('colors.black'),
+              color: theme('colors.white'),
+              fontWeight: 'semibold',
+              borderRadius: '0px',
+              border: `1px ${theme('colors.bbg.gray3')} solid`,
+            },
+            success: {
+              duration: 5000,
+            },
+          }}
+        />
       </CacheProvider>
     </>
   )

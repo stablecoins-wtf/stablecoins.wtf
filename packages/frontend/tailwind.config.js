@@ -24,6 +24,7 @@ module.exports = {
         social: {
           twitter: '#1DA1F2',
           discord: '#EB459E',
+          telegram: '#0088cc',
         },
       },
       fontSize: {
