@@ -10,10 +10,12 @@ export interface HomeArticleContentProps {
   item: Article | Resource
 }
 export const HomeArticleContent: FC<HomeArticleContentProps> = ({ item }) => {
+  const { title, subtitle, updatedAt, tags } = item
+
   return (
     <article itemScope itemType="http://schema.org/Article">
       {/* Header */}
-      <HomeContentHeader {...item} />
+      <HomeContentHeader {...{ title, subtitle, updatedAt, tags }} />
 
       {/* Body */}
       {item.content && (

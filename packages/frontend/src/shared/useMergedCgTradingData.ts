@@ -118,6 +118,8 @@ export const useMergedCgTradingData = (coins: Coin[], maxAgeDays = 30, maxCoins 
     setAllDates(allDates)
     setAllSymbols(allSymbols)
     setAllColors(allColors)
+    console.log(coins)
+    console.log(mergedData)
   }, [coins])
 
   return {
