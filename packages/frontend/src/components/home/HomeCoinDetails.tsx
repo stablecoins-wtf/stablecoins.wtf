@@ -226,7 +226,7 @@ export const CoinDetailsLinks: FC<HomeCoinDetailsProps> = ({ coin }) => {
   return (
     <>
       <ProseWrapper>
-        <h2 tw="mt-2.5">Links</h2>
+        <h2>Further Links</h2>
         <ul>
           {Object.entries(links).map(([title, url]) =>
             url ? (
