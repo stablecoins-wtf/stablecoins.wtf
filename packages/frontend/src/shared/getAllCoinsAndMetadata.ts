@@ -8,7 +8,7 @@ import { graphCmsClient } from './graphCmsClient'
 /**
  * Query, merge, and cache data from the following sources:
  * – GraphCMS (static data from headless cms)
- * – Coinmarketcap (meta- and latest market-data for coins)
+ * – Coinmarketcap (meta-data for coins)
  */
 export interface CoinsDataProps {
   coinsData: any[]
@@ -27,9 +27,6 @@ export const fetchOrGetCoinsData = async (forceFetch?: boolean) => {
 
   coinsData = await queryGraphCms()
   coinsData = await updateCoinmarketcapMetadata(coinsData)
-
-  // TODO Test & Remove fully
-  // coinsData = await updateCoinmarketcapQuotes(coinsData)
 
   await cache.set('coins', coinsData)
   return coinsData
@@ -108,75 +105,25 @@ const updateCoinmarketcapMetadata = async (coinsData: any[]) => {
       ...((cmcMetadataData as any)?.[0] || {}),
       updatedAt,
     }
-    coinsData = coinsData.map((c: any) => {
-      if (c.symbol !== symbol) return c
-      return { ...c, cmcMetadata }
-    })
+    const coinData = coinsData.find((c: any) => c.symbol === symbol)
+    coinData['cmcMetadata'] = cmcMetadata
+
     // Asynchronously mutate and re-publish in GraphCMS
-    const query = gql`
+    const isDraft = !coinData?.documentInStages?.length
+    const publishMutation = `
+      publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
+        id
+      }
+    `
+    const mutation = gql`
       mutation UpdateAndPublishCoin($symbol: String!, $cmcMetadata: Json!) {
         updateCoin(where: { symbol: $symbol }, data: { cmcMetadata: $cmcMetadata }) {
           id
         }
-        publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
-          id
-        }
+        ${isDraft ? '' : publishMutation}
       }
     `
-    graphCmsClient.request(query, { symbol, cmcMetadata })
-  }
-
-  return coinsData
-}
-
-/**
- * Checks whether the cached market quotes are outdated (older than CMC_LATEST_QUOTES_MAX_AGE_MINUTES).
- * If yes, they're re-fetched, merged into the coinsData, and updated in the GraphCMS database.
- */
-const CMC_LATEST_QUOTES_MAX_AGE_MINUTES = 60 * 6
-const updateCoinmarketcapQuotes = async (coinsData: any[]) => {
-  // Determin symbols to fetch for (because attribute does not yet exist or is outdated)
-  const coinsToUpdate = coinsData.filter((c: any) => {
-    const updatedAt = c?.cmcLatestQuotes?.updatedAt
-    const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CMC_LATEST_QUOTES_MAX_AGE_MINUTES
-    return !updatedAt || isOutdated
-  })
-  if (!coinsToUpdate?.length) return coinsData
-
-  // Fetch new data
-  const symbols = coinsToUpdate.map((c: any) => c.symbol).join(',')
-  // console.log('Updating cmcLatestQuotes for symbols: ', symbols)
-  const params = new URLSearchParams({ symbol: symbols }).toString()
-  const headers = { 'X-CMC_PRO_API_KEY': env.coinmarketcapApiKey }
-  const { data } = await axios.get(
-    `https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?${params}`,
-    { headers },
-  )
-
-  const updatedAt = dayjs().toISOString()
-  for (const [symbol, cmcLatestQuotesData] of Object.entries(data?.data || {})) {
-    // console.log('Updating cached cmcLatestQuotes for symbol: ', symbol)
-    // Merge into coinsData
-    const cmcLatestQuotes = {
-      ...((cmcLatestQuotesData as any)?.[0] || {}),
-      updatedAt,
-    }
-    coinsData = coinsData.map((c: any) => {
-      if (c.symbol !== symbol) return c
-      return { ...c, cmcLatestQuotes }
-    })
-    // Asynchronously mutate and re-publish in GraphCMS
-    const query = gql`
-      mutation UpdateAndPublishCoin($symbol: String!, $cmcLatestQuotes: Json!) {
-        updateCoin(where: { symbol: $symbol }, data: { cmcLatestQuotes: $cmcLatestQuotes }) {
-          id
-        }
-        publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
-          id
-        }
-      }
-    `
-    await graphCmsClient.request(query, { symbol, cmcLatestQuotes })
+    graphCmsClient.request(mutation, { symbol, cmcMetadata })
   }
 
   return coinsData

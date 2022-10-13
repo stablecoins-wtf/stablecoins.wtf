@@ -93,8 +93,18 @@ export const useSharedStaticProps = ({
   )
   useEffect(() => {
     for (let idx = 0; idx < coins.length; idx++) {
-      const { refetch, isIdle } = results[idx]
+      const { refetch, isIdle, data } = results[idx]
       const coin = coins[idx]
+
+      // Swap out `cgTradingData` if new exists
+      const cgTradingData = data?.data?.cgTradingData
+      if (cgTradingData) {
+        coin.cgTradingData = cgTradingData
+        coin.latestQuotes.reInitialize()
+        continue
+      }
+
+      // Initialize update of `cgTradingData` if outdated
       const updatedAt = coin.cgTradingData?.updatedAt
       const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CG_TRADING_DATA_MAX_AGE_MINUTES
       if (!updatedAt || (isOutdated && isIdle)) {

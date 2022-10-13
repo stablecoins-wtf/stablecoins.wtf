@@ -8,7 +8,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 /**
  * Fetch price history from CoinGecko & cache in GraphCMS
  */
-export const CG_TRADING_DATA_MAX_AGE_MINUTES = 60 * 6
+export const CG_TRADING_DATA_MAX_AGE_MINUTES = 60 * 2
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const symbol = req.body?.symbol as string
   const coingeckoId = req.body?.coingeckoId as string
@@ -19,11 +19,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const query = gql`
       query Coin($symbol: String!) {
         coin(where: { symbol: $symbol }) {
+          id
+          documentInStages(stages: PUBLISHED) {
+            id
+          }
           cgTradingData
         }
       }
     `
+
+    // Check if coin exists
     const graphCmsData = await graphCmsClient.request(query, { symbol })
+    if (!graphCmsData?.coin?.id) {
+      return res.status(404).end()
+    }
+
+    // Determine whether an update is due
     const cachedCgTradingData: CoingeckoTradingData = graphCmsData?.coin?.cgTradingData || {}
     const updatedAt = cachedCgTradingData?.updatedAt
     const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CG_TRADING_DATA_MAX_AGE_MINUTES
@@ -45,19 +56,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Update in GraphCMS (async)
+    const isDraft = !graphCmsData?.coin?.documentInStages?.length
+    const publishMutation = `
+      publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
+        id
+      }
+    `
     const mutation = gql`
       mutation UpdateAndPublishCoin($symbol: String!, $cgTradingData: Json!) {
         updateCoin(where: { symbol: $symbol }, data: { cgTradingData: $cgTradingData }) {
           id
         }
-        publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
-          id
-        }
+        ${isDraft ? '' : publishMutation}
       }
     `
     graphCmsClient.request(mutation, { symbol, cgTradingData })
 
-    res.status(200).end()
+    res.status(200).json({ cgTradingData })
+    // res.status(200).end()
   } catch (e) {
     console.error('Error while fetching data from CoinGecko', e)
     res.status(500).end()

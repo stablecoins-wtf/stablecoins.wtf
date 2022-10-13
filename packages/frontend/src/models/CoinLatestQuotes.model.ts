@@ -7,14 +7,17 @@ import { Coin } from './Coin.model'
 
 export class CoinLatestQuotes {
   public USD: CoinLatestQuotesData
-  // TODO
   // public EUR?: CoinLatestQuotesData
 
   constructor(private coin: Coin) {
     this.USD = this.initializeUSD()
   }
 
-  initializeUSD(): CoinLatestQuotesData {
+  reInitialize() {
+    this.USD = this.initializeUSD()
+  }
+
+  private initializeUSD(): CoinLatestQuotesData {
     const quotes: CoinLatestQuotesData = {}
 
     // Price (CoinGecko)
