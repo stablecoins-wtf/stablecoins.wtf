@@ -42,7 +42,7 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
         title={`Last updated at ${dayjs(coin.updatedAt).format('YYYY/MM/DD')}`}
         noHeadingMarkup={true}
       >
-        <HomeContentHeader {...{ title, subtitle }} hideTopBar={true} tw="mb-4" />
+        <HomeContentHeader {...{ title, subtitle }} hideTopBar={true} tw="mb-6!" />
 
         <h2 tw="sr-only">KPIs & Market Data</h2>
 
@@ -53,7 +53,7 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
         <CoinDetailsStaticAttributes coin={coin} />
 
         {coin.description && (
-          <ProseWrapper tw="py-0">
+          <ProseWrapper tw="mt-2 max-w-full">
             <h2 tw="sr-only">Description</h2>
             <RichText content={description} />
           </ProseWrapper>
@@ -227,7 +227,7 @@ export const CoinDetailsLinks: FC<HomeCoinDetailsProps> = ({ coin }) => {
 
   return (
     <>
-      <ProseWrapper>
+      <ProseWrapper tw="max-w-full">
         <h2>Further Links</h2>
         <ul>
           {Object.entries(links).map(([title, url]) =>

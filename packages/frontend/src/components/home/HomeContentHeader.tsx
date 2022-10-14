@@ -30,7 +30,7 @@ export const HomeContentHeader: FC<HomeContentHeaderProps> = ({
   ...props
 }) => {
   const { asPath } = useRouter()
-  const url = `${env.url}${asPath}`
+  const url = `${env.url}${asPath.split('#')[0].split('?')[0]}`
   const baseShareParams = {
     url,
     text: title,
@@ -50,7 +50,10 @@ export const HomeContentHeader: FC<HomeContentHeaderProps> = ({
 
   return (
     <>
-      <div tw="-mx-3 divide-y divide-bbg-gray3 border-y border-bbg-gray3" {...props}>
+      <div
+        tw="-mx-3 mb-8 lg:mb-6 xl:mb-8 divide-y divide-bbg-gray3 border-y border-bbg-gray3"
+        {...props}
+      >
         {/* Tags & Date */}
         {!hideTopBar && (
           <div tw="px-3 py-2 flex justify-between">

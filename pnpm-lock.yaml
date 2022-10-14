@@ -67,6 +67,7 @@ importers:
       react-query: ^3.39.2
       recharts: 2.1.12
       sharp: ^0.31.0
+      slugify: ^1.6.5
       tailwindcss: ^3.1.8
       ts-node: ^10.9.1
       twin.macro: 3.0.0-rc.4.2
@@ -101,6 +102,7 @@ importers:
       react-query: 3.39.2_biqbaboplfbrettd7655fr4n2y
       recharts: 2.1.12_v2m5e27vhdewzwhryxwfaorcca
       sharp: 0.31.0
+      slugify: 1.6.5
       use-async-effect: 2.2.7_react@18.2.0
       usehooks-ts: 2.7.1_biqbaboplfbrettd7655fr4n2y
     devDependencies:
@@ -5243,6 +5245,11 @@ packages:
       ansi-styles: 6.1.1
       is-fullwidth-code-point: 4.0.0
     dev: true
+
+  /slugify/1.6.5:
+    resolution: {integrity: sha512-8mo9bslnBO3tr5PEVFzMPIWwWnipGS0xVbYf65zxDqfNwmzYn1LpiKNrR6DlClusuvo+hDHd1zKpmfAe83NQSQ==}
+    engines: {node: '>=8.0.0'}
+    dev: false
 
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}

@@ -1,8 +1,11 @@
-import { sanitizeRichTextContent } from '@components/shared/richtextcontentHelpers'
+import {
+  generateRichTextContentTOC,
+  sanitizeRichTextContent,
+} from '@components/shared/richtextcontentHelpers'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Article } from '@models/Article.model'
 import { Resource } from '@models/Resource.model'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import 'twin.macro'
 import { HomeContentHeader } from '../home/HomeContentHeader'
 import { ProseWrapper } from '../shared/ProseWrapper'
@@ -13,7 +16,12 @@ export interface ArticleContentProps {
 }
 export const ArticleContent: FC<ArticleContentProps> = ({ item }) => {
   const { title, subtitle, updatedAt, tags } = item
-  const content = sanitizeRichTextContent(item.content)
+  const [content, setContent] = useState(item.content || [])
+  useEffect(() => {
+    let newContent = sanitizeRichTextContent(item.content)
+    newContent = generateRichTextContentTOC(item.content)
+    setContent(newContent)
+  }, [item.content])
 
   return (
     <article itemScope itemType="http://schema.org/Article">

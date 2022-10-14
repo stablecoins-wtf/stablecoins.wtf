@@ -18,18 +18,18 @@ export const ArticleRelatedCoinBoxes: FC<ArticleRelatedCoinBoxesProps> = ({ coin
       <ProseWrapper>
         <hr />
         <h2>Related Coin Page{coins.length > 1 ? 's' : ''}</h2>
-      </ProseWrapper>
 
-      <div
-        css={[
-          tw`grid -my-2 mb-6`,
-          coins.length > 1 && tw`md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2`,
-        ]}
-      >
-        {coins.map((c) => (
-          <ArticleRelatedCoinBox key={`related-coin-${c.id}`} coin={c} />
-        ))}
-      </div>
+        <div
+          css={[
+            tw`grid -my-2 -mx-2 mb-6`,
+            coins.length > 1 && tw`md:grid-cols-2 lg:grid-cols-1 2xl:grid-cols-2`,
+          ]}
+        >
+          {coins.map((c) => (
+            <ArticleRelatedCoinBox key={`related-coin-${c.id}`} coin={c} />
+          ))}
+        </div>
+      </ProseWrapper>
     </>
   )
 }
@@ -64,7 +64,7 @@ export const ArticleRelatedCoinBox: FC<ArticleRelatedCoinBoxProps> = ({ coin: c 
         <Link href={`/coins/${c.slug}`} passHref>
           <a
             className="group"
-            tw="grow [flex-basis: 45%] flex flex-col items-center justify-center px-4 py-2 text-center whitespace-nowrap cursor-pointer hover:(bg-white/5)"
+            tw="grow [flex-basis: 45%] flex flex-col items-center justify-center px-4 py-2 text-center whitespace-nowrap cursor-pointer no-underline hover:(bg-white/5)"
             title={`Go to ${c.name}, $${c.symbol} (USD-pegged Stablecoin)`}
           >
             <div tw="text-bbg-gray2 text-sm">{c.name}</div>
