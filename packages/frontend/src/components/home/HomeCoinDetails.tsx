@@ -1,6 +1,7 @@
 import { CoinCharts } from '@components/charts/CoinCharts'
 import { KPI, KPIContent, KPIsWrapper, KPITitle } from '@components/layout/KPIs'
 import { ProseWrapper } from '@components/shared/ProseWrapper'
+import { sanitizeRichTextContent } from '@components/shared/richtextcontentHelpers'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Coin, CoinMechanism, CryptopanicNews } from '@models/Coin.model'
 import { largeNumberFormatter } from '@shared/largeNumberFormatter'
@@ -32,6 +33,7 @@ export const HomeCoinDetails: FC<HomeCoinDetailsProps> = ({ coin }) => {
 export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
   const title = `${coin.name}, $${coin.symbol}`
   const subtitle = `USD-pegged Stablecoin`
+  const description = sanitizeRichTextContent(coin.description)
 
   return (
     <>
@@ -53,7 +55,7 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
         {coin.description && (
           <ProseWrapper tw="py-0">
             <h2 tw="sr-only">Description</h2>
-            <RichText content={coin.description} />
+            <RichText content={description} />
           </ProseWrapper>
         )}
 

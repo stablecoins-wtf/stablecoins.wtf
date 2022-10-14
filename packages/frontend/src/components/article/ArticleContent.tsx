@@ -1,3 +1,4 @@
+import { sanitizeRichTextContent } from '@components/shared/richtextcontentHelpers'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Article } from '@models/Article.model'
 import { Resource } from '@models/Resource.model'
@@ -12,6 +13,7 @@ export interface ArticleContentProps {
 }
 export const ArticleContent: FC<ArticleContentProps> = ({ item }) => {
   const { title, subtitle, updatedAt, tags } = item
+  const content = sanitizeRichTextContent(item.content)
 
   return (
     <article itemScope itemType="http://schema.org/Article">
@@ -22,7 +24,7 @@ export const ArticleContent: FC<ArticleContentProps> = ({ item }) => {
       {item.content && (
         <section itemProp="articleBody">
           <ProseWrapper>
-            <RichText content={item.content} />
+            <RichText content={content} />
           </ProseWrapper>
         </section>
       )}
