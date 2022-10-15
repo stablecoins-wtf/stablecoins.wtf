@@ -64,18 +64,38 @@ export const useSharedStaticProps = ({
   articlesData,
 }: SharedStaticProps): ParsedSharedStaticProps => {
   // Initialize Coins
-  const getCoins = () => (coinsData || []).map(Coin.fromObject).filter(Boolean) as Coin[]
-  const [coins] = useState(getCoins())
+  const [coins, setCoins] = useState<Coin[]>([])
+  useEffect(() => {
+    setCoins((coinsData || []).map(Coin.fromObject).filter(Boolean) as Coin[])
+  }, [coinsData])
 
   // Initialize Resources
-  const getResources = () =>
-    (resourcesData || []).map((r) => Resource.fromObject(r, coins)).filter(Boolean) as Resource[]
-  const [resources] = useState(getResources())
+  const [resources, setResources] = useState<Resource[]>([])
+  useEffect(() => {
+    setResources(
+      (resourcesData || [])
+        .map((data) => {
+          const r = Resource.fromObject(data)
+          r?.initRelatedCoins(data, coins)
+          return r
+        })
+        .filter(Boolean) as Resource[],
+    )
+  }, [resourcesData, coins])
 
   // Initialize Articles
-  const getArticles = () =>
-    (articlesData || []).map((a) => Article.fromObject(a, coins)).filter(Boolean) as Article[]
-  const [articles] = useState(getArticles())
+  const [articles, setArticles] = useState<Article[]>([])
+  useEffect(() => {
+    setArticles(
+      (articlesData || [])
+        .map((data) => {
+          const a = Article.fromObject(data)
+          a?.initRelatedCoins(data, coins, true)
+          return a
+        })
+        .filter(Boolean) as Article[],
+    )
+  }, [articlesData, coins])
 
   // Check & initiate trading-data update (if outdated)
   const getQuery = (coin: Coin) => () =>

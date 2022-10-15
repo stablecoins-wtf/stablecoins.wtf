@@ -1,8 +1,10 @@
 import { RichTextContent } from '@graphcms/rich-text-types'
+import { Article } from './Article.model'
 import { CoinLatestQuotes } from './CoinLatestQuotes.model'
 
 export class Coin {
   public latestQuotes: CoinLatestQuotes
+  public relatedArticles: Article[] = []
 
   constructor(
     public id: string,

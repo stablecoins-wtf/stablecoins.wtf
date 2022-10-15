@@ -1,4 +1,5 @@
 import { CoinCharts } from '@components/charts/CoinCharts'
+import { CoinRelatedArticles } from '@components/coin/CoinRelatedArticles'
 import { KPI, KPIContent, KPIsWrapper, KPITitle } from '@components/layout/KPIs'
 import { ProseWrapper } from '@components/shared/ProseWrapper'
 import { sanitizeRichTextContent } from '@components/shared/richtextcontentHelpers'
@@ -58,6 +59,8 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
             <RichText content={description} />
           </ProseWrapper>
         )}
+
+        <CoinRelatedArticles coin={coin} />
 
         <CoinDetailsLinks coin={coin} />
       </BloombergBox>

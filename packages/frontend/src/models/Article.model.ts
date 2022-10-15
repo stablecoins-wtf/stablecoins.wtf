@@ -2,6 +2,8 @@ import { RichTextContent } from '@graphcms/rich-text-types'
 import { Coin } from './Coin.model'
 
 export class Article {
+  public relatedCoins: Coin[] = []
+
   constructor(
     public id: string,
     public isDraft: boolean,
@@ -13,15 +15,10 @@ export class Article {
     public slug: string,
     public content: RichTextContent | undefined,
     public tags: string[],
-    public relatedCoins: Coin[],
   ) {}
 
-  static fromObject(data: any, coins?: Coin[]): Article | null {
+  static fromObject(data: any): Article | null {
     if (!data) return null
-
-    const relatedCoins = (data?.['relatedCoins'] || []).map(({ id }: any) =>
-      (coins || []).find((c) => c.id === id),
-    )
 
     return new Article(
       data?.['id'] as string,
@@ -34,11 +31,23 @@ export class Article {
       data?.['slug'] as string,
       data?.['content']?.raw as RichTextContent,
       (data?.['tags'] || []) as string[],
-      relatedCoins,
     )
   }
 
   getRelativeUrl(): string {
     return `/articles/${this.slug}`
+  }
+
+  initRelatedCoins(data: any, allCoins: Coin[], setReverse?: boolean) {
+    // Filter & set related coins
+    const relatedCoins: Coin[] = (data?.['relatedCoins'] || [])
+      .map(({ id }: any) => (allCoins || []).find((c) => c.id === id))
+      .filter(Boolean)
+    this.relatedCoins = relatedCoins
+
+    // Set reserve direction (if given)
+    if (setReverse) {
+      this.relatedCoins.map((c) => c.relatedArticles.push(this))
+    }
   }
 }
