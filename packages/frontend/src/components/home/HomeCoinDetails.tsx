@@ -181,33 +181,41 @@ export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({ coin }) 
   return (
     <>
       <KPIsWrapper>
-        <KPI>
-          <KPITitle>Mechanism</KPITitle>
-          <KPIContent>
-            {mechanismLink ? (
-              <Link href={mechanismLink} passHref>
-                <a tw="flex items-center underline cursor-pointer">
-                  <span>{coin.mechanismFormatted()}</span>
-                  <BsInfoCircle tw="ml-2 -translate-y-px" />
-                </a>
-              </Link>
-            ) : (
-              coin.mechanismFormatted()
-            )}
-          </KPIContent>
-        </KPI>
-        <KPI>
-          <KPITitle>Governance</KPITitle>
-          <KPIContent>{coin.governance}</KPIContent>
-        </KPI>
-        <KPI>
-          <KPITitle>Issuer</KPITitle>
-          <KPIContent>{coin.issuer}</KPIContent>
-        </KPI>
-        <KPI>
-          <KPITitle>Jurisdiction</KPITitle>
-          <KPIContent>{coin.jurisdiction}</KPIContent>
-        </KPI>
+        {coin.mechanism && (
+          <KPI>
+            <KPITitle>Mechanism</KPITitle>
+            <KPIContent>
+              {mechanismLink ? (
+                <Link href={mechanismLink} passHref>
+                  <a tw="flex items-center underline cursor-pointer">
+                    <span>{coin.mechanismFormatted()}</span>
+                    <BsInfoCircle tw="ml-2 -translate-y-px" />
+                  </a>
+                </Link>
+              ) : (
+                coin.mechanismFormatted()
+              )}
+            </KPIContent>
+          </KPI>
+        )}
+        {coin.governance && (
+          <KPI>
+            <KPITitle>Governance</KPITitle>
+            <KPIContent>{coin.governance}</KPIContent>
+          </KPI>
+        )}
+        {coin.issuer && (
+          <KPI>
+            <KPITitle>Issuer</KPITitle>
+            <KPIContent>{coin.issuer}</KPIContent>
+          </KPI>
+        )}
+        {coin.jurisdiction && (
+          <KPI>
+            <KPITitle>Jurisdiction</KPITitle>
+            <KPIContent>{coin.jurisdiction}</KPIContent>
+          </KPI>
+        )}
       </KPIsWrapper>
     </>
   )
