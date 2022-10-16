@@ -75,7 +75,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json({ cgTradingData })
     // res.status(200).end()
   } catch (e) {
-    console.error('Error while fetching data from CoinGecko', e)
     res.status(500).end()
   }
 }
