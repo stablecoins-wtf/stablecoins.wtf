@@ -27,7 +27,7 @@ export const ArticleContent: FC<ArticleContentProps> = ({ item }) => {
   return (
     <article itemScope itemType="http://schema.org/Article">
       {/* Header */}
-      <HomeContentHeader {...{ title, subtitle, updatedAt, tags }} />
+      <HomeContentHeader {...{ title, subtitle, updatedAt, tags }} sharePrefix="Must read 👇" />
 
       {/* Body */}
       {item.content && (

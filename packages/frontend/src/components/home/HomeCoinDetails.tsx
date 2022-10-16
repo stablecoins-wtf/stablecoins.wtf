@@ -43,7 +43,12 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
         title={`Last updated at ${dayjs(coin.updatedAt).format('YYYY/MM/DD')}`}
         noHeadingMarkup={true}
       >
-        <HomeContentHeader {...{ title, subtitle }} hideTopBar={true} tw="mb-6!" />
+        <HomeContentHeader
+          {...{ title, subtitle }}
+          sharePrefix="All Stablecoin Details 🪙"
+          hideTopBar={true}
+          tw="mb-6!"
+        />
 
         <h2 tw="sr-only">KPIs & Market Data</h2>
 

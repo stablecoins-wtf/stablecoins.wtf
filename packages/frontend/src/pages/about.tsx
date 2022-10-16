@@ -27,6 +27,7 @@ export default function HomePage({ ...props }: SharedStaticProps) {
           <HomeContentHeader
             title="About stablecoins.wtf"
             subtitle="Who is behind this crypto stablecoin dashboard?"
+            sharePrefix="(🪙,🪙)"
           />
 
           <ProseWrapper>

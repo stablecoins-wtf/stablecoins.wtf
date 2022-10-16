@@ -19,6 +19,7 @@ export interface HomeContentHeaderProps {
   tags?: string[]
   hideTopBar?: boolean
   hideShareBar?: boolean
+  sharePrefix?: string
 }
 export const HomeContentHeader: FC<HomeContentHeaderProps> = ({
   title,
@@ -27,20 +28,18 @@ export const HomeContentHeader: FC<HomeContentHeaderProps> = ({
   tags,
   hideTopBar,
   hideShareBar,
+  sharePrefix,
   ...props
 }) => {
   const { asPath } = useRouter()
   const url = `${env.url}${asPath.split('#')[0].split('?')[0]}`
-  const baseShareParams = {
-    url,
-    text: `Must read 👇\n${title}`,
-  }
+  const text = sharePrefix ? `${sharePrefix}\n${title}` : title
   const twitterShareUrlParams = new URLSearchParams({
-    ...baseShareParams,
+    text: `${text}\n\n${url}`,
     via: 'stablecoinswtf',
   }).toString()
   const twitterShareUrl = `https://twitter.com/intent/tweet?${twitterShareUrlParams}`
-  const telegramShareUrlParams = new URLSearchParams(baseShareParams).toString()
+  const telegramShareUrlParams = new URLSearchParams({ url, text }).toString()
   const telegramShareUrl = `https://t.me/share/url?${telegramShareUrlParams}`
   const onCopyLink = () => {
     navigator?.clipboard?.writeText(url)
