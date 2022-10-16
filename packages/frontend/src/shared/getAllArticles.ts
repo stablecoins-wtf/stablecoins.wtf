@@ -50,6 +50,7 @@ const queryGraphCms = async () => {
         relatedCoins {
           id
         }
+        relatedTweetId
       }
     }
   `

@@ -84,7 +84,12 @@ export default function App({ Component, pageProps }: AppProps) {
         <GlobalStyles />
 
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider defaultTheme="dark" attribute="class">
+          <ThemeProvider
+            themes={['dark']}
+            defaultTheme="dark"
+            attribute="class"
+            enableColorScheme={false}
+          >
             <Layout>
               <Component {...pageProps} />
             </Layout>

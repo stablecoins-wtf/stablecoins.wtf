@@ -15,6 +15,7 @@ export class Article {
     public slug: string,
     public content: RichTextContent | undefined,
     public tags: string[],
+    public relatedTweetId: string | undefined,
   ) {}
 
   static fromObject(data: any): Article | null {
@@ -31,6 +32,7 @@ export class Article {
       data?.['slug'] as string,
       data?.['content']?.raw as RichTextContent,
       (data?.['tags'] || []) as string[],
+      data?.['relatedTweetId'] as string,
     )
   }
 

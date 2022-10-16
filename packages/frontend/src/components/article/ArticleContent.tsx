@@ -10,6 +10,7 @@ import 'twin.macro'
 import { HomeContentHeader } from '../home/HomeContentHeader'
 import { ProseWrapper } from '../shared/ProseWrapper'
 import { ArticleRelatedCoinBoxes } from './ArticleRelatedCoinBoxes'
+import { ArticleRelatedTweet } from './ArticleRelatedTweet'
 
 export interface ArticleContentProps {
   item: Article | Resource
@@ -39,6 +40,9 @@ export const ArticleContent: FC<ArticleContentProps> = ({ item }) => {
 
       {/* Related Coins */}
       <ArticleRelatedCoinBoxes coins={item.relatedCoins} />
+
+      {/* Related Tweet */}
+      <ArticleRelatedTweet item={item} />
     </article>
   )
 }

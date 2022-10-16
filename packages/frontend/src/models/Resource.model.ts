@@ -16,6 +16,7 @@ export class Resource extends Article {
       data?.['slug'] as string,
       data?.['content']?.raw as RichTextContent,
       (data?.['tags'] || []) as string[],
+      data?.['relatedTweetId'] as string,
     )
   }
 

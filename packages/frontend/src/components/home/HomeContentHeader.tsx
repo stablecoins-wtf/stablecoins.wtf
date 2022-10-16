@@ -33,7 +33,7 @@ export const HomeContentHeader: FC<HomeContentHeaderProps> = ({
   const url = `${env.url}${asPath.split('#')[0].split('?')[0]}`
   const baseShareParams = {
     url,
-    text: title,
+    text: `Must read 👇\n${title}`,
   }
   const twitterShareUrlParams = new URLSearchParams({
     ...baseShareParams,

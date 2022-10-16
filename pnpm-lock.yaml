@@ -65,6 +65,7 @@ importers:
       react-icons: ^4.4.0
       react-number-format: ^5.0.0
       react-query: ^3.39.2
+      react-twitter-widgets: ^1.11.0
       recharts: 2.1.12
       sharp: ^0.31.0
       slugify: ^1.6.5
@@ -100,6 +101,7 @@ importers:
       react-icons: 4.4.0_react@18.2.0
       react-number-format: 5.0.0_biqbaboplfbrettd7655fr4n2y
       react-query: 3.39.2_biqbaboplfbrettd7655fr4n2y
+      react-twitter-widgets: 1.11.0_react@18.2.0
       recharts: 2.1.12_v2m5e27vhdewzwhryxwfaorcca
       sharp: 0.31.0
       slugify: 1.6.5
@@ -3755,6 +3757,10 @@ packages:
       json5: 2.2.1
     dev: true
 
+  /loadjs/4.2.0:
+    resolution: {integrity: sha512-AgQGZisAlTPbTEzrHPb6q+NYBMD+DP9uvGSIjSUM5uG+0jG15cb8axWpxuOIqrmQjn6scaaH8JwloiP27b2KXA==}
+    dev: false
+
   /locate-path/5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
     engines: {node: '>=8'}
@@ -4934,6 +4940,15 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-lifecycles-compat: 3.0.4
+    dev: false
+
+  /react-twitter-widgets/1.11.0_react@18.2.0:
+    resolution: {integrity: sha512-PMCLJQc30iqy01y1b2+HnMfCX+ZkOxWaPKJb4BhHgOgjSjoZb68K5T0nq3q+3YbX9K7OH0bhptgDihtBG/BqRQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^18.0.0
+    dependencies:
+      loadjs: 4.2.0
+      react: 18.2.0
     dev: false
 
   /react/18.2.0:
