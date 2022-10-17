@@ -70,11 +70,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         ${isDraft ? '' : publishMutation}
       }
     `
-    graphCmsClient.request(mutation, { symbol, cgTradingData })
+    await graphCmsClient.request(mutation, { symbol, cgTradingData })
 
     res.status(200).json({ cgTradingData })
     // res.status(200).end()
   } catch (e) {
+    console.error('EEE', e)
     res.status(500).end()
   }
 }
