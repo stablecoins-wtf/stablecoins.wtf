@@ -8,8 +8,8 @@ const StyledProseWrapper = styled.div`
     prose prose-invert w-full max-w-[50rem] mx-auto px-4
     prose-p:(text-justify)
     prose-ul:(list-['⋇'])
-    prose-h2:(mt-0 pt-3)
-    prose-h3:(mt-0 pt-2)
+    prose-h2:(mt-1 pt-2)
+    prose-h3:(mt-1 pt-1)
     prose-hr:(border-bbg-gray3)
     prose-img:(mx-auto border border-bbg-gray3 p-2)
   `}

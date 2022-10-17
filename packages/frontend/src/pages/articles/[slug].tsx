@@ -32,7 +32,12 @@ export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
       />
 
       <HomeLayout {...sharedStaticProps}>
-        <BloombergBox tw="flex-1" title={article.getRelativeUrl()} noHeadingMarkup={true}>
+        <BloombergBox
+          tw="flex-1"
+          title={article.getRelativeUrl()}
+          noHeadingMarkup={true}
+          noStickyTopBar={true}
+        >
           <ArticleContent item={article} />
         </BloombergBox>
       </HomeLayout>

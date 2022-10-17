@@ -5,6 +5,7 @@ import {
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Article } from '@models/Article.model'
 import { Resource } from '@models/Resource.model'
+import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import 'twin.macro'
 import { HomeContentHeader } from '../home/HomeContentHeader'
@@ -18,11 +19,22 @@ export interface ArticleContentProps {
 export const ArticleContent: FC<ArticleContentProps> = ({ item }) => {
   const { title, subtitle, updatedAt, tags } = item
   const [content, setContent] = useState(item.content || [])
+
+  // Sanitize content & generate dynamic ToC
   useEffect(() => {
     let newContent = sanitizeRichTextContent(item.content)
     newContent = generateRichTextContentTOC(item.content)
     setContent(newContent)
   }, [item.content])
+
+  // Scroll to anchor links when content loaded
+  const { asPath: path } = useRouter()
+  useEffect(() => {
+    const pathAnchor = path.split('#')?.[1]
+    const anchor = document.getElementById(pathAnchor)
+    if (!anchor) return
+    anchor.scrollIntoView({ behavior: 'smooth' })
+  }, [path, content])
 
   return (
     <article itemScope itemType="http://schema.org/Article">

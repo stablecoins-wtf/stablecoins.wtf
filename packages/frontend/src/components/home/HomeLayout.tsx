@@ -2,7 +2,7 @@ import { HomeCoinList } from '@components/home/HomeCoinList'
 import { HomeHeader } from '@components/home/HomeHeader'
 import { ParsedSharedStaticProps } from '@shared/getSharedStaticProps'
 import { useRouter } from 'next/router'
-import { FC, PropsWithChildren, useRef } from 'react'
+import { FC, PropsWithChildren, useEffect, useRef, useState } from 'react'
 import 'twin.macro'
 import { HomeArticlesList } from './HomeArticlesList'
 import { HomeResourcesList } from './HomeResourcesList'
@@ -14,9 +14,18 @@ export const HomeLayout: FC<PropsWithChildren<HomeLayoutProps>> = ({
   articles,
   children,
 }) => {
-  const { pathname } = useRouter()
-  const isHome = pathname === '/'
+  const { asPath: path } = useRouter()
+  const [isHome] = useState(path === '/')
   const detailsPageRef = useRef<HTMLDivElement>(null)
+
+  // Scroll to main area (esp. helpful on mobile)
+  useEffect(() => {
+    if (isHome) return
+    detailsPageRef?.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    })
+  }, [path])
 
   return (
     <>
