@@ -109,7 +109,7 @@ const updateCoinmarketcapMetadata = async (coinsData: any[]) => {
     coinData['cmcMetadata'] = cmcMetadata
 
     // Asynchronously mutate and re-publish in GraphCMS
-    const isDraft = !coinData?.documentInStages?.length
+    const isDraft = !coinData?.documentInStages?.length && !env.isProduction
     const publishMutation = `
       publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
         id

@@ -1,4 +1,5 @@
 import { RichTextContent } from '@graphcms/rich-text-types'
+import { env } from '@shared/environment'
 import { Coin } from './Coin.model'
 
 export class Article {
@@ -23,7 +24,7 @@ export class Article {
 
     return new Article(
       data?.['id'] as string,
-      !data?.['documentInStages']?.length,
+      !data?.['documentInStages']?.length && !env.isProduction,
       new Date(data?.['createdAt']),
       data?.['createdAtOverwrite'] && new Date(data?.['createdAtOverwrite']),
       new Date(data?.['updatedAt']),

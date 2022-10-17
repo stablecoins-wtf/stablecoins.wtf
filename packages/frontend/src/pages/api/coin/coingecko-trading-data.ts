@@ -1,4 +1,5 @@
 import { CoingeckoTradingData } from '@models/Coin.model'
+import { env } from '@shared/environment'
 import { graphCmsClient } from '@shared/graphCmsClient'
 import axios from 'axios'
 import dayjs from 'dayjs'
@@ -56,7 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Update in GraphCMS (async)
-    const isDraft = !graphCmsData?.coin?.documentInStages?.length
+    const isDraft = !graphCmsData?.coin?.documentInStages?.length && !env.isProduction
     const publishMutation = `
       publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
         id
@@ -75,7 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     res.status(200).json({ cgTradingData })
     // res.status(200).end()
   } catch (e) {
-    console.error('EEE', e)
+    console.error('Error while updating coingecko trading-data:', e)
     res.status(500).end()
   }
 }
