@@ -37,6 +37,7 @@ const queryGraphCms = async () => {
         documentInStages(stages: PUBLISHED) {
           id
         }
+        articleType
         createdAt
         createdAtOverwrite
         updatedAt

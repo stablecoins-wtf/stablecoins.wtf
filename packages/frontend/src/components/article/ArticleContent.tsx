@@ -3,7 +3,7 @@ import {
   sanitizeRichTextContent,
 } from '@components/shared/richtextcontentHelpers'
 import { RichText } from '@graphcms/rich-text-react-renderer'
-import { Article } from '@models/Article.model'
+import { Article, ArticleType } from '@models/Article.model'
 import { Resource } from '@models/Resource.model'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
@@ -39,7 +39,11 @@ export const ArticleContent: FC<ArticleContentProps> = ({ item }) => {
   return (
     <article itemScope itemType="http://schema.org/Article">
       {/* Header */}
-      <HomeContentHeader {...{ title, subtitle, updatedAt, tags }} sharePrefix="Must read 👇" />
+      <HomeContentHeader
+        {...{ title, subtitle, updatedAt, tags }}
+        sharePrefix="Must read 👇"
+        hideShareBar={item.articleType === ArticleType.Legal}
+      />
 
       {/* Body */}
       {item.content && (

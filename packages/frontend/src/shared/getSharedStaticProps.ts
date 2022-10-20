@@ -1,4 +1,4 @@
-import { Article } from '@models/Article.model'
+import { Article, ArticleType } from '@models/Article.model'
 import { Coin } from '@models/Coin.model'
 import { Resource } from '@models/Resource.model'
 import { CG_TRADING_DATA_MAX_AGE_MINUTES } from '@pages/api/coin/coingecko-trading-data'
@@ -57,6 +57,7 @@ export interface ParsedSharedStaticProps {
   coins: Coin[]
   resources: Resource[]
   articles: Article[]
+  legal: Article[]
 }
 export const useSharedStaticProps = ({
   coinsData,
@@ -74,6 +75,7 @@ export const useSharedStaticProps = ({
   useEffect(() => {
     setResources(
       (resourcesData || [])
+        // Initialize coin-reference(s)
         .map((data) => {
           const r = Resource.fromObject(data)
           r?.initRelatedCoins(data, coins)
@@ -83,18 +85,21 @@ export const useSharedStaticProps = ({
     )
   }, [resourcesData, coins])
 
-  // Initialize Articles
+  // Initialize Articles (Blog Post Articles, Legal Documents, and Resources)
   const [articles, setArticles] = useState<Article[]>([])
+  const [legal, setLegal] = useState<Article[]>([])
   useEffect(() => {
-    setArticles(
-      (articlesData || [])
-        .map((data) => {
-          const a = Article.fromObject(data)
-          a?.initRelatedCoins(data, coins, true)
-          return a
-        })
-        .filter(Boolean) as Article[],
-    )
+    const allArticles = (articlesData || [])
+      .map((data) => {
+        const a = Article.fromObject(data)
+        // Initialize coin-reference(s)
+        a?.initRelatedCoins(data, coins, true)
+        return a
+      })
+      .filter(Boolean) as Article[]
+
+    setArticles(allArticles.filter((a) => a?.articleType === ArticleType.Article))
+    setLegal(allArticles.filter((a) => a?.articleType === ArticleType.Legal))
   }, [articlesData, coins])
 
   // Check & initiate trading-data update (if outdated)
@@ -133,7 +138,7 @@ export const useSharedStaticProps = ({
     }
   }, [coins])
 
-  return { coins, resources, articles }
+  return { coins, resources, articles, legal }
 }
 
 /**

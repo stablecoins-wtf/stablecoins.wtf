@@ -1,5 +1,5 @@
 import { RichTextContent } from '@graphcms/rich-text-types'
-import { Article } from './Article.model'
+import { Article, ArticleType } from './Article.model'
 
 export class Resource extends Article {
   static fromObject(data: any): Resource | null {
@@ -8,6 +8,7 @@ export class Resource extends Article {
     return new Resource(
       data?.['id'] as string,
       !data?.['documentInStages']?.length,
+      data?.['articleType'] as ArticleType,
       new Date(data?.['createdAt']),
       undefined,
       new Date(data?.['updatedAt']),

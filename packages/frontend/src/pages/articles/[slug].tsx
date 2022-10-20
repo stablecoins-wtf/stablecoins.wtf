@@ -1,8 +1,9 @@
 import { ArticleContent } from '@components/article/ArticleContent'
 import { BloombergBox } from '@components/home/BloombergBox'
 import { HomeLayout } from '@components/home/HomeLayout'
+import { ArticleType } from '@models/Article.model'
 import PageNotFound404 from '@pages/404'
-import { fetchOrGetArticles } from '@shared/getAllArticles'
+import { getArticleTypeStaticPaths } from '@shared/getArticleTypeStaticPaths'
 import {
   getSharedStaticPropsFor,
   SharedStaticProps,
@@ -16,8 +17,15 @@ import 'twin.macro'
 
 export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
   const sharedStaticProps = useSharedStaticProps(props)
-  const { query } = useRouter()
-  const article = sharedStaticProps.articles.find((a) => a.slug === query.slug)
+  const { articles, legal } = sharedStaticProps
+  const { asPath: path } = useRouter()
+  const isArticlePage = path.startsWith('/articles/')
+  const isLegalPage = path.startsWith('/legal/')
+  const article = [...articles, ...legal].find(
+    (a) =>
+      (a.articleType === ArticleType.Article && isArticlePage && path.endsWith(a.slug)) ||
+      (a.articleType === ArticleType.Legal && isLegalPage && path.endsWith(a.slug)),
+  )
   if (!article) return <PageNotFound404 {...props} />
 
   return (
@@ -29,15 +37,12 @@ export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
             ? `${article.subtitle} – Blog article related to stablecoins & crypto`
             : 'Blog article related to stablecoins & crypto. – Track stablecoin market data & learn about their mechanisms on stablecoins.wtf.'
         }
+        nofollow={isLegalPage}
+        noindex={isLegalPage}
       />
 
       <HomeLayout {...sharedStaticProps}>
-        <BloombergBox
-          tw="flex-1"
-          title={article.getRelativeUrl()}
-          noHeadingMarkup={true}
-          noStickyTopBar={true}
-        >
+        <BloombergBox tw="flex-1" title={path} noHeadingMarkup={true} noStickyTopBar={true}>
           <ArticleContent item={article} />
         </BloombergBox>
       </HomeLayout>
@@ -45,18 +50,5 @@ export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
   )
 }
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const articlesData = await fetchOrGetArticles()
-  const paths = (articlesData || [])
-    .filter((articleData: any) => !!articleData?.slug)
-    .map((articleData: any) => ({
-      params: { slug: articleData.slug },
-    }))
-
-  return {
-    paths,
-    fallback: false,
-  }
-}
-
+export const getStaticPaths: GetStaticPaths = getArticleTypeStaticPaths(ArticleType.Article)
 export const getStaticProps: GetStaticProps = getSharedStaticPropsFor(SharedStatisPropsPage.ARTICLE)

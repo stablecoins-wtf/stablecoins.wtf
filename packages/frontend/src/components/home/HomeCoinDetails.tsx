@@ -93,7 +93,9 @@ export const CoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({ coin }) => {
             news.map((n) => (
               <Link key={n.id} href={n.url} target="_blank" passHref>
                 <a tw="flex px-2 bg-black cursor-pointer hover:bg-bbg-gray3 text-sm">
-                  <div tw="grow truncate pb-0.5 px-1 text-bbg-orange">{n.title}</div>
+                  <div tw="grow truncate pb-0.5 px-1 text-bbg-orange">
+                    s{(n.title || '').trim().replaceAll('\ufe0f', '')}
+                  </div>
                   {n.is_hot && (
                     <div tw="flex items-center justify-center mx-1 my-px px-1 bg-bbg-red1 text-white text-xs font-bold tracking-wider">
                       HOT

@@ -13,32 +13,30 @@ const BloombergBoxWrapper = styled.div(() => [
 export const BloombergBoxHR = tw.hr`border-bbg-gray3 -mx-3 my-5`
 
 export interface BloombergBoxProps {
-  hideTopBar?: boolean
-  noStickyTopBar?: boolean
   title?: string
+  hideTopBar?: boolean
   noHeadingMarkup?: boolean
+  noStickyTopBar?: boolean
   isClosable?: boolean
   onClosed?: () => void
 }
 export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
   children,
   hideTopBar,
+  title,
+  noHeadingMarkup,
   noStickyTopBar,
   isClosable,
   onClosed,
-  title,
-  noHeadingMarkup,
   ...props
 }) => {
   return (
     <>
       <BloombergBoxWrapper {...props}>
         {/* Top Bar */}
-        {!hideTopBar && (
-          <BloomberBoxTopBar
-            {...{ title, noHeadingMarkup, noStickyTopBar, isClosable, onClosed }}
-          />
-        )}
+        <BloomberBoxTopBar
+          {...{ hideTopBar, title, noHeadingMarkup, noStickyTopBar, isClosable, onClosed }}
+        />
 
         {/* Content */}
         <main css={[tw`flex flex-col pb-2 px-3`, hideTopBar && tw`pt-2`]}>{children}</main>
@@ -49,18 +47,24 @@ export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
 
 export const BloomberBoxTopBar: FC<Partial<BloombergBoxProps>> = ({
   title,
+  hideTopBar,
   noHeadingMarkup,
   noStickyTopBar,
   isClosable,
   onClosed,
+  ...props
 }) => {
+  if (hideTopBar && (!title || noHeadingMarkup)) return null
+
   return (
     <>
       <div
         css={[
           tw`w-full z-50 bg-black bg-opacity-50 backdrop-blur flex justify-between text-bbg-gray2 text-sm p-2 px-3`,
           !noStickyTopBar && tw`sticky top-0`,
+          hideTopBar && tw`sr-only`,
         ]}
+        {...props}
       >
         {noHeadingMarkup ? <span>{title}</span> : <h2>{title}</h2>}
         <div tw="shrink-0 flex items-center select-none space-x-4">

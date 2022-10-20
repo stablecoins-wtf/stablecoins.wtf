@@ -86,5 +86,5 @@ export const generateRichTextContentTOC = (
     ],
   }
 
-  return { children: [tocElement, ...children] }
+  return { children: [...(tocChildren.length > 1 ? [tocElement] : []), ...children] }
 }

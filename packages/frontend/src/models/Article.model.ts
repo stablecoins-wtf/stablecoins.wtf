@@ -2,12 +2,19 @@ import { RichTextContent } from '@graphcms/rich-text-types'
 import { env } from '@shared/environment'
 import { Coin } from './Coin.model'
 
+export enum ArticleType {
+  Article = 'Article',
+  Resource = 'Resource',
+  Legal = 'Legal',
+}
+
 export class Article {
   public relatedCoins: Coin[] = []
 
   constructor(
     public id: string,
     public isDraft: boolean,
+    public articleType: ArticleType,
     public createdAt: Date,
     public createdAtOverwrite: Date | undefined,
     public updatedAt: Date,
@@ -25,6 +32,7 @@ export class Article {
     return new Article(
       data?.['id'] as string,
       !data?.['documentInStages']?.length && !env.isProduction,
+      data?.['articleType'] as ArticleType,
       new Date(data?.['createdAt']),
       data?.['createdAtOverwrite'] && new Date(data?.['createdAtOverwrite']),
       new Date(data?.['updatedAt']),
