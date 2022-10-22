@@ -1,3 +1,4 @@
+import { Article, ArticleType } from '@models/Article.model'
 import { useRouter } from 'next/router'
 import { FC, PropsWithChildren } from 'react'
 import 'twin.macro'
@@ -39,7 +40,8 @@ const StyledProseWrapper = styled.div`
 
 export const ProseWrapper: FC<PropsWithChildren> = ({ children, ...props }) => {
   const { asPath: path } = useRouter()
-  const isLegalPage = path.startsWith('/legal/')
+  const legalBasePath = Article.getArticleTypeBasePath(ArticleType.Legal)
+  const isLegalPage = path.startsWith(legalBasePath)
 
   return (
     <>

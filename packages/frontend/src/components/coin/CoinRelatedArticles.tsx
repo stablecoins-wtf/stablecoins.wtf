@@ -28,7 +28,7 @@ export const CoinRelatedArticles: FC<CoinRelatedArticlesProps> = ({ coin }) => {
           ]}
         >
           {articles.map((a) => (
-            <Link href={`/articles/${a.slug}`} key={`related-article-${a.id}`} passHref>
+            <Link href={a.getRelativeUrl()} key={`related-article-${a.id}`} passHref>
               <ArticleBox key={`related-article-${a.id}`} className="group">
                 <div tw="grow flex items-center overflow-hidden px-4 py-2 group-hover:(bg-white/5)">
                   <RiArticleLine tw="shrink-0 grow-0 h-5 w-5 mr-4 text-white/20 group-hover:(text-white/30)" />

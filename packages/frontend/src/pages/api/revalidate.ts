@@ -1,3 +1,4 @@
+import { Article } from '@models/Article.model'
 import { env } from '@shared/environment'
 import { NextApiRequest, NextApiResponse } from 'next'
 
@@ -11,25 +12,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    await res.revalidate('/')
-
     // GraphCMS payload (see https://graphcms.com/docs/api-reference/basics/webhooks#receiving-a-webhook)
     const payload = req?.body?.data || {}
     const model = payload?.__typename
+    const articleType = payload?.articleType
     const slug = payload?.slug
 
     // Revalidate article-pages
-    if (model === 'Article' && slug) {
-      await res.revalidate(`/articles/${slug}`)
+    if (model === 'Article' && slug && articleType) {
+      const basePath = Article.getArticleTypeBasePath(articleType)
+      console.log('Revalidating:', `${basePath}/${slug}`)
+      await res.revalidate(`${basePath}/${slug}`)
     }
 
     // Revalidate resource-pages
     if (model === 'Resource' && slug) {
+      console.log('Revalidating:', `/resources/${slug}`)
       await res.revalidate(`/resources/${slug}`)
     }
 
     // Revalidate coin-pages
     if (model === 'Coin' && slug) {
+      console.log('Revalidating:', `/coins/${slug}`)
       await res.revalidate(`/coins/${slug}`)
     }
 

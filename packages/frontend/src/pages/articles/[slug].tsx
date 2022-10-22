@@ -1,7 +1,7 @@
 import { ArticleContent } from '@components/article/ArticleContent'
 import { BloombergBox } from '@components/home/BloombergBox'
 import { HomeLayout } from '@components/home/HomeLayout'
-import { ArticleType } from '@models/Article.model'
+import { Article, ArticleType } from '@models/Article.model'
 import PageNotFound404 from '@pages/404'
 import { getArticleTypeStaticPaths } from '@shared/getArticleTypeStaticPaths'
 import {
@@ -19,19 +19,18 @@ export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
   const sharedStaticProps = useSharedStaticProps(props)
   const { articles, legal } = sharedStaticProps
   const { asPath: path } = useRouter()
-  const isArticlePage = path.startsWith('/articles/')
-  const isLegalPage = path.startsWith('/legal/')
   const article = [...articles, ...legal].find(
-    (a) =>
-      (a.articleType === ArticleType.Article && isArticlePage && path.endsWith(a.slug)) ||
-      (a.articleType === ArticleType.Legal && isLegalPage && path.endsWith(a.slug)),
+    (a) => path.startsWith(Article.getArticleTypeBasePath(a.articleType)) && path.endsWith(a.slug),
   )
   if (!article) return <PageNotFound404 {...props} />
+  const legalBasePath = Article.getArticleTypeBasePath(ArticleType.Legal)
+  const isLegalPage = path.startsWith(legalBasePath)
 
   return (
     <>
       <NextSeo
         title={article.title}
+        // TODO Adjust for other article-types
         description={
           article.subtitle
             ? `${article.subtitle} – Blog article related to stablecoins & crypto`

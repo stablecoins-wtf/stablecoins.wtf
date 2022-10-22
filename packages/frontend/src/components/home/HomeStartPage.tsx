@@ -18,7 +18,7 @@ export const HomeStartPage: FC<HomeStartPageProps> = ({ coins, ...props }) => {
 
   return (
     <>
-      <div tw="flex flex-col overflow-hidden space-y-1">
+      <div tw="grow flex flex-col overflow-hidden space-y-1">
         {/* Intro Box */}
         {!(cookies['hide-intro'] === 'true' && !isSSR) && <HomeIntroBox />}
 

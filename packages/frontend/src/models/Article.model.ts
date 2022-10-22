@@ -45,8 +45,17 @@ export class Article {
     )
   }
 
+  static getArticleTypeBasePath(type: ArticleType): string {
+    return {
+      [ArticleType.Article]: '/articles',
+      [ArticleType.Resource]: '/resources',
+      [ArticleType.Legal]: '/legal',
+    }[type]
+  }
+
   getRelativeUrl(): string {
-    return `/articles/${this.slug}`
+    const basePath = Article.getArticleTypeBasePath(this.articleType)
+    return `${basePath}/${this.slug}`
   }
 
   initRelatedCoins(data: any, allCoins: Coin[], setReverse?: boolean) {

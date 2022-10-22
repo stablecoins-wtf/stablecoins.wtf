@@ -10,6 +10,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
  * Fetch price history from CoinGecko & cache in GraphCMS
  */
 export const CG_TRADING_DATA_MAX_AGE_MINUTES = 60 * 2
+export const CG_TRADING_DATA_MAX_AGE_MINUTES_FOR_DRAFTS = 60 * 24
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const symbol = req.body?.symbol as string
   const coingeckoId = req.body?.coingeckoId as string
@@ -38,7 +39,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     // Determine whether an update is due
     const cachedCgTradingData: CoingeckoTradingData = graphCmsData?.coin?.cgTradingData || {}
     const updatedAt = cachedCgTradingData?.updatedAt
-    const isOutdated = dayjs().diff(updatedAt, 'minute', true) > CG_TRADING_DATA_MAX_AGE_MINUTES
+    const isDraft = !graphCmsData?.coin?.documentInStages?.length && !env.isProduction
+    const isOutdated =
+      dayjs().diff(updatedAt, 'minute', true) >
+      (isDraft ? CG_TRADING_DATA_MAX_AGE_MINUTES_FOR_DRAFTS : CG_TRADING_DATA_MAX_AGE_MINUTES)
     if (updatedAt && !isOutdated) {
       return res.status(200).end()
     }
@@ -57,7 +61,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Update in GraphCMS (async)
-    const isDraft = !graphCmsData?.coin?.documentInStages?.length && !env.isProduction
     const publishMutation = `
       publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
         id
