@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { FC, PropsWithChildren } from 'react'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
@@ -11,7 +12,6 @@ const StyledProseWrapper = styled.div`
     prose-h2:(mt-1 pt-2)
     prose-h3:(mt-1 pt-1)
     prose-hr:(border-bbg-gray3)
-    prose-img:(mx-auto border border-bbg-gray3 p-2)
   `}
 
   // Heading Anchors
@@ -38,9 +38,17 @@ const StyledProseWrapper = styled.div`
 `
 
 export const ProseWrapper: FC<PropsWithChildren> = ({ children, ...props }) => {
+  const { asPath: path } = useRouter()
+  const isLegalPage = path.startsWith('/legal/')
+
   return (
     <>
-      <StyledProseWrapper {...props}>{children}</StyledProseWrapper>
+      <StyledProseWrapper
+        {...props}
+        css={[!isLegalPage && tw`prose-img:(mx-auto border border-bbg-gray3 p-2)`]}
+      >
+        {children}
+      </StyledProseWrapper>
     </>
   )
 }
