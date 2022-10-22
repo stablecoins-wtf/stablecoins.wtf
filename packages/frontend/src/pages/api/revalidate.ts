@@ -39,8 +39,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Always revalidate all static pages
     await res.revalidate(`/`)
-    await res.revalidate(`/about`)
-    await res.revalidate(`/404`)
+    // await res.revalidate(`/about`)
+    // await res.revalidate(`/404`)
 
     return res.status(200).json({ revalidated: true })
   } catch (err) {
