@@ -12,10 +12,9 @@ export const HomeFooter: FC<HomeFooterProps> = ({ legal, ...props }) => {
   return (
     <>
       <BloombergBox hideTopBar={true} {...props}>
-        <div tw="flex justify-between items-end space-x-1 leading-4 text-xs text-bbg-gray1">
-          {/* <div>© {dayjs().year()} Scio Labs UG. All Rights Reserved.</div> */}
+        <div tw="grid justify-center space-y-1.5 text-center sm:(grid-cols-2 space-y-0 space-x-1 justify-between text-left) leading-4 text-xs text-bbg-gray1">
           <div tw="whitespace-nowrap">© {dayjs().year()} • No Financial Advice</div>
-          <div tw="flex flex-wrap justify-end space-x-4">
+          <div tw="flex flex-wrap justify-end space-x-3.5">
             {legal.map((l) => (
               <Link key={l.slug} href={l.getRelativeUrl()} passHref>
                 <a tw="whitespace-nowrap font-semibold hover:(underline text-white)">{l.title}</a>
