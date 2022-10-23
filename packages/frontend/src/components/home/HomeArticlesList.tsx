@@ -1,4 +1,4 @@
-import { Article } from '@models/Article.model'
+import { Article, ArticleType } from '@models/Article.model'
 import { env } from '@shared/environment'
 import dayjs from 'dayjs'
 import Link from 'next/link'
@@ -17,7 +17,8 @@ export const HomeArticlesList: FC<HomeArticlesListProps> = ({ articles, ...props
 
   // Update `activeArticle` on path changes
   useEffect(() => {
-    const activeArticle = path.startsWith('/articles')
+    const basePath = Article.getArticleTypeBasePath(ArticleType.Article)
+    const activeArticle = path.startsWith(basePath)
       ? articles?.find((a) => a.slug === query?.slug)
       : undefined
     setActiveArticle(activeArticle)

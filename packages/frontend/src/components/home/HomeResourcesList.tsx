@@ -1,4 +1,4 @@
-import { Resource } from '@models/Resource.model'
+import { Article, ArticleType } from '@models/Article.model'
 import { env } from '@shared/environment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -8,15 +8,16 @@ import tw from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
 
 export interface HomeResourcesListProps {
-  resources: Resource[]
+  resources: Article[]
 }
 export const HomeResourcesList: FC<HomeResourcesListProps> = ({ resources, ...props }) => {
   const { query, asPath: path } = useRouter()
-  const [activeResource, setActiveResource] = useState<Resource | undefined>()
+  const [activeResource, setActiveResource] = useState<Article | undefined>()
 
   // Update `activeResource` on path changes
   useEffect(() => {
-    const activeResource = path.startsWith('/resources')
+    const basePath = Article.getArticleTypeBasePath(ArticleType.Resource)
+    const activeResource = path.startsWith(basePath)
       ? resources?.find((r) => r.slug === query?.slug)
       : undefined
     setActiveResource(activeResource)

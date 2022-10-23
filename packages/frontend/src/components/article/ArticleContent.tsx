@@ -4,7 +4,6 @@ import {
 } from '@components/shared/richtextcontentHelpers'
 import { RichText } from '@graphcms/rich-text-react-renderer'
 import { Article, ArticleType } from '@models/Article.model'
-import { Resource } from '@models/Resource.model'
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 import 'twin.macro'
@@ -14,7 +13,7 @@ import { ArticleRelatedCoinBoxes } from './ArticleRelatedCoinBoxes'
 import { ArticleRelatedTweet } from './ArticleRelatedTweet'
 
 export interface ArticleContentProps {
-  item: Article | Resource
+  item: Article
 }
 export const ArticleContent: FC<ArticleContentProps> = ({ item }) => {
   const { title, subtitle, updatedAt, tags } = item
@@ -32,8 +31,7 @@ export const ArticleContent: FC<ArticleContentProps> = ({ item }) => {
   useEffect(() => {
     const pathAnchor = path.split('#')?.[1]
     const anchor = document.getElementById(pathAnchor)
-    if (!anchor) return
-    anchor.scrollIntoView({ behavior: 'smooth' })
+    if (anchor) anchor.scrollIntoView({ behavior: 'smooth' })
   }, [path, content])
 
   return (

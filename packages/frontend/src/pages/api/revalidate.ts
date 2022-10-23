@@ -25,12 +25,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       await res.revalidate(`${basePath}/${slug}`)
     }
 
-    // Revalidate resource-pages
-    if (model === 'Resource' && slug) {
-      console.log('Revalidating:', `/resources/${slug}`)
-      await res.revalidate(`/resources/${slug}`)
-    }
-
     // Revalidate coin-pages
     if (model === 'Coin' && slug) {
       console.log('Revalidating:', `/coins/${slug}`)

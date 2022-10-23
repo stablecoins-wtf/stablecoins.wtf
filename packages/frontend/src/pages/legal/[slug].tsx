@@ -7,4 +7,4 @@ import { GetStaticPaths, GetStaticProps } from 'next'
 export default ArticleDetailPage
 
 export const getStaticPaths: GetStaticPaths = getArticleTypeStaticPaths(ArticleType.Legal)
-export const getStaticProps: GetStaticProps = getSharedStaticPropsFor(SharedStatisPropsPage.ARTICLE)
+export const getStaticProps: GetStaticProps = getSharedStaticPropsFor(SharedStatisPropsPage.LEGAL)

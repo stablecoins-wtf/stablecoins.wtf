@@ -60,24 +60,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       updatedAt: dayjs().toISOString(),
     }
 
-    // Update in GraphCMS (async)
-    const publishMutation = `
-      publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
-        id
-      }
-    `
-    const mutation = gql`
-      mutation UpdateAndPublishCoin($symbol: String!, $cgTradingData: Json!) {
-        updateCoin(where: { symbol: $symbol }, data: { cgTradingData: $cgTradingData }) {
-          id
-        }
-        ${isDraft ? '' : publishMutation}
-      }
-    `
-    await graphCmsClient.request(mutation, { symbol, cgTradingData })
-
+    // Send back to client
     res.status(200).json({ cgTradingData })
     // res.status(200).end()
+
+    // Update in GraphCMS (async)
+    try {
+      const publishMutation = `
+        publishCoin(where: { symbol: $symbol }, to: PUBLISHED) {
+          id
+        }
+      `
+      const mutation = gql`
+        mutation UpdateAndPublishCoin($symbol: String!, $cgTradingData: Json!) {
+          updateCoin(where: { symbol: $symbol }, data: { cgTradingData: $cgTradingData }) {
+            id
+          }
+          ${isDraft ? '' : publishMutation}
+        }
+      `
+      await graphCmsClient.request(mutation, { symbol, cgTradingData })
+    } catch (e) {
+      console.error('Error while updating GraphCMS')
+    }
   } catch (e) {
     console.error('Error while updating coingecko trading-data:', e)
     res.status(500).end()

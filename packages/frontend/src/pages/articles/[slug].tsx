@@ -17,32 +17,36 @@ import 'twin.macro'
 
 export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
   const sharedStaticProps = useSharedStaticProps(props)
-  const { articles, legal } = sharedStaticProps
+  const { articles, legal, resources } = sharedStaticProps
   const { asPath: path } = useRouter()
-  const article = [...articles, ...legal].find(
+  const item = [...articles, ...legal, ...resources].find(
     (a) => path.startsWith(Article.getArticleTypeBasePath(a.articleType)) && path.endsWith(a.slug),
   )
-  if (!article) return <PageNotFound404 {...props} />
-  const legalBasePath = Article.getArticleTypeBasePath(ArticleType.Legal)
-  const isLegalPage = path.startsWith(legalBasePath)
+  if (!item) return <PageNotFound404 {...props} />
+
+  // Description based on article type
+  let description
+  if (item.articleType === ArticleType.Article)
+    description = item.subtitle
+      ? `${item.subtitle} – Blog article related to stablecoins & crypto`
+      : 'Blog article related to stablecoins & crypto. – Track stablecoin market data & learn about their mechanisms on stablecoins.wtf.'
+  if (item.articleType === ArticleType.Resource)
+    description = item.subtitle
+      ? `${item.subtitle} – Research and educational content related to stablecoins & crypto`
+      : 'Research and educational content related to stablecoins & crypto. – Track stablecoin market data & learn about their mechanisms on stablecoins.wtf.'
 
   return (
     <>
       <NextSeo
-        title={article.title}
-        // TODO Adjust for other article-types
-        description={
-          article.subtitle
-            ? `${article.subtitle} – Blog article related to stablecoins & crypto`
-            : 'Blog article related to stablecoins & crypto. – Track stablecoin market data & learn about their mechanisms on stablecoins.wtf.'
-        }
-        nofollow={isLegalPage}
-        noindex={isLegalPage}
+        title={item.title}
+        description={description}
+        nofollow={item.articleType === ArticleType.Legal}
+        noindex={item.articleType === ArticleType.Legal}
       />
 
       <HomeLayout {...sharedStaticProps}>
         <BloombergBox tw="flex-1" title={path} noHeadingMarkup={true} noStickyTopBar={true}>
-          <ArticleContent item={article} />
+          <ArticleContent item={item} />
         </BloombergBox>
       </HomeLayout>
     </>
