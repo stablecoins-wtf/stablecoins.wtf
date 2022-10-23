@@ -18,9 +18,9 @@ import 'twin.macro'
 export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
   const sharedStaticProps = useSharedStaticProps(props)
   const { articles, legal, resources } = sharedStaticProps
-  const { asPath: path } = useRouter()
+  const { asPath: path, query } = useRouter()
   const item = [...articles, ...legal, ...resources].find(
-    (a) => path.startsWith(Article.getArticleTypeBasePath(a.articleType)) && path.endsWith(a.slug),
+    (a) => path.startsWith(Article.getArticleTypeBasePath(a.articleType)) && query.slug === a.slug,
   )
   if (!item) return <PageNotFound404 {...props} />
 
