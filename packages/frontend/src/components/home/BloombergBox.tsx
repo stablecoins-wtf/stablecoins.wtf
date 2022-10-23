@@ -39,7 +39,7 @@ export const BloombergBox: FC<PropsWithChildren<BloombergBoxProps>> = ({
         />
 
         {/* Content */}
-        <main css={[tw`flex flex-col pb-2 px-3`, hideTopBar && tw`pt-2`]}>{children}</main>
+        <main css={[tw`grow flex flex-col pb-2 px-3`, hideTopBar && tw`pt-2`]}>{children}</main>
       </BloombergBoxWrapper>
     </>
   )
