@@ -123,7 +123,11 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
 
   return (
     <>
-      <BloombergBox title="Top Stablecoins by Market Cap" {...props}>
+      <BloombergBox
+        title="Top Stablecoins by Market Cap"
+        tw="overflow-x-scroll overflow-y-scroll sm:overflow-x-hidden"
+        {...props}
+      >
         <div tw="flex flex-col">
           {/* Filter Bar */}
           <div tw="flex flex-wrap space-x-1 mb-2">
@@ -274,9 +278,11 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
             />
           </BloombergTD>
           <BloombergTD isNumber={true} highlight={priceHighlight}>
-            <span tw="md:hidden">${largeNumberFormatter(quotes.volume24h?.value)}</span>
+            <span tw="md:hidden lg:inline xl:hidden">
+              ${largeNumberFormatter(quotes.volume24h?.value)}
+            </span>
             <NumericFormat
-              tw="hidden md:inline"
+              tw="hidden md:inline lg:hidden xl:inline"
               value={quotes.volume24h?.value}
               displayType={'text'}
               prefix={'$'}
@@ -285,9 +291,11 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
             />
           </BloombergTD>
           <BloombergTD isNumber={true} highlight={priceHighlight}>
-            <span tw="md:hidden">${largeNumberFormatter(quotes.marketCap?.value)}</span>
+            <span tw="md:hidden lg:inline xl:hidden">
+              ${largeNumberFormatter(quotes.marketCap?.value)}
+            </span>
             <NumericFormat
-              tw="hidden md:inline"
+              tw="hidden md:inline lg:hidden xl:inline"
               value={quotes.marketCap?.value}
               displayType={'text'}
               prefix={'$'}

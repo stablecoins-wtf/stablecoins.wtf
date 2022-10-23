@@ -7,7 +7,7 @@ import { FC, PropsWithChildren } from 'react'
 import tw, { styled } from 'twin.macro'
 
 const BloombergBoxWrapper = styled.div(() => [
-  tw`grow-0 flex flex-col relative border border-bbg-gray3 overflow-scroll`,
+  tw`grow-0 flex flex-col relative border border-bbg-gray3 overflow-hidden`,
 ])
 
 export const BloombergBoxHR = tw.hr`border-bbg-gray3 -mx-3 my-5`

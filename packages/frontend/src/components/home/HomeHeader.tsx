@@ -41,11 +41,7 @@ export const HomeHeader: FC<HomeHeaderProps> = ({ ...props }) => {
 
   return (
     <>
-      <BloombergBox
-        hideTopBar={true}
-        tw="h-[3rem] leading-[3rem] tracking-wide overflow-hidden"
-        {...props}
-      >
+      <BloombergBox hideTopBar={true} tw="h-[3rem] leading-[3rem] tracking-wide" {...props}>
         <div tw="absolute inset-0 flex items-center justify-between px-2 whitespace-pre-wrap select-none">
           {/* Logo */}
           <Link href="/" passHref>

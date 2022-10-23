@@ -14,12 +14,21 @@ const customStyles = css`
   #__next {
     ${tw`min-h-screen h-screen relative flex flex-col`}
   }
+
+  /* Hide Scrollbars */
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Loading Bar */
   #nprogress > .bar {
     ${tw`bg-white`}
   }
   #nprogress > .spinner {
     ${tw`hidden!`}
   }
+
+  /* Tooltips */
   .tippy-arrow {
     ${tw`hidden`}
   }

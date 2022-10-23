@@ -45,7 +45,12 @@ export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
       />
 
       <HomeLayout {...sharedStaticProps}>
-        <BloombergBox tw="flex-1" title={path} noHeadingMarkup={true} noStickyTopBar={true}>
+        <BloombergBox
+          tw="flex-1 lg:overflow-y-scroll"
+          title={path}
+          noHeadingMarkup={true}
+          noStickyTopBar={true}
+        >
           <ArticleContent item={item} />
         </BloombergBox>
       </HomeLayout>

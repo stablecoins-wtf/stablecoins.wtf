@@ -90,8 +90,8 @@ export const HomeContentHeader: FC<HomeContentHeaderProps> = ({
 
         {/* Share Links */}
         {!hideShareBar && (
-          <div tw="px-3 flex justify-center">
-            <div tw="flex overflow-scroll divide-x divide-bbg-gray3 border-x border-bbg-gray3">
+          <div tw="flex justify-center">
+            <div tw="flex divide-x divide-bbg-gray3 border-x border-bbg-gray3 overflow-x-scroll md:overflow-hidden">
               <ShareButtonAnchor href={twitterShareUrl} target="_blank" className="group">
                 <div>Share on Twitter</div>
                 <FaTwitter tw="h-3.5 w-3.5 group-hover:(text-social-twitter)" />

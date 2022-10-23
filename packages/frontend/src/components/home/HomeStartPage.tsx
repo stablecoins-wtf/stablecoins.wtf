@@ -23,7 +23,10 @@ export const HomeStartPage: FC<HomeStartPageProps> = ({ coins, ...props }) => {
         {!(cookies['hide-intro'] === 'true' && !isSSR) && <HomeIntroBox />}
 
         {/* Main Page */}
-        <BloombergBox tw="flex-1 flex flex-col" title="Total Stablecoin Market KPIs">
+        <BloombergBox
+          tw="flex-1 flex flex-col lg:overflow-y-scroll"
+          title="Total Stablecoin Market KPIs"
+        >
           {/* KPIs */}
           <HomeStartPageKPIs coins={coins} {...props} />
 

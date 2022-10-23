@@ -23,7 +23,11 @@ export default function HomePage({ ...props }: SharedStaticProps) {
       />
 
       <HomeLayout {...sharedStaticProps}>
-        <BloombergBox tw="grow" title="Educating degens about stablecoins" noHeadingMarkup={true}>
+        <BloombergBox
+          tw="grow lg:overflow-y-scroll"
+          title="Educating degens about stablecoins"
+          noHeadingMarkup={true}
+        >
           <HomeContentHeader
             title="About stablecoins.wtf"
             subtitle="Who is behind this crypto stablecoin dashboard?"

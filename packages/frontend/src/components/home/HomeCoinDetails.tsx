@@ -39,7 +39,7 @@ export const HomeCoinDetailsMain: FC<HomeCoinDetailsProps> = ({ coin }) => {
   return (
     <>
       <BloombergBox
-        tw="flex-1 flex flex-col"
+        tw="flex-1 flex flex-col lg:overflow-y-scroll"
         title={`Last updated at ${dayjs(coin.updatedAt).format('YYYY/MM/DD')}`}
         noHeadingMarkup={true}
       >
