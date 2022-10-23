@@ -132,18 +132,24 @@ const doSharedStaticPropsOptimizations = (
   [{ coinsData }, { articlesData }]: [CoinsDataProps, ArticlesDataProps],
 ): SharedStaticProps => {
   const P = SharedStatisPropsPage
-  if (![P.ARTICLE, P.LEGAL, P.RESOURCE].includes(page)) {
-    articlesData = (articlesData || []).map((article: Article) => {
+  const { slug } = context?.params || {}
+
+  articlesData = (articlesData || []).map((article: Article) => {
+    const isNoArticlePage = ![P.ARTICLE, P.LEGAL, P.RESOURCE].includes(page)
+    const isOtherArticlePage = slug && article.slug !== slug
+    if (isNoArticlePage || isOtherArticlePage) {
       delete article.content
-      return article
-    })
-  }
-  if (![P.COIN].includes(page)) {
-    coinsData = (coinsData || []).map((coin: Coin) => {
+    }
+    return article
+  })
+  coinsData = (coinsData || []).map((coin: Coin) => {
+    const isNoCoin = ![P.COIN].includes(page)
+    const isOtherCoin = slug && coin.slug !== slug
+    if (isNoCoin || isOtherCoin) {
       delete coin.description
-      return coin
-    })
-  }
+    }
+    return coin
+  })
 
   return { articlesData, coinsData }
 }
