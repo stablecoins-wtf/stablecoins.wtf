@@ -102,7 +102,7 @@ export const CoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({ coin }) => {
                     </div>
                   )}
                   <div tw="whitespace-nowrap pb-0.5 px-1 text-bbg-gray2">
-                    {dayjs(n.published_at).format('YYYY/MM/DD hh:mm')}
+                    {dayjs(n.published_at).format('YYYY/MM/DD H:mm')}
                   </div>
                 </a>
               </Link>

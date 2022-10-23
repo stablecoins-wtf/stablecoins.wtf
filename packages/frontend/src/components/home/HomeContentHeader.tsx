@@ -58,8 +58,8 @@ export const HomeContentHeader: FC<HomeContentHeaderProps> = ({
           <div tw="px-3 py-2 flex justify-between">
             <p tw="text-bbg-gray2 text-sm whitespace-nowrap">
               <span tw="hidden md:inline whitespace-pre">Last updated at </span>
-              <time dateTime={dayjs(updatedAt).format('YYYY-MM-DD hh:mm')} itemProp="dateModified">
-                {dayjs(updatedAt).format('YYYY/MM/DD hh:mm')}
+              <time dateTime={dayjs(updatedAt).format('YYYY-MM-DD HH:mm')} itemProp="dateModified">
+                {dayjs(updatedAt).format('YYYY/MM/DD H:mm')}
               </time>
             </p>
             {!!(tags || []).length && (
