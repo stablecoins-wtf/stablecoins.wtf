@@ -92,17 +92,17 @@ export const CoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({ coin }) => {
           ) : (
             news.map((n) => (
               <Link key={n.id} href={n.url} target="_blank" passHref>
-                <a tw="flex px-2 bg-black cursor-pointer hover:bg-bbg-gray3 text-sm">
+                <a tw="flex items-baseline px-2 bg-black cursor-pointer hover:bg-bbg-gray3 text-sm">
                   <div tw="grow truncate pb-0.5 px-1 text-bbg-orange">
                     {(n.title || '').trim().replaceAll('\ufe0f', '')}
                   </div>
                   {n.is_hot && (
-                    <div tw="flex items-center justify-center mx-1 my-px px-1 bg-bbg-red1 text-white text-xs font-bold tracking-wider">
+                    <div tw="leading-none text-xs text-bbg-red1 font-black tracking-wider uppercase mx-1">
                       HOT
                     </div>
                   )}
                   <div tw="whitespace-nowrap pb-0.5 px-1 text-bbg-gray2">
-                    {dayjs(n.published_at).format('YYYY/MM/DD H:mm')}
+                    {dayjs(n.published_at).format('YYYY/MM/DD HH:mm')}
                   </div>
                 </a>
               </Link>

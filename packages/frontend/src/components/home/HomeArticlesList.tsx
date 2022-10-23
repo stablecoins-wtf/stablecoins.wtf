@@ -64,7 +64,7 @@ export const HomeArticlesList: FC<HomeArticlesListProps> = ({ articles, ...props
                     <div tw="flex flex-col items-end">
                       {dayjs(createdAt).format('YYYY/MM/DD')}
                       {(isNew || isUpdated) && (
-                        <div tw="leading-none text-xs text-bbg-red1 font-black tracking-wider">
+                        <div tw="leading-none text-xs text-bbg-red1 font-black tracking-wider uppercase">
                           {isNew ? 'NEW' : 'UPDATED'}
                         </div>
                       )}
