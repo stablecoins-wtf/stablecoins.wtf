@@ -22,8 +22,8 @@ module.exports = {
           cyan: '#00e5e4',
         },
         social: {
-          twitter: '#1DA1F2',
-          discord: '#EB459E',
+          twitter: '#1da1f2',
+          discord: '#7289da',
           telegram: '#0088cc',
         },
       },

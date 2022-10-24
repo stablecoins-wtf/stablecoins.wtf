@@ -1,4 +1,3 @@
-import { env } from '@shared/environment'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -11,7 +10,11 @@ import { BloombergBox } from './BloombergBox'
 export interface HomeHeaderProps {}
 export const HomeHeader: FC<HomeHeaderProps> = ({ ...props }) => {
   const router = useRouter()
-  const actions = [
+  const actions: {
+    title: string
+    href: string
+    isExternal?: boolean
+  }[] = [
     {
       title: 'Start',
       href: '/',
@@ -20,15 +23,10 @@ export const HomeHeader: FC<HomeHeaderProps> = ({ ...props }) => {
       title: 'About',
       href: '/about',
     },
-    {
-      title: 'Twitter',
-      href: env.twitterLink,
-      isExternal: true,
-    },
   ]
 
   const CoinLogo = () => (
-    <div tw="flex items-center justify-center mr-2">
+    <div tw="flex items-center justify-center mr-2.5 mt-px">
       <Image
         src={stablecoinGif}
         alt="Stablecoin-Logo of stablecoins.wtf"
@@ -41,29 +39,32 @@ export const HomeHeader: FC<HomeHeaderProps> = ({ ...props }) => {
 
   return (
     <>
-      <BloombergBox hideTopBar={true} tw="h-[3rem] leading-[3rem] tracking-wide" {...props}>
-        <div tw="absolute inset-0 flex items-center justify-between px-2 whitespace-pre-wrap select-none">
+      <BloombergBox hideTopBar={true} {...props}>
+        <div tw="flex items-center justify-between leading-none">
           {/* Logo */}
           <Link href="/" passHref>
-            <a tw="flex items-center font-bold">
+            <a tw="flex items-center font-bold tracking-wide select-none">
               <CoinLogo />
               stablecoins.wtf
             </a>
           </Link>
 
           {/* Links */}
-          <nav tw="flex items-center text-sm">
+          <nav tw="flex items-center font-medium text-sm -mx-2">
             {actions.map((action, idx) => (
               <Fragment key={idx}>
                 <Link href={action.href} passHref>
                   <a
                     target={action.isExternal ? '_blank' : ''}
-                    css={[tw`hover:(underline)`, router.pathname === action.href && tw`underline`]}
+                    css={[
+                      tw`px-1 py-1 mx-2 leading-none underline-offset-2 hover:(underline)`,
+                      router.pathname === action.href && tw`underline`,
+                    ]}
                   >
                     {action.title}
                   </a>
                 </Link>
-                {idx !== actions.length - 1 && <span tw="text-bbg-gray2">{' ⋇ '}</span>}
+                {idx !== actions.length - 1 && <span tw="text-bbg-gray2">⋇</span>}
               </Fragment>
             ))}
           </nav>
