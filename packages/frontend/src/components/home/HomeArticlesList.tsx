@@ -13,9 +13,21 @@ export interface HomeArticlesListProps {
 }
 export const HomeArticlesList: FC<HomeArticlesListProps> = ({ articles, ...props }) => {
   const { query, asPath: path } = useRouter()
-  const [activeArticle, setActiveArticle] = useState<Article | undefined>()
+
+  // Sort articles by creation
+  const [sortedArticles, setSortedArticles] = useState<Article[]>([])
+  useEffect(() => {
+    const sortedArticles = [...(articles || [])]
+    sortedArticles.sort((a1, a2) => {
+      const a1CreatedAt = dayjs(a1.createdAtOverwrite || a1.createdAt)
+      const a2CreatedAt = dayjs(a2.createdAtOverwrite || a2.createdAt)
+      return a2CreatedAt.diff(a1CreatedAt)
+    })
+    setSortedArticles(sortedArticles)
+  }, [articles])
 
   // Update `activeArticle` on path changes
+  const [activeArticle, setActiveArticle] = useState<Article | undefined>()
   useEffect(() => {
     const basePath = Article.getArticleTypeBasePath(ArticleType.Article)
     const activeArticle = path.startsWith(basePath)
@@ -28,10 +40,10 @@ export const HomeArticlesList: FC<HomeArticlesListProps> = ({ articles, ...props
     <>
       <BloombergBox title="Latest Blog Articles" {...props}>
         <div tw="flex flex-col -mx-3 -mb-1">
-          {(articles || []).map((a, idx) => {
+          {sortedArticles.map((a, idx) => {
             const createdAt = a.createdAtOverwrite || a.createdAt
-            const isNew = dayjs().diff(createdAt, 'week') <= 1
-            const isUpdated = dayjs().diff(a.updatedAt, 'week') <= 1
+            const isNew = dayjs().diff(createdAt, 'day') < 7
+            const isUpdated = dayjs().diff(a.updatedAt, 'day') < 5
 
             return (
               <Link key={a.id} href={a.getRelativeUrl()} passHref>
