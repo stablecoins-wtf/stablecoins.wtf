@@ -46,6 +46,8 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
         twitter={{
           handle: '@stablecoinswtf',
+          site: '@stablecoinswtf',
+          cardType: 'summary_large_image',
         }}
       />
 
