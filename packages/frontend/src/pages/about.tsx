@@ -96,6 +96,25 @@ export default function HomePage({ ...props }: SharedStaticProps) {
                 came from liam.eth. 💡
               </li>
               <li>
+                Props to some frens & supporters:{' '}
+                <a href="https://twitter.com/samonchain" target="_blank">
+                  @samonchain
+                </a>
+                ,{' '}
+                <a href="https://twitter.com/dmihal" target="_blank">
+                  @dmihal
+                </a>
+                , and{' '}
+                <a href="https://twitter.com/cryptoneur_eth" target="_blank">
+                  @cryptoneur_eth
+                </a>{' '}
+                (
+                <a href="https://cryptoneur.xyz" target="_blank">
+                  cryptoneur.xyz
+                </a>
+                ). 🧡
+              </li>
+              <li>
                 Thanks{' '}
                 <a href="https://de.wikipedia.org/wiki/Michael_Bloomberg" target="_blank">
                   Michael
