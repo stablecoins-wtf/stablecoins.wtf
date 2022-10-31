@@ -12,7 +12,7 @@ export const HomeFollowBar: FC<HomeFollowBarProps> = ({ ...props }) => {
       titlePrefix: 'Subscribe to ',
       title: 'Telegram',
       icon: FaTelegramPlane,
-      href: 'https://t.me/+_azJc0qozTg5NzUy',
+      href: 'https://t.me/stablecoinswtf',
       color: theme('colors.social.telegram'),
     },
     {
@@ -42,7 +42,7 @@ export const HomeFollowBar: FC<HomeFollowBarProps> = ({ ...props }) => {
                 tw="flex-1 flex justify-center items-center space-x-2 py-3 whitespace-nowrap hover:(bg-bbg-gray3)"
                 target="_blank"
               >
-                <div tw="font-medium text-bbg-gray1 group-hover:(text-white)">
+                <div tw="font-medium text-white underline-offset-2 group-hover:(underline)">
                   <span tw="hidden sm:(inline) lg:(hidden) xl:(inline)">{item.titlePrefix}</span>
                   {item.title}
                 </div>
