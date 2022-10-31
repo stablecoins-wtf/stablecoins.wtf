@@ -252,8 +252,10 @@ export const CoinDetailsLinks: FC<HomeCoinDetailsProps> = ({ coin }) => {
             url ? (
               <li key={url}>
                 {title}:{' '}
-                <Link href={url} target="_blank">
-                  <a tw="break-words">{url}</a>
+                <Link href={url} passHref>
+                  <a tw="break-words" target="_blank">
+                    {url}
+                  </a>
                 </Link>
               </li>
             ) : null,
