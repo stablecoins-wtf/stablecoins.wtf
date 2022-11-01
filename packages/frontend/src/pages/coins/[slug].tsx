@@ -1,4 +1,4 @@
-import { HomeCoinDetails } from '@components/home/HomeCoinDetails'
+import { CoinDetails } from '@components/coin/CoinDetails'
 import { HomeLayout } from '@components/home/HomeLayout'
 import PageNotFound404 from '@pages/404'
 import { fetchOrGetCoinsData } from '@shared/getAllCoinsAndMetadata'
@@ -28,7 +28,7 @@ export default function CoinDetailsPage({ ...props }: SharedStaticProps) {
       />
 
       <HomeLayout {...sharedStaticProps}>
-        <HomeCoinDetails coin={activeCoin} />
+        <CoinDetails coin={activeCoin} />
       </HomeLayout>
     </>
   )
