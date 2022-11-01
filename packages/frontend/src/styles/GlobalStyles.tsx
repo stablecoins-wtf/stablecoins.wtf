@@ -5,11 +5,12 @@ import tw, { css, GlobalStyles as BaseStyles } from 'twin.macro'
 
 const customStyles = css`
   html {
-    scroll-behavior: smooth;
+    ${tw`scroll-smooth antialiased`}
+    font-variant-ligatures: no-common-ligatures;
   }
   body {
-    ${tw`antialiased bg-black text-white font-mono`}
-    font-variant-ligatures: no-common-ligatures;
+    ${tw`bg-black text-white font-mono`}
+    ${tw`min-h-screen h-screen relative`}
   }
   #__next {
     ${tw`min-h-screen h-screen relative flex flex-col`}
@@ -17,7 +18,7 @@ const customStyles = css`
 
   /* Hide Scrollbars */
   *::-webkit-scrollbar {
-    display: none;
+    ${tw`hidden`}
   }
 
   /* Loading Bar */

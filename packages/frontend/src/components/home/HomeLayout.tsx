@@ -47,8 +47,8 @@ export const HomeLayout: FC<PropsWithChildren<HomeLayoutProps>> = ({
         <div tw="flex flex-col space-y-1 max-w-[calc(100vw - 0.5rem)] lg:(max-h-full overflow-hidden)">
           <HomeHeader tw="shrink-0" />
           <HomeCoinList tw="grow max-h-[42vh] lg:max-h-[none]" coins={coins} />
-          <HomeResourcesList tw="shrink-0" {...{ resources }} />
-          <HomeArticlesList tw="shrink-0" {...{ articles }} />
+          {!!resources.length && <HomeResourcesList tw="shrink-0" {...{ resources }} />}
+          {!!articles.length && <HomeArticlesList tw="shrink-0" {...{ articles }} />}
         </div>
       </main>
     </>

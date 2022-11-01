@@ -181,7 +181,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
 
             {/* Table Rows */}
             {isLoading && !shownCoins?.length
-              ? new Array(15)
+              ? new Array(20)
                   .fill(undefined)
                   .map((_, idx) => <CoinListRowIsLoading key={idx} {...{ idx }} />)
               : shownCoins.map((coin, idx) => (
