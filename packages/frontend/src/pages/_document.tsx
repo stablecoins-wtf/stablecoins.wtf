@@ -23,13 +23,23 @@ export default class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          {/* Font(s) */}
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;700;900&display=swap"
-            rel="stylesheet"
-          />
+          {/* Preload Local Fonts */}
+          {[
+            '/fonts/inconsolata/subset-Inconsolata-Bold.woff2',
+            '/fonts/inconsolata/subset-Inconsolata-Black.woff2',
+            '/fonts/inconsolata/subset-Inconsolata-Regular.woff2',
+            '/fonts/inconsolata/subset-Inconsolata-SemiBold.woff2',
+            '/fonts/inconsolata/subset-Inconsolata-Medium.woff2',
+          ].map((font) => (
+            <link
+              key={font}
+              rel="preload"
+              href={font}
+              as="font"
+              type="font/woff2"
+              crossOrigin="anonymous"
+            />
+          ))}
         </Head>
 
         <body>

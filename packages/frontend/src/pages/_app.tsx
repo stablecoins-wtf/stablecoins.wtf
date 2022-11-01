@@ -11,6 +11,7 @@ import { Toaster } from 'react-hot-toast'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { theme } from 'twin.macro'
 import { Layout } from '../components/layout/Layout'
+import '../styles/fonts.css'
 import GlobalStyles from '../styles/GlobalStyles'
 
 // Router Loading Animation with @tanem/react-nprogress
