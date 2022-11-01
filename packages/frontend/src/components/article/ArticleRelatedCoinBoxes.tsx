@@ -61,18 +61,17 @@ export const ArticleRelatedCoinBox: FC<ArticleRelatedCoinBoxProps> = ({ coin: c 
     <>
       <div tw="grow max-w-[45rem] flex mx-2 my-2 bg-bbg-gray3/40 divide-x divide-bbg-gray3 border border-bbg-gray3 overflow-hidden">
         {/* Name, Symbol, and Link */}
-        <Link href={`/coins/${c.slug}`} passHref>
-          <a
-            className="group"
-            tw="grow [flex-basis: 45%] flex flex-col items-center justify-center px-4 py-2 text-center whitespace-nowrap cursor-pointer no-underline hover:(bg-white/5)"
-            title={`Go to ${c.name}, $${c.symbol} (USD-pegged Stablecoin)`}
-          >
-            <div tw="text-bbg-gray2 text-sm">{c.name}</div>
-            <h3 tw="text-2xl font-medium text-bbg-orange tracking-wide">${c.symbol}</h3>
-            <div tw="text-sm font-bold mt-3 text-bbg-gray1 group-hover:(underline)">
-              Full coin details →
-            </div>
-          </a>
+        <Link
+          href={`/coins/${c.slug}`}
+          title={`Go to ${c.name}, $${c.symbol} (USD-pegged Stablecoin)`}
+          className="group"
+          tw="grow [flex-basis: 45%] flex flex-col items-center justify-center px-4 py-2 text-center whitespace-nowrap cursor-pointer no-underline hover:(bg-white/5)"
+        >
+          <div tw="text-bbg-gray2 text-sm">{c.name}</div>
+          <h3 tw="text-2xl font-medium text-bbg-orange tracking-wide">${c.symbol}</h3>
+          <div tw="text-sm font-bold mt-3 text-bbg-gray1 group-hover:(underline)">
+            Full coin details →
+          </div>
         </Link>
 
         {/* KPIs & Metadata */}

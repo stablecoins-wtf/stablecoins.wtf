@@ -2,6 +2,7 @@
   "recommendations": [
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
+    "mikestead.dotenv",
     "lightyen.tailwindcss-intellisense-twin"
   ]
 }

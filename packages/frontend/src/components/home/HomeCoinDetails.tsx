@@ -91,20 +91,23 @@ export const CoinDetailsNewsticker: FC<HomeCoinDetailsProps> = ({ coin }) => {
             <div tw="px-3 pb-2 text-sm text-bbg-gray1 animate-pulse">Loading...</div>
           ) : (
             news.map((n) => (
-              <Link key={n.id} href={n.url} target="_blank" passHref>
-                <a tw="flex items-baseline px-2 bg-black cursor-pointer hover:bg-bbg-gray3 text-sm">
-                  <div tw="grow truncate pb-0.5 px-1 text-bbg-orange">
-                    {(n.title || '').trim().replaceAll('\ufe0f', '')}
+              <Link
+                key={n.id}
+                href={n.url}
+                target="_blank"
+                tw="flex items-baseline px-2 bg-black cursor-pointer hover:bg-bbg-gray3 text-sm"
+              >
+                <div tw="grow truncate pb-0.5 px-1 text-bbg-orange">
+                  {(n.title || '').trim().replaceAll('\ufe0f', '')}
+                </div>
+                {n.is_hot && (
+                  <div tw="leading-none text-xs text-bbg-red1 font-black tracking-wider uppercase mx-1">
+                    HOT
                   </div>
-                  {n.is_hot && (
-                    <div tw="leading-none text-xs text-bbg-red1 font-black tracking-wider uppercase mx-1">
-                      HOT
-                    </div>
-                  )}
-                  <div tw="whitespace-nowrap pb-0.5 px-1 text-bbg-gray2">
-                    {dayjs(n.published_at).format('YYYY/MM/DD HH:mm')}
-                  </div>
-                </a>
+                )}
+                <div tw="whitespace-nowrap pb-0.5 px-1 text-bbg-gray2">
+                  {dayjs(n.published_at).format('YYYY/MM/DD HH:mm')}
+                </div>
               </Link>
             ))
           )}
@@ -196,11 +199,9 @@ export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({ coin }) 
             <KPITitle>Mechanism</KPITitle>
             <KPIContent>
               {mechanismLink ? (
-                <Link href={mechanismLink} passHref>
-                  <a tw="flex items-center underline cursor-pointer">
-                    <span>{coin.mechanismFormatted()}</span>
-                    <BsInfoCircle tw="ml-2 -translate-y-px" />
-                  </a>
+                <Link href={mechanismLink} tw="flex items-center underline cursor-pointer">
+                  <span>{coin.mechanismFormatted()}</span>
+                  <BsInfoCircle tw="ml-2 -translate-y-px" />
                 </Link>
               ) : (
                 coin.mechanismFormatted()
@@ -252,10 +253,8 @@ export const CoinDetailsLinks: FC<HomeCoinDetailsProps> = ({ coin }) => {
             url ? (
               <li key={url}>
                 {title}:{' '}
-                <Link href={url} passHref>
-                  <a tw="break-words" target="_blank">
-                    {url}
-                  </a>
+                <Link href={url} tw="break-words" target="_blank">
+                  {url}
                 </Link>
               </li>
             ) : null,

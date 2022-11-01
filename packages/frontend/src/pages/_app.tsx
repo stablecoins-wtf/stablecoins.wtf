@@ -2,7 +2,6 @@ import { cache } from '@emotion/css'
 import { CacheProvider } from '@emotion/react'
 import { env } from '@shared/environment'
 import { DefaultSeo } from 'next-seo'
-import { ThemeProvider } from 'next-themes'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
 import Router from 'next/router'
@@ -86,16 +85,9 @@ export default function App({ Component, pageProps }: AppProps) {
         <GlobalStyles />
 
         <QueryClientProvider client={queryClient}>
-          <ThemeProvider
-            themes={['dark']}
-            defaultTheme="dark"
-            attribute="class"
-            enableColorScheme={false}
-          >
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </QueryClientProvider>
 
         <Toaster

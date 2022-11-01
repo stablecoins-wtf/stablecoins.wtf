@@ -112,6 +112,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
                   height={10}
                   css={[sortState.order === 'asc' && tw`scale-y-[-1]`]}
                   alt="Sort Arrow Icon"
+                  priority
                 />
               )}
             </div>
@@ -241,78 +242,76 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
 
   return (
     <>
-      <Link href={coin.getRelativeUrl()} passHref>
-        <tr
-          key={coin.id}
+      <Link
+        href={coin.getRelativeUrl()}
+        css={[
+          tw`table-row bg-black divide-x divide-bbg-gray3 cursor-pointer`,
+          activeCoin?.id === coin.id ? tw`bg-white text-black` : tw`hover:(bg-bbg-gray3)`,
+        ]}
+      >
+        <BloombergTD tw="hidden md:(table-cell pl-2) text-right text-bbg-gray2">
+          {idx + 1}
+        </BloombergTD>
+        <BloombergTD
           css={[
-            tw`bg-black divide-x divide-bbg-gray3 cursor-pointer`,
-            activeCoin?.id === coin.id ? tw`bg-white text-black` : tw`hover:(bg-bbg-gray3)`,
+            tw`uppercase font-semibold text-bbg-orange`,
+            activeCoin?.id === coin.id && tw`text-black`,
           ]}
         >
-          <BloombergTD tw="hidden md:(table-cell pl-2) text-right text-bbg-gray2">
-            {idx + 1}
-          </BloombergTD>
-          <BloombergTD
-            css={[
-              tw`uppercase font-semibold text-bbg-orange`,
-              activeCoin?.id === coin.id && tw`text-black`,
-            ]}
-          >
-            <Tippy content={coin.name} placement="bottom">
-              <div>
-                {coin.symbol}
-                {!env.isProduction && coin.isDraft && ' 🏗️'}
-              </div>
-            </Tippy>
-          </BloombergTD>
-          <BloombergTD css={[activeCoin?.id === coin.id ? tw`text-bbg-gray3` : tw`text-bbg-gray1`]}>
-            {coin.mechanismFormatted()}
-          </BloombergTD>
-          <BloombergTD isNumber={true} highlight={priceHighlight}>
-            <NumericFormat
-              value={quotes.price?.value}
-              displayType={'text'}
-              prefix={'$'}
-              fixedDecimalScale={true}
-              decimalScale={3}
-            />
-          </BloombergTD>
-          <BloombergTD isNumber={true} highlight={priceHighlight}>
-            <span tw="md:hidden lg:inline xl:hidden">
-              ${largeNumberFormatter(quotes.volume24h?.value)}
-            </span>
-            <NumericFormat
-              tw="hidden md:inline lg:hidden xl:inline"
-              value={quotes.volume24h?.value}
-              displayType={'text'}
-              prefix={'$'}
-              decimalScale={0}
-              thousandSeparator={true}
-            />
-          </BloombergTD>
-          <BloombergTD isNumber={true} highlight={priceHighlight}>
-            <span tw="md:hidden lg:inline xl:hidden">
-              ${largeNumberFormatter(quotes.marketCap?.value)}
-            </span>
-            <NumericFormat
-              tw="hidden md:inline lg:hidden xl:inline"
-              value={quotes.marketCap?.value}
-              displayType={'text'}
-              prefix={'$'}
-              decimalScale={0}
-              thousandSeparator={true}
-            />
-          </BloombergTD>
-          <BloombergTD tw="hidden md:(table-cell pr-2)" isNumber={true} highlight={priceHighlight}>
-            <NumericFormat
-              value={quotes.marketCap7dChange && Math.abs(quotes.marketCap7dChange.value * 100)}
-              displayType={'text'}
-              prefix={(quotes.marketCap7dChange || 0) >= 0 ? '+' : '-'}
-              suffix={'%'}
-              decimalScale={0}
-            />
-          </BloombergTD>
-        </tr>
+          <Tippy content={coin.name} placement="bottom">
+            <div>
+              {coin.symbol}
+              {!env.isProduction && coin.isDraft && ' 🏗️'}
+            </div>
+          </Tippy>
+        </BloombergTD>
+        <BloombergTD css={[activeCoin?.id === coin.id ? tw`text-bbg-gray3` : tw`text-bbg-gray1`]}>
+          {coin.mechanismFormatted()}
+        </BloombergTD>
+        <BloombergTD isNumber={true} highlight={priceHighlight}>
+          <NumericFormat
+            value={quotes.price?.value}
+            displayType={'text'}
+            prefix={'$'}
+            fixedDecimalScale={true}
+            decimalScale={3}
+          />
+        </BloombergTD>
+        <BloombergTD isNumber={true} highlight={priceHighlight}>
+          <span tw="md:hidden lg:inline xl:hidden">
+            ${largeNumberFormatter(quotes.volume24h?.value)}
+          </span>
+          <NumericFormat
+            tw="hidden md:inline lg:hidden xl:inline"
+            value={quotes.volume24h?.value}
+            displayType={'text'}
+            prefix={'$'}
+            decimalScale={0}
+            thousandSeparator={true}
+          />
+        </BloombergTD>
+        <BloombergTD isNumber={true} highlight={priceHighlight}>
+          <span tw="md:hidden lg:inline xl:hidden">
+            ${largeNumberFormatter(quotes.marketCap?.value)}
+          </span>
+          <NumericFormat
+            tw="hidden md:inline lg:hidden xl:inline"
+            value={quotes.marketCap?.value}
+            displayType={'text'}
+            prefix={'$'}
+            decimalScale={0}
+            thousandSeparator={true}
+          />
+        </BloombergTD>
+        <BloombergTD tw="hidden md:(table-cell pr-2)" isNumber={true} highlight={priceHighlight}>
+          <NumericFormat
+            value={quotes.marketCap7dChange && Math.abs(quotes.marketCap7dChange.value * 100)}
+            displayType={'text'}
+            prefix={(quotes.marketCap7dChange || 0) >= 0 ? '+' : '-'}
+            suffix={'%'}
+            decimalScale={0}
+          />
+        </BloombergTD>
       </Link>
     </>
   )

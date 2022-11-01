@@ -42,27 +42,24 @@ export const HomeHeader: FC<HomeHeaderProps> = ({ ...props }) => {
       <BloombergBox hideTopBar={true} {...props}>
         <div tw="flex items-center justify-between leading-none">
           {/* Logo */}
-          <Link href="/" passHref>
-            <a tw="flex items-center font-bold tracking-wide select-none">
-              <CoinLogo />
-              stablecoins.wtf
-            </a>
+          <Link href="/" tw="flex items-center font-bold tracking-wide select-none">
+            <CoinLogo />
+            stablecoins.wtf
           </Link>
 
           {/* Links */}
           <nav tw="flex items-center font-medium text-sm -mx-2">
             {actions.map((action, idx) => (
               <Fragment key={idx}>
-                <Link href={action.href} passHref>
-                  <a
-                    target={action.isExternal ? '_blank' : ''}
-                    css={[
-                      tw`px-1 py-1 mx-2 leading-none underline-offset-2 hover:(underline)`,
-                      router.pathname === action.href && tw`underline`,
-                    ]}
-                  >
-                    {action.title}
-                  </a>
+                <Link
+                  href={action.href}
+                  target={action.isExternal ? '_blank' : ''}
+                  css={[
+                    tw`px-1 py-1 mx-2 leading-none underline-offset-2 hover:(underline)`,
+                    router.pathname === action.href && tw`underline`,
+                  ]}
+                >
+                  {action.title}
                 </Link>
                 {idx !== actions.length - 1 && <span tw="text-bbg-gray2">⋇</span>}
               </Fragment>

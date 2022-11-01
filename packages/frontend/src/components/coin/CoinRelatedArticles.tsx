@@ -6,9 +6,12 @@ import { RiArticleLine } from 'react-icons/ri'
 import 'twin.macro'
 import tw, { styled } from 'twin.macro'
 
-const ArticleBox = styled.a(() => [
-  tw`grow max-w-[40rem] flex mx-2 my-2 bg-bbg-gray3/40 border border-bbg-gray3 overflow-hidden cursor-pointer no-underline`,
-])
+const ArticleLinkBox = styled
+  .a(() => [
+    tw`grow max-w-[40rem] flex mx-2 my-2 bg-bbg-gray3/40 border border-bbg-gray3 overflow-hidden cursor-pointer no-underline`,
+  ])
+  .withComponent(Link)
+
 export interface CoinRelatedArticlesProps {
   coin: Coin
 }
@@ -28,17 +31,19 @@ export const CoinRelatedArticles: FC<CoinRelatedArticlesProps> = ({ coin }) => {
           ]}
         >
           {articles.map((a) => (
-            <Link href={a.getRelativeUrl()} key={`related-article-${a.id}`} passHref>
-              <ArticleBox key={`related-article-${a.id}`} className="group">
-                <div tw="grow flex items-center overflow-hidden px-4 py-2 group-hover:(bg-white/5)">
-                  <RiArticleLine tw="shrink-0 grow-0 h-5 w-5 mr-4 text-white/20 group-hover:(text-white/30)" />
-                  <div tw="flex flex-col overflow-hidden">
-                    <div tw="text-lg text-bbg-orange group-hover:(underline)">{a.title} →</div>
-                    <div tw="text-sm text-bbg-gray2 truncate">{a.subtitle}</div>
-                  </div>
+            <ArticleLinkBox
+              href={a.getRelativeUrl()}
+              key={`related-article-${a.id}`}
+              className="group"
+            >
+              <div tw="grow flex items-center overflow-hidden px-4 py-2 group-hover:(bg-white/5)">
+                <RiArticleLine tw="shrink-0 grow-0 h-5 w-5 mr-4 text-white/20 group-hover:(text-white/30)" />
+                <div tw="flex flex-col overflow-hidden">
+                  <div tw="text-lg text-bbg-orange group-hover:(underline)">{a.title} →</div>
+                  <div tw="text-sm text-bbg-gray2 truncate">{a.subtitle}</div>
                 </div>
-              </ArticleBox>
-            </Link>
+              </div>
+            </ArticleLinkBox>
           ))}
         </div>
       </ProseWrapper>

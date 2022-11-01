@@ -1,12 +1,10 @@
+/* eslint-env node */
+// @ts-check
+
 /**
  * @type {import('next').NextConfig}
  */
-const nextConfig = {
-  images: {
-    domains: ['localhost', 'ipfs.io', 'gateway.ipfs.io'],
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-  },
+let nextConfig = {
   webpack: (config) => {
     config.resolve = {
       ...config.resolve,
@@ -19,5 +17,11 @@ const nextConfig = {
     return config
   },
 }
+
+// eslint-disable-next-line
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+nextConfig = withBundleAnalyzer(nextConfig)
 
 module.exports = nextConfig

@@ -16,8 +16,12 @@ export const HomeFooter: FC<HomeFooterProps> = ({ legal, ...props }) => {
           <div tw="whitespace-nowrap">© {dayjs().year()} • No Financial Advice</div>
           <div tw="flex flex-wrap justify-end space-x-3.5">
             {legal.map((l) => (
-              <Link key={l.slug} href={l.getRelativeUrl()} passHref>
-                <a tw="whitespace-nowrap font-semibold hover:(underline text-white)">{l.title}</a>
+              <Link
+                key={l.slug}
+                href={l.getRelativeUrl()}
+                tw="whitespace-nowrap font-semibold hover:(underline text-white)"
+              >
+                {l.title}
               </Link>
             ))}
           </div>

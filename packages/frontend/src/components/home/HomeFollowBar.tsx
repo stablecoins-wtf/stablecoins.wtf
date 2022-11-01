@@ -36,18 +36,18 @@ export const HomeFollowBar: FC<HomeFollowBarProps> = ({ ...props }) => {
       <BloombergBox hideTopBar={true} {...props}>
         <div tw="flex -my-2 -mx-3 leading-none text-sm divide-x divide-bbg-gray3">
           {items.map((item) => (
-            <Link key={item.title} href={item.href} passHref>
-              <a
-                className="group"
-                tw="flex-1 flex justify-center items-center space-x-2 py-3 whitespace-nowrap hover:(bg-bbg-gray3)"
-                target="_blank"
-              >
-                <div tw="font-medium text-white underline-offset-2 group-hover:(underline)">
-                  <span tw="hidden sm:(inline) lg:(hidden) xl:(inline)">{item.titlePrefix}</span>
-                  {item.title}
-                </div>
-                <item.icon tw="h-3 w-3" style={{ color: item.color }} />
-              </a>
+            <Link
+              key={item.title}
+              href={item.href}
+              target="_blank"
+              className="group"
+              tw="flex-1 flex justify-center items-center space-x-2 py-3 whitespace-nowrap hover:(bg-bbg-gray3)"
+            >
+              <div tw="font-medium text-white underline-offset-2 group-hover:(underline)">
+                <span tw="hidden sm:(inline) lg:(hidden) xl:(inline)">{item.titlePrefix}</span>
+                {item.title}
+              </div>
+              <item.icon tw="h-3 w-3" style={{ color: item.color }} />
             </Link>
           ))}
         </div>

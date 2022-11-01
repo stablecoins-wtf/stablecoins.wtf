@@ -73,7 +73,13 @@ export const BloomberBoxTopBar: FC<Partial<BloombergBoxProps>> = ({
               tw="flex items-center space-x-2 self-center text-white bg-white bg-opacity-0 px-1 -mr-1 hover:bg-opacity-10"
               onClick={() => onClosed?.()}
             >
-              <Image src={topbarCrossIcon} width={10} height={10} alt="Close Button Icon" />
+              <Image
+                src={topbarCrossIcon}
+                width={10}
+                height={10}
+                alt="Close Button Icon"
+                priority
+              />
               <span>Hide</span>
             </button>
           ) : (
@@ -85,6 +91,7 @@ export const BloomberBoxTopBar: FC<Partial<BloombergBoxProps>> = ({
                   height={10}
                   alt="Decorative Options Icon"
                   tw="opacity-50"
+                  priority
                 />
               </div>
               <div>
@@ -94,6 +101,7 @@ export const BloomberBoxTopBar: FC<Partial<BloombergBoxProps>> = ({
                   height={10}
                   alt="Decorative Arrow Icon"
                   tw="opacity-50"
+                  priority
                 />
               </div>
               <div>
@@ -103,6 +111,7 @@ export const BloomberBoxTopBar: FC<Partial<BloombergBoxProps>> = ({
                   height={10}
                   alt="Decorative Square Icon"
                   tw="opacity-50"
+                  priority
                 />
               </div>
             </>
