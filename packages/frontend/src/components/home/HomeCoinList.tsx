@@ -12,24 +12,36 @@ import 'twin.macro'
 import tw, { styled } from 'twin.macro'
 import { BloombergBox } from './BloombergBox'
 
-const BloombergTH = styled.th(({ isNumber, isSortable }: any) => [
-  tw`pb-0.5 pl-1 pr-1 text-left text-xs text-bbg-gray1 font-semibold select-none`,
-  isNumber && tw`text-right`,
-  isSortable && tw`cursor-pointer font-bold hover:text-gray-300`,
-])
-const BloombergTD = styled.td(({ isNumber, highlight }: any) => [
-  tw`whitespace-nowrap pb-0.5 pl-1 pr-1 text-sm`,
-  isNumber && tw`text-right`,
-  highlight === 'orange' && tw`bg-bbg-orange text-black`,
-  highlight === 'red' && tw`bg-bbg-red1 text-black`,
-  highlight === 'green' && tw`bg-bbg-green2 text-black`,
-])
-
 const FilterButton = styled.button(({ isActive }: any) => [
   tw`my-1 pb-px pl-1 pr-1 border border-[#383838] text-xs font-semibold outline-none`,
   isActive
     ? tw`bg-gray-200 border-bbg-gray2 text-black`
     : tw`bg-bbg-gray3 border-[#383838] text-bbg-gray1`,
+])
+
+const Table = styled.section(() => [
+  tw`table -mx-3 overflow-x-auto relative align-middle min-w-full border-t border-[#383838]`,
+])
+const TableHead = styled.header(() => [tw`table-row bg-bbg-gray3 divide-x divide-black`])
+const TableHeadCell = styled.div(({ isNumber, isSortable }: any) => [
+  tw`table-cell whitespace-nowrap pb-[0.1rem] pt-px px-1 text-left text-xs text-bbg-gray1 font-semibold select-none`,
+  isNumber && tw`text-right`,
+  isSortable && tw`cursor-pointer font-bold hover:text-gray-300`,
+])
+const TableRow = styled.div(({ active }: any) => [
+  tw`table-row bg-black divide-x divide-bbg-gray3 cursor-pointer`,
+  active ? tw`bg-white text-black` : tw`hover:(bg-bbg-gray3)`,
+])
+const TableRowIsLoading = styled.div(({ idx }: any) => [
+  tw`table-row h-[23px] bg-bbg-gray3/60 animate-pulse [animation-duration: 1600ms] pointer-events-none`,
+  idx % 2 == 0 ? tw`[animation-delay: 0ms]` : tw`[animation-delay: 800ms]`,
+])
+const TableCell = styled.div(({ isNumber, highlight }: any) => [
+  tw`table-cell whitespace-nowrap py-[0.1rem] px-1 text-sm border-b border-bbg-gray3`,
+  isNumber && tw`text-right`,
+  highlight === 'orange' && tw`bg-bbg-orange text-black`,
+  highlight === 'red' && tw`bg-bbg-red1 text-black`,
+  highlight === 'green' && tw`bg-bbg-green2 text-black`,
 ])
 
 export interface HomeCoinListSortState {
@@ -95,7 +107,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
 
     return (
       <>
-        <BloombergTH
+        <TableHeadCell
           scope="col"
           isNumber={isNumber}
           isSortable={!!sortAttribute}
@@ -117,7 +129,7 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
               )}
             </div>
           </Tippy>
-        </BloombergTH>
+        </TableHeadCell>
       </>
     )
   }
@@ -150,42 +162,38 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
           </div>
 
           {/* Coin Table */}
-          <table tw="-mx-3 overflow-x-auto relative align-middle min-w-full divide-y divide-bbg-gray3 border-b border-bbg-gray3">
+          <Table>
             {/* Table Head */}
-            <thead tw="bg-bbg-gray3 border-t border-[#383838]">
-              <tr tw="divide-x divide-black">
-                <TH title="#" isNumber={true} tw="hidden md:(table-cell pl-2)" />
-                <TH title="Symbol" />
-                <TH title="Mechanism" />
-                <TH title="Price" isNumber={true} sortAttribute="prices" />
-                <TH title="Volume 24h" isNumber={true} sortAttribute="total_volumes" />
-                <TH title="Market Cap" isNumber={true} sortAttribute="market_caps" />
-                <TH
-                  title="7d %"
-                  tooltip="7-Day Change of Market Cap"
-                  isNumber={true}
-                  tw="hidden md:(table-cell pl-2)"
-                />
-              </tr>
-            </thead>
+            <TableHead>
+              <TH title="#" isNumber={true} tw="hidden md:(table-cell pl-2)" />
+              <TH title="Symbol" />
+              <TH title="Mechanism" />
+              <TH title="Price" isNumber={true} sortAttribute="prices" />
+              <TH title="Volume 24h" isNumber={true} sortAttribute="total_volumes" />
+              <TH title="Market Cap" isNumber={true} sortAttribute="market_caps" />
+              <TH
+                title="7d %"
+                tooltip="7-Day Change of Market Cap"
+                isNumber={true}
+                tw="hidden md:(table-cell pl-2)"
+              />
+            </TableHead>
 
             {/* Table Rows */}
-            <tbody tw="divide-y divide-bbg-gray3">
-              {isLoading && !shownCoins?.length
-                ? new Array(15)
-                    .fill(undefined)
-                    .map((_, idx) => <HomeCoinListRowIsLoading key={idx} {...{ idx }} />)
-                : shownCoins.map((coin, idx) => (
-                    <HomeCoinListRow
-                      key={coin.id}
-                      coin={coin}
-                      idx={idx}
-                      coins={coins}
-                      activeCoin={activeCoin}
-                    />
-                  ))}
-            </tbody>
-          </table>
+            {isLoading && !shownCoins?.length
+              ? new Array(15)
+                  .fill(undefined)
+                  .map((_, idx) => <CoinListRowIsLoading key={idx} {...{ idx }} />)
+              : shownCoins.map((coin, idx) => (
+                  <CoinListRow
+                    key={coin.id}
+                    coin={coin}
+                    idx={idx}
+                    coins={coins}
+                    activeCoin={activeCoin}
+                  />
+                ))}
+          </Table>
         </div>
 
         {/* Legende */}
@@ -204,34 +212,12 @@ export const HomeCoinList: FC<HomeCoinListProps> = ({ coins, ...props }) => {
   )
 }
 
-const HomeCoinListRowIsLoading: FC<{ idx: number }> = ({ idx }) => {
-  return (
-    <>
-      <tr
-        tw="h-[23px] bg-bbg-gray3/60 animate-pulse divide-x divide-bbg-gray3 pointer-events-none"
-        style={{
-          animationDelay: `${idx % 2 == 0 ? 0 : 800}ms`,
-          animationDuration: '1600ms',
-        }}
-      >
-        <BloombergTD tw="hidden md:(table-cell pl-2)" />
-        <BloombergTD />
-        <BloombergTD />
-        <BloombergTD />
-        <BloombergTD />
-        <BloombergTD />
-        <BloombergTD tw="hidden md:(table-cell pl-2)" />
-      </tr>
-    </>
-  )
-}
-
-export interface HomeCoinListRowProps extends HomeCoinListProps {
+export interface CoinListRow extends HomeCoinListProps {
   coin: Coin
   idx: number
   activeCoin?: Coin
 }
-const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) => {
+const CoinListRow: FC<CoinListRow> = ({ coin, idx, activeCoin }) => {
   const quotes = coin.latestQuotes.USD
   const priceHighlight =
     quotes.price?.value && Math.abs(1 - quotes.price.value) > 0.01
@@ -242,17 +228,9 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
 
   return (
     <>
-      <Link
-        href={coin.getRelativeUrl()}
-        css={[
-          tw`table-row bg-black divide-x divide-bbg-gray3 cursor-pointer`,
-          activeCoin?.id === coin.id ? tw`bg-white text-black` : tw`hover:(bg-bbg-gray3)`,
-        ]}
-      >
-        <BloombergTD tw="hidden md:(table-cell pl-2) text-right text-bbg-gray2">
-          {idx + 1}
-        </BloombergTD>
-        <BloombergTD
+      <TableRow as={Link} href={coin.getRelativeUrl()} active={activeCoin?.id === coin.id ? 1 : 0}>
+        <TableCell tw="hidden md:(table-cell pl-2) text-right text-bbg-gray2">{idx + 1}</TableCell>
+        <TableCell
           css={[
             tw`uppercase font-semibold text-bbg-orange`,
             activeCoin?.id === coin.id && tw`text-black`,
@@ -264,11 +242,11 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
               {!env.isProduction && coin.isDraft && ' 🏗️'}
             </div>
           </Tippy>
-        </BloombergTD>
-        <BloombergTD css={[activeCoin?.id === coin.id ? tw`text-bbg-gray3` : tw`text-bbg-gray1`]}>
+        </TableCell>
+        <TableCell css={[activeCoin?.id === coin.id ? tw`text-bbg-gray3` : tw`text-bbg-gray1`]}>
           {coin.mechanismFormatted()}
-        </BloombergTD>
-        <BloombergTD isNumber={true} highlight={priceHighlight}>
+        </TableCell>
+        <TableCell isNumber={true} highlight={priceHighlight}>
           <NumericFormat
             value={quotes.price?.value}
             displayType={'text'}
@@ -276,8 +254,8 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
             fixedDecimalScale={true}
             decimalScale={3}
           />
-        </BloombergTD>
-        <BloombergTD isNumber={true} highlight={priceHighlight}>
+        </TableCell>
+        <TableCell isNumber={true} highlight={priceHighlight}>
           <span tw="md:hidden lg:inline xl:hidden">
             ${largeNumberFormatter(quotes.volume24h?.value)}
           </span>
@@ -289,8 +267,8 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
             decimalScale={0}
             thousandSeparator={true}
           />
-        </BloombergTD>
-        <BloombergTD isNumber={true} highlight={priceHighlight}>
+        </TableCell>
+        <TableCell isNumber={true} highlight={priceHighlight}>
           <span tw="md:hidden lg:inline xl:hidden">
             ${largeNumberFormatter(quotes.marketCap?.value)}
           </span>
@@ -302,8 +280,8 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
             decimalScale={0}
             thousandSeparator={true}
           />
-        </BloombergTD>
-        <BloombergTD tw="hidden md:(table-cell pr-2)" isNumber={true} highlight={priceHighlight}>
+        </TableCell>
+        <TableCell tw="hidden md:(table-cell pr-2)" isNumber={true} highlight={priceHighlight}>
           <NumericFormat
             value={quotes.marketCap7dChange && Math.abs(quotes.marketCap7dChange.value * 100)}
             displayType={'text'}
@@ -311,8 +289,24 @@ const HomeCoinListRow: FC<HomeCoinListRowProps> = ({ coin, idx, activeCoin }) =>
             suffix={'%'}
             decimalScale={0}
           />
-        </BloombergTD>
-      </Link>
+        </TableCell>
+      </TableRow>
+    </>
+  )
+}
+
+const CoinListRowIsLoading: FC<{ idx: number }> = ({ idx }) => {
+  return (
+    <>
+      <TableRowIsLoading idx={idx}>
+        <TableCell tw="hidden md:(table-cell)" />
+        <TableCell />
+        <TableCell />
+        <TableCell />
+        <TableCell />
+        <TableCell />
+        <TableCell tw="hidden md:(table-cell)" />
+      </TableRowIsLoading>
     </>
   )
 }
