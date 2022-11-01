@@ -65,7 +65,7 @@ export const ArticleRelatedCoinBox: FC<ArticleRelatedCoinBoxProps> = ({ coin: c 
           href={`/coins/${c.slug}`}
           title={`Go to ${c.name}, $${c.symbol} (USD-pegged Stablecoin)`}
           className="group"
-          tw="grow [flex-basis: 45%] flex flex-col items-center justify-center px-4 py-2 text-center whitespace-nowrap cursor-pointer no-underline hover:(bg-white/5)"
+          tw="grow [flex-basis: 45%] flex flex-col items-center justify-center px-4 py-2 text-center whitespace-nowrap cursor-pointer no-underline underline-offset-2 hover:(bg-white/5)"
         >
           <div tw="text-bbg-gray2 text-sm">{c.name}</div>
           <h3 tw="text-2xl font-medium text-bbg-orange tracking-wide">${c.symbol}</h3>

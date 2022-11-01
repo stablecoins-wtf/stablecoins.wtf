@@ -19,7 +19,7 @@ export const HomeFooter: FC<HomeFooterProps> = ({ legal, ...props }) => {
               <Link
                 key={l.slug}
                 href={l.getRelativeUrl()}
-                tw="whitespace-nowrap font-semibold hover:(underline text-white)"
+                tw="whitespace-nowrap font-semibold underline-offset-2 hover:(underline text-white)"
               >
                 {l.title}
               </Link>

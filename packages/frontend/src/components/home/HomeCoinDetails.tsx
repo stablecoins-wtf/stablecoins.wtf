@@ -199,7 +199,10 @@ export const CoinDetailsStaticAttributes: FC<HomeCoinDetailsProps> = ({ coin }) 
             <KPITitle>Mechanism</KPITitle>
             <KPIContent>
               {mechanismLink ? (
-                <Link href={mechanismLink} tw="flex items-center underline cursor-pointer">
+                <Link
+                  href={mechanismLink}
+                  tw="flex items-center underline-offset-2 underline cursor-pointer"
+                >
                   <span>{coin.mechanismFormatted()}</span>
                   <BsInfoCircle tw="ml-2 -translate-y-px" />
                 </Link>

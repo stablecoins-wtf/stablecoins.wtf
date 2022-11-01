@@ -39,7 +39,9 @@ export const CoinRelatedArticles: FC<CoinRelatedArticlesProps> = ({ coin }) => {
               <div tw="grow flex items-center overflow-hidden px-4 py-2 group-hover:(bg-white/5)">
                 <RiArticleLine tw="shrink-0 grow-0 h-5 w-5 mr-4 text-white/20 group-hover:(text-white/30)" />
                 <div tw="flex flex-col overflow-hidden">
-                  <div tw="text-lg text-bbg-orange group-hover:(underline)">{a.title} →</div>
+                  <div tw="text-lg text-bbg-orange underline-offset-2 group-hover:(underline)">
+                    {a.title} →
+                  </div>
                   <div tw="text-sm text-bbg-gray2 truncate">{a.subtitle}</div>
                 </div>
               </div>

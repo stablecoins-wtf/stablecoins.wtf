@@ -25,7 +25,7 @@ export const HomeIntroBox: FC<HomeIntroBoxProps> = () => {
           </li>
           <li>
             →{' '}
-            <Link href="/about" tw="font-bold hover:underline">
+            <Link href="/about" tw="font-bold underline-offset-2 hover:underline">
               Learn more about this project
             </Link>{' '}
             ℹ️

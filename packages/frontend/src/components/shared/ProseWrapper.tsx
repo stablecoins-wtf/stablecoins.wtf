@@ -34,7 +34,7 @@ const StyledProseWrapper = styled.div`
     ${tw`my-0.5`}
   }
   .table-of-contents > ol li a {
-    ${tw`no-underline font-semibold hover:(underline)`}
+    ${tw`no-underline font-semibold underline-offset-2 hover:(underline)`}
   }
 `
 
