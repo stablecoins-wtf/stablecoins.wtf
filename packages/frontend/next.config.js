@@ -5,6 +5,7 @@
  * @type {import('next').NextConfig}
  */
 let nextConfig = {
+  reactStrictMode: true,
   webpack: (config) => {
     config.resolve = {
       ...config.resolve,
