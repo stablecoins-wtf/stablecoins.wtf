@@ -17,9 +17,9 @@ import 'twin.macro'
 
 export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
   const sharedStaticProps = useSharedStaticProps(props)
-  const { articles, legal, resources } = sharedStaticProps
+  const { articles, legal, resources, pages } = sharedStaticProps
   const { asPath: path, query } = useRouter()
-  const item = [...articles, ...legal, ...resources].find(
+  const item = [...articles, ...legal, ...resources, ...pages].find(
     (a) => path.startsWith(Article.getArticleTypeBasePath(a.articleType)) && query.slug === a.slug,
   )
   if (!item) return <PageNotFound404 {...props} />
@@ -40,8 +40,8 @@ export default function ArticleDetailPage({ ...props }: SharedStaticProps) {
       <NextSeo
         title={item.title}
         description={description}
-        nofollow={item.articleType === ArticleType.Legal}
-        noindex={item.articleType === ArticleType.Legal}
+        nofollow={[ArticleType.Legal, ArticleType.Page].includes(item.articleType)}
+        noindex={[ArticleType.Legal, ArticleType.Page].includes(item.articleType)}
       />
 
       <HomeLayout {...sharedStaticProps}>

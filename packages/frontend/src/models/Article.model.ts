@@ -4,6 +4,7 @@ import { Coin } from './Coin.model'
 
 export enum ArticleType {
   Article = 'Article',
+  Page = 'Page',
   Resource = 'Resource',
   Legal = 'Legal',
 }
@@ -50,6 +51,7 @@ export class Article {
       [ArticleType.Article]: '/articles',
       [ArticleType.Resource]: '/resources',
       [ArticleType.Legal]: '/legal',
+      [ArticleType.Page]: '/page',
     }[type]
   }
 

@@ -22,6 +22,7 @@ export enum SharedStatisPropsPage {
   ARTICLE = 'article',
   RESOURCE = 'resource',
   LEGAL = 'legal',
+  PAGE = 'page',
 }
 export const getSharedStaticPropsFor =
   (page: SharedStatisPropsPage): GetStaticProps =>
@@ -48,9 +49,10 @@ export const getSharedStaticPropsFor =
  */
 export interface ParsedSharedStaticProps {
   coins: Coin[]
-  resources: Article[]
   articles: Article[]
+  resources: Article[]
   legal: Article[]
+  pages: Article[]
 }
 export const useSharedStaticProps = ({
   coinsData,
@@ -66,6 +68,7 @@ export const useSharedStaticProps = ({
   const [articles, setArticles] = useState<Article[]>([])
   const [legal, setLegal] = useState<Article[]>([])
   const [resources, setResources] = useState<Article[]>([])
+  const [pages, setPages] = useState<Article[]>([])
   useEffect(() => {
     const allArticles = (articlesData || [])
       .map((data) => {
@@ -79,6 +82,7 @@ export const useSharedStaticProps = ({
     setArticles(allArticles.filter((a) => a?.articleType === ArticleType.Article))
     setLegal(allArticles.filter((a) => a?.articleType === ArticleType.Legal))
     setResources(allArticles.filter((a) => a?.articleType === ArticleType.Resource))
+    setPages(allArticles.filter((a) => a?.articleType === ArticleType.Page))
   }, [articlesData, coins])
 
   // Check & initiate trading-data update (if outdated)
@@ -120,7 +124,7 @@ export const useSharedStaticProps = ({
     }
   }, [coins])
 
-  return { coins, resources, articles, legal }
+  return { coins, articles, resources, legal, pages }
 }
 
 /**
@@ -135,7 +139,7 @@ const doSharedStaticPropsOptimizations = (
   const { slug } = context?.params || {}
 
   articlesData = (articlesData || []).map((article: Article) => {
-    const isNoArticlePage = ![P.ARTICLE, P.LEGAL, P.RESOURCE].includes(page)
+    const isNoArticlePage = ![P.ARTICLE, P.LEGAL, P.RESOURCE, P.PAGE].includes(page)
     const isOtherArticlePage = slug && article.slug !== slug
     if (isNoArticlePage || isOtherArticlePage) {
       delete article.content

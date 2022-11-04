@@ -7,12 +7,13 @@ import { fetchOrGetArticles } from './getAllArticles'
  * article-type (blog post article, resource, legal).
  */
 export const getArticleTypeStaticPaths =
-  (type: ArticleType): GetStaticPaths =>
+  (types: ArticleType | ArticleType[]): GetStaticPaths =>
   async () => {
+    types = Array.isArray(types) ? types : [types]
     const articlesData = await fetchOrGetArticles()
     const paths = (articlesData || [])
       .filter((articleData: any) => !!articleData?.slug)
-      .filter((articleData: any) => articleData.articleType === type)
+      .filter((articleData: any) => types.includes(articleData.articleType))
       .map((articleData: any) => ({
         params: { slug: articleData.slug },
       }))
