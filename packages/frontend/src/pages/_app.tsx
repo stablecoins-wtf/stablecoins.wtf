@@ -1,6 +1,7 @@
 import { cache } from '@emotion/css'
 import { CacheProvider } from '@emotion/react'
 import { env } from '@shared/environment'
+import { Analytics } from '@vercel/analytics/react'
 import { DefaultSeo } from 'next-seo'
 import { AppProps } from 'next/app'
 import Head from 'next/head'
@@ -109,6 +110,9 @@ export default function App({ Component, pageProps }: AppProps) {
           }}
         />
       </CacheProvider>
+
+      {/* Next.js Analytics */}
+      <Analytics />
     </>
   )
 }
