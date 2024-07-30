@@ -7,7 +7,6 @@ import { AppProps } from 'next/app'
 import Head from 'next/head'
 import Router from 'next/router'
 import NProgress from 'nprogress'
-import Favicon from 'react-favicon'
 import { Toaster } from 'react-hot-toast'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { theme } from 'twin.macro'
@@ -74,14 +73,14 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
 
       {/* Animated Favicon */}
-      <Favicon
+      {/* <Favicon
         animated={true}
         iconSize={64}
         animationDelay={250}
         url={['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13'].map(
           (idx) => `/favicons/animated/coin-${idx}.ico`,
         )}
-      />
+      /> */}
 
       <CacheProvider value={cache}>
         <GlobalStyles />
