@@ -11,7 +11,7 @@ export const env = {
 
   revalidateToken: process.env.REVALIDATE_TOKEN!,
 
-  buildCacheMaxAge: parseInt(process.env.BUILD_CACHE_MAX_AGE || '300'),
+  buildCacheMaxAge: parseInt(process.env.BUILD_CACHE_MAX_AGE || '86400'),
 
   graphcms: {
     contentEndpoint: process.env.GRAPHCMS_CONTENT_ENDPOINT!,

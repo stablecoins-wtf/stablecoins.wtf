@@ -40,7 +40,8 @@ export const getSharedStaticPropsFor =
         coinsData,
         articlesData,
       } as SharedStaticProps,
-      revalidate: 60 * 10, // 10 minutes
+      // revalidate: 60 * 10, // 10 minutes
+      revalidate: 86400, // 1 day
     }
   }
 
