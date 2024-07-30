@@ -55,6 +55,6 @@ const queryGraphCms = async () => {
       }
     }
   `
-  const { articles } = await graphCmsClient.request(query)
+  const { articles } = (await graphCmsClient.request(query)) as any
   return articles
 }

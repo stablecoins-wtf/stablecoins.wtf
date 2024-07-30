@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     `
 
     // Check if coin exists
-    const graphCmsData = await graphCmsClient.request(query, { symbol })
+    const graphCmsData: any = await graphCmsClient.request(query, { symbol })
     if (!graphCmsData?.coin?.id) {
       return res.status(404).end()
     }

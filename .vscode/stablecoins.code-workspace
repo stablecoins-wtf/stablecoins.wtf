@@ -10,24 +10,22 @@
     }
   ],
   "settings": {
-    "files.exclude": {
-      "**/node_modules/": true,
-      "**/pnpm-lock.yaml": true,
-      "**/tsconfig.tsbuildinfo": true,
-      "**/.yarn": true,
-      "**/.next": true,
-      "**/.turbo": true,
-      "**/.vercel": true
-    },
+    "search.exclude": {
+      "**/*.{jpg,png,svg,webm,mp4,woff,woff2}": true
+    },  
     "search.useIgnoreFiles": true,
     "search.useGlobalIgnoreFiles": true,
     "search.useParentIgnoreFiles": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true,
-      "source.fixAll.eslint": true
+      "source.organizeImports": "explicit",
+      "source.fixAll.eslint": "explicit"
     },
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "javascript.updateImportsOnFileMove.enabled": "always",  
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,  
     "peacock.color": "#fca311",
     "workbench.colorCustomizations": {
       "sash.hoverBorder": "#fdb643",

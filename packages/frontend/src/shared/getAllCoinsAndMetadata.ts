@@ -67,7 +67,7 @@ const queryGraphCms = async () => {
       }
     }
   `
-  const data = await graphCmsClient.request(query)
+  const data = (await graphCmsClient.request(query)) as any
   return data.coins
 }
 

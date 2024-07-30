@@ -283,9 +283,11 @@ const CoinListRow: FC<CoinListRow> = ({ coin, idx, activeCoin }) => {
         </TableCell>
         <TableCell tw="hidden md:(table-cell pr-2)" isNumber={true} highlight={priceHighlight}>
           <NumericFormat
-            value={quotes.marketCap7dChange && Math.abs(quotes.marketCap7dChange.value * 100)}
+            value={
+              quotes.marketCap7dChange?.value && Math.abs(quotes.marketCap7dChange.value * 100)
+            }
             displayType={'text'}
-            prefix={(quotes.marketCap7dChange || 0) >= 0 ? '+' : '-'}
+            prefix={(quotes.marketCap7dChange?.value || 0) >= 0 ? '+' : '-'}
             suffix={'%'}
             decimalScale={0}
           />
