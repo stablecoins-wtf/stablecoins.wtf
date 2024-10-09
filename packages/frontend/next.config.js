@@ -1,11 +1,19 @@
 /* eslint-env node */
 // @ts-check
 
+const path = require('path')
+
 /**
  * @type {import('next').NextConfig}
  */
 let nextConfig = {
   reactStrictMode: true,
+
+  output: 'standalone',
+  // experimental: {
+  //   outputFileTracingRoot: path.join(__dirname, '../../'),
+  // },
+
   webpack: (config) => {
     config.resolve = {
       ...config.resolve,

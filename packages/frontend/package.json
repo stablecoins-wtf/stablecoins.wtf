@@ -9,8 +9,10 @@
   },
   "scripts": {
     "dev": "NODE_ENV=development next dev",
-    "build": "NODE_ENV=production next build && pnpm sitemap",
-    "start": "NODE_ENV=production next start",
+    "build": "NODE_ENV=production next build && pnpm sitemap && pnpm copy-standalone",
+    "copy-standalone": "cp -r .next/static .next/standalone/packages/frontend/.next/static && cp -r public .next/standalone/packages/frontend/public",
+    "start": "NODE_ENV=production node .next/standalone/packages/frontend/server.js",
+    "//start": "NODE_ENV=production next start",
     "sitemap": "next-sitemap",
     "analyze": "ANALYZE=true NODE_ENV=production next build",
     "typecheck": "tsc --pretty --noEmit",
