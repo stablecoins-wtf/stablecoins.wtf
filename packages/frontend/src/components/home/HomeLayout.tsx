@@ -8,6 +8,7 @@ import { HomeArticlesList } from './HomeArticlesList'
 import { HomeFollowBar } from './HomeFollowBar'
 import { HomeFooter } from './HomeFooter'
 import { HomeResourcesList } from './HomeResourcesList'
+import { HomePartnerSites } from './HomePartnerSites'
 
 export interface HomeLayoutProps extends ParsedSharedStaticProps {}
 export const HomeLayout: FC<PropsWithChildren<HomeLayoutProps>> = ({
@@ -39,8 +40,8 @@ export const HomeLayout: FC<PropsWithChildren<HomeLayoutProps>> = ({
           ref={detailsPageRef}
           tw="order-1 grow-0 flex flex-col space-y-1 relative overflow-hidden"
         >
-          <HomeFollowBar tw="shrink-0" {...{ legal }} />
           {children}
+          <HomePartnerSites tw="shrink-0" {...{ legal }} />
           <HomeFooter tw="shrink-0" {...{ legal }} />
         </div>
 
