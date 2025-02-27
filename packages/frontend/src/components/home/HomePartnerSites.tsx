@@ -17,8 +17,8 @@ export const HomePartnerSites: FC<HomePartnerSitesProps> = ({ ...props }) => {
           <FaGlobe size={12} tw="hidden sm:block" />
           <div tw="flex flex-wrap w-full sm:w-auto text-center justify-center sm:(justify-end text-right) gap-3.5">
             <Link href="https://scio.xyz">Scio.xyz</Link>
-            <Link href="https://elivate.ai">Elivate.ai</Link>
             <Link href="https://zoma.dev">Zoma.dev</Link>
+            <Link href="https://cruise.wiki">Kwizz.ai</Link>
             <Link href="https://cruise.wiki">Cruise.wiki</Link>
             <Link href="https://find-your-cruise.com">Find your Cruise</Link>
             <Link href="https://finde-deine-kreuzfahrt.de">Finde deine Kreuzfahrt</Link>
