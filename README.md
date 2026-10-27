@@ -26,3 +26,7 @@ I reommend developing in VSCode by opening the workspace file located at `.vscod
 pnpm dev
 ```
 
+## Deployment
+
+The site runs on Vercel (team Scio Labs, project `stablecoins-wtf`, root directory `packages/frontend`). Pushes to `main` deploy to production. Environment variables live in the Vercel project; see `packages/frontend/.env.local.example` for the keys.
+
