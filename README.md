@@ -19,7 +19,7 @@ cp packages/frontend/.env.local.example packages/frontend/.env.local
 
 ## Development
 
-I reommend developing in VSCode by opening the workspace file located at `.vscode/*.code-workspace` and installing recommended plugins listed in `.vscode/extensions.json`.
+I recommend developing in VSCode by opening the workspace file located at `.vscode/*.code-workspace` and installing recommended plugins listed in `.vscode/extensions.json`.
 
 ```bash
 # Start development (frontend)
